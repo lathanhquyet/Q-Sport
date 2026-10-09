@@ -1,0 +1,40 @@
+:root {
+  /* Color Palette - Q-Sport Court Lines Theme (DESIGN.md) */
+  --color-court: #1F6B4A;
+  --color-court-dark: #174F37;
+  --color-mint: #EAF7EF;
+  --color-mint-line: #BFE3CD;
+  --color-white: #FFFFFF;
+  --color-ink: #14302A;
+  --color-muted: #55705F;
+  --color-cork: #F2A93B;
+  --color-smash: #C2410C;
+  --color-danger: #B3261E;
+
+  /* Typography */
+  --font-display: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+  --font-body: 'Be Vietnam Pro', system-ui, sans-serif;
+
+  /* Spacing */
+  --spacing-4: 4px;
+  --spacing-8: 8px;
+  --spacing-12: 12px;
+  --spacing-16: 16px;
+  --spacing-24: 24px;
+  --spacing-32: 32px;
+  --spacing-48: 48px;
+  --spacing-72: 72px;
+
+  /* Border Radius */
+  --radius-image: 12px;
+  --radius-card: 16px;
+  --radius-control: 10px;
+  --radius-pill: 999px;
+
+  /* Container */
+  --content-max: 1200px;
+
+  /* Transitions */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.25s ease;
+}
