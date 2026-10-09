@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%">
+  <rect width="400" height="400" rx="16" fill="#E7F4FF"/>
+  <path d="M50 260 C70 285, 300 290, 350 250 C360 230, 320 230, 290 230 C200 230, 120 220, 50 260 Z" fill="#087F5B"/>
+  <path d="M60 250 C90 190, 160 170, 210 170 C240 170, 260 200, 290 210 C320 220, 340 230, 335 245 C280 245, 120 240, 60 250 Z" fill="#FFFFFF"/>
+  <path d="M140 180 C180 140, 220 150, 230 180 Z" fill="#E7F4FF"/>
+  <line x1="160" y1="180" x2="190" y2="195" stroke="#FF795B" stroke-width="4" stroke-linecap="round"/>
+  <line x1="175" y1="175" x2="205" y2="190" stroke="#FF795B" stroke-width="4" stroke-linecap="round"/>
+  <path d="M120 230 L160 200 L200 235" stroke="#FF795B" stroke-width="6" fill="none" stroke-linecap="round"/>
+  <text x="200" y="340" text-anchor="middle" font-family="'Barlow Condensed', sans-serif" font-weight="700" font-size="20" fill="#087F5B">AIRFLEX PASTEL</text>
+</svg>

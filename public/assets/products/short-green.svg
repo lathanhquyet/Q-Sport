@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%">
+  <rect width="400" height="400" rx="16" fill="#E8FFF3"/>
+  <path d="M120 120 L280 120 L300 280 L220 280 L200 180 L180 280 L100 280 Z" fill="#087F5B"/>
+  <rect x="120" y="120" width="160" height="24" rx="4" fill="#FFB938"/>
+  <line x1="120" y1="120" x2="100" y2="280" stroke="#FFFFFF" stroke-width="6"/>
+  <line x1="280" y1="120" x2="300" y2="280" stroke="#FFFFFF" stroke-width="6"/>
+  <text x="200" y="340" text-anchor="middle" font-family="'Barlow Condensed', sans-serif" font-weight="700" font-size="20" fill="#087F5B">PRO MATCH GREEN SHORTS</text>
+</svg>

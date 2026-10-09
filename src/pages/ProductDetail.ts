@@ -49,10 +49,10 @@ export async function renderProductDetailPage(slug: string): Promise<string> {
         <!-- Product Image -->
         <div class="card" style="padding: var(--spacing-16); background: var(--color-mint); text-align: center;">
           <img
-            src="${product.image_url || '/assets/products/placeholder.jpg'}"
+            src="${product.image_url || '/assets/products/placeholder.svg'}"
             alt="${product.name}"
-            style="width: 100%; max-height: 440px; object-fit: cover; border-radius: var(--radius-image);"
-            onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'400\' height=\'400\' viewBox=\'0 0 400 400\'><rect width=\'400\' height=\'400\' fill=\'%23EAF7EF\'/><text x=\'50%\' y=\'50%\' dominant-baseline=\'middle\' text-anchor=\'middle\' fill=\'%231F6B4A\' font-size=\'18\' font-family=\'sans-serif\'>Q-Sport Product</text></svg>'"
+            style="width: 100%; max-height: 440px; object-fit: contain; border-radius: var(--radius-image);"
+            onerror="this.onerror=null; this.src='/assets/products/placeholder.svg';"
           />
         </div>
 

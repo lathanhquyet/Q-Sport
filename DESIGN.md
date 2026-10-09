@@ -32,21 +32,22 @@ Quy tắc:
 
 ## 3. Token thiết kế
 
-### 3.1 Màu
+### 3.1 Màu (Bảng màu mới đợt UI/UX Remediation)
 
 | Token | Hex | Dùng cho |
 |---|---|---|
-| `--color-court` | `#1F6B4A` | Màu thương hiệu: nút chính, link, tiêu đề nhấn, icon active |
-| `--color-court-dark` | `#174F37` | Hover/active của nút chính |
-| `--color-mint` | `#EAF7EF` | Nền khối phụ, nền ảnh sản phẩm, nền header phụ |
-| `--color-mint-line` | `#BFE3CD` | Đường kẻ sân, viền thẻ, đường phân cách |
-| `--color-white` | `#FFFFFF` | Nền trang, nền thẻ |
-| `--color-ink` | `#14302A` | Chữ chính |
-| `--color-muted` | `#55705F` | Chữ phụ (đạt tương phản ≥ 4.5:1 trên trắng) |
-| `--color-cork` | `#F2A93B` | Điểm nhấn từ logo (cán vợt): huy hiệu “Nổi bật”, gạch nhấn nhỏ |
-| `--color-smash` | `#C2410C` | **Giá tiền**, giá khuyến mãi, cảnh báo nhẹ |
-| `--color-danger` | `#B3261E` | Lỗi, xóa, hết hàng |
-| `--color-success` | `#1F6B4A` | Thành công (cùng màu court) |
+| `--color-court` | `#087F5B` | Màu thương hiệu chính: nút bấm chính, tiêu đề nhấn, icon active |
+| `--color-court-dark` | `#066649` | Hover/active của nút chính |
+| `--color-mint` | `#E8FFF3` | Nền khối phụ tươi sáng, nền ảnh sản phẩm, nền header phụ |
+| `--color-mint-line` | `#B8F2D1` | Đường kẻ sân, viền thẻ, đường phân cách nhẹ |
+| `--color-white` | `#FFFFFF` | Nền trang chính, nền thẻ |
+| `--color-ink` | `#122B24` | Chữ chính |
+| `--color-muted` | `#4A6B60` | Chữ phụ (đạt tương phản ≥ 4.5:1 trên nền sáng) |
+| `--color-cork` | `#FFB938` | Điểm nhấn Sport Yellow: huy hiệu "Nổi bật", icon, ngôi sao |
+| `--color-smash` | `#FF795B` | **Màu Coral Accent**: Giá tiền, nút mua hàng nổi bật, sale tag |
+| `--color-sky` | `#E7F4FF` | Màu Light Sky Blue: Huy hiệu phụ, nền thẻ phụ |
+| `--color-danger` | `#E03131` | Lỗi, xóa, hết hàng |
+| `--color-success` | `#087F5B` | Thành công (cùng màu court) |
 
 Quy tắc dùng màu: nền trang trắng hoặc mint; chỉ **một** nút chính (xanh court) trong một khối; màu cam chỉ dành cho giá và khuyến mãi; không dùng màu vàng làm chữ trên nền trắng (không đủ tương phản).
 

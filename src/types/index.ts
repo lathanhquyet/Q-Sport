@@ -10,6 +10,7 @@ export interface AdminProfile {
 
 export interface Category {
   id: string;
+  category_code: string;
   name: string;
   slug: string;
   description?: string | null;
@@ -21,6 +22,7 @@ export interface Category {
 
 export interface Product {
   id: string;
+  product_code: string;
   category_id: string;
   name: string;
   slug: string;

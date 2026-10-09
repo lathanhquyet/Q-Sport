@@ -1,6 +1,6 @@
 export function renderCourtHeroPattern(): string {
   return `
-    <div style="position: absolute; inset: 0; pointer-events: none; overflow: hidden; opacity: 0.85; z-index: 0;">
+    <div style="position: absolute; inset: 0; pointer-events: none; overflow: hidden; opacity: 0.35; z-index: 0;">
       <svg width="100%" height="100%" viewBox="0 0 800 400" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
         <rect width="800" height="400" fill="var(--color-mint)" />
         <!-- Court Outer Border -->

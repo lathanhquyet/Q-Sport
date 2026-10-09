@@ -18,13 +18,13 @@ export function renderProductCard(product: Product): string {
       }
 
       <div>
-        <a href="/products/${product.slug}" data-link style="display: block; background: var(--color-mint); border-radius: var(--radius-image); overflow: hidden; aspect-ratio: 1 / 1; margin-bottom: var(--spacing-12); text-align: center; position: relative;">
+        <a href="/products/${product.slug}" data-link style="display: block; background: var(--color-mint); border-radius: var(--radius-image); overflow: hidden; aspect-ratio: 1 / 1; margin-bottom: var(--spacing-12); text-align: center; position: relative; padding: 8px;">
           <img
-            src="${product.image_url || '/assets/products/placeholder.jpg'}"
+            src="${product.image_url || '/assets/products/placeholder.svg'}"
             alt="${product.name}"
             loading="lazy"
-            onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'200\' height=\'200\' viewBox=\'0 0 200 200\'><rect width=\'200\' height=\'200\' fill=\'%23EAF7EF\'/><text x=\'50%\' y=\'50%\' dominant-baseline=\'middle\' text-anchor=\'middle\' fill=\'%231F6B4A\' font-size=\'14\' font-family=\'sans-serif\'>Q-Sport Product</text></svg>'"
-            style="width: 100%; height: 100%; object-fit: cover; display: block;"
+            onerror="this.onerror=null; this.src='/assets/products/placeholder.svg';"
+            style="width: 100%; height: 100%; object-fit: contain; display: block; border-radius: 8px;"
           />
         </a>
 

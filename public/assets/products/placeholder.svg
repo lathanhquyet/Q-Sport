@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%">
+  <rect width="400" height="400" rx="16" fill="#E8FFF3"/>
+  <rect x="20" y="20" width="360" height="360" rx="12" fill="none" stroke="#B8F2D1" stroke-width="4" stroke-dasharray="8 8"/>
+  <circle cx="200" cy="180" r="70" fill="#087F5B" opacity="0.1"/>
+  <path d="M160 140 L240 220 M240 140 L160 220" stroke="#087F5B" stroke-width="8" stroke-linecap="round"/>
+  <circle cx="200" cy="180" r="50" fill="none" stroke="#FFB938" stroke-width="6"/>
+  <text x="200" y="290" text-anchor="middle" font-family="'Be Vietnam Pro', sans-serif" font-weight="700" font-size="20" fill="#087F5B">Q-SPORT BADMINTON</text>
+  <text x="200" y="320" text-anchor="middle" font-family="'Be Vietnam Pro', sans-serif" font-weight="500" font-size="14" fill="#4A6B60">Dụng Cụ Thể Thao Chính Hãng</text>
+</svg>
