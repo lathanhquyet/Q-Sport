@@ -90,12 +90,16 @@ Dùng một package manager duy nhất (một lockfile). Không báo “PASS” 
    - `supabase/migrations/20261009000001_create_rpc_create_order.sql`
    - Sau đó chạy `supabase/seed.sql` để tạo 6 danh mục mặc định và 12 sản phẩm demo.
 3. Xác nhận RLS đã **bật** cho mọi bảng trong schema `public`.
-4. Tạo tài khoản Admin: Supabase Dashboard → Authentication → Users → Add user (email + mật khẩu tự chọn, **không ghi vào repo**).
-5. Thêm Admin vào bảng `admin_users`:
+4. Tạo tài khoản Admin: Supabase Dashboard → Authentication → Users → Add user (email + mật khẩu tự chọn, **không bao giờ ghi vào repo**).
+5. Phân quyền Admin trong schema `qsport`:
    ```sql
-   insert into admin_users (user_id) values ('UUID_CUA_USER_VUA_TAO');
+   INSERT INTO qsport.admin_users (id, email, full_name, is_active)
+   SELECT id, email, COALESCE(raw_user_meta_data->>'full_name', 'Q-Sport Admin'), true
+   FROM auth.users
+   WHERE email = 'YOUR_ADMIN_EMAIL@domain.com'
+   ON CONFLICT (id) DO UPDATE SET is_active = true;
    ```
-6. Kiểm tra nhanh quyền: với vai trò `anon`, đọc `products` thành công, đọc `orders` bị từ chối.
+6. Kiểm tra nhanh quyền: với vai trò `anon`, đọc `products` thành công, đọc `orders` và `admin_users` bị từ chối.
 7. Authentication → URL Configuration: thêm domain Cloudflare Pages và `http://localhost:5173`.
 
 Tham khảo: https://supabase.com/docs/guides/database/postgres/row-level-security · https://supabase.com/docs/guides/getting-started/api-keys

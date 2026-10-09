@@ -158,11 +158,42 @@ function attachGlobalEventListeners(): void {
       if (href && href.startsWith('/')) {
         e.preventDefault();
         window.history.pushState({}, '', href);
+        // Automatically close mobile menu drawer on navigation
+        closeMobileMenu();
         handleRouting();
       }
     });
   });
+
+  // ESC Key listener to close mobile drawer
+  document.removeEventListener('keydown', handleGlobalKeyDown);
+  document.addEventListener('keydown', handleGlobalKeyDown);
 }
+
+function handleGlobalKeyDown(e: KeyboardEvent): void {
+  if (e.key === 'Escape') {
+    closeMobileMenu();
+  }
+}
+
+function closeMobileMenu(): void {
+  const drawer = document.getElementById('mobile-nav-drawer');
+  const toggleBtn = document.getElementById('mobile-menu-toggle');
+  if (drawer) drawer.hidden = true;
+  if (toggleBtn) toggleBtn.setAttribute('aria-expanded', 'false');
+}
+
+(window as any).toggleMobileMenu = () => {
+  const drawer = document.getElementById('mobile-nav-drawer');
+  const toggleBtn = document.getElementById('mobile-menu-toggle');
+  if (!drawer || !toggleBtn) return;
+
+  const isExpanded = toggleBtn.getAttribute('aria-expanded') === 'true';
+  const newExpandedState = !isExpanded;
+
+  toggleBtn.setAttribute('aria-expanded', newExpandedState ? 'true' : 'false');
+  drawer.hidden = !newExpandedState;
+};
 
 // Global Window Helpers for Cart & Checkout
 (window as any).handleCartQtyChange = (productId: string, newQty: number) => {
@@ -270,24 +301,64 @@ function attachGlobalEventListeners(): void {
   const nameInput = document.getElementById('comment-name') as HTMLInputElement;
   const contentInput = document.getElementById('comment-content') as HTMLTextAreaElement;
   const feedback = document.getElementById('comment-feedback');
+  const submitBtn = document.getElementById('submit-comment-btn') as HTMLButtonElement;
 
   if (!productId) return;
 
-  const res = await submitComment(
-    productId,
-    nameInput?.value || '',
-    contentInput?.value || ''
-  );
-
-  if (feedback) {
-    feedback.textContent = res.message;
-    feedback.style.display = 'block';
-    feedback.style.color = res.success ? 'var(--color-court)' : 'var(--color-danger)';
+  // Anti double-submit & loading UI
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.textContent = '⏳ Đang gửi...';
   }
 
-  if (res.success) {
-    if (nameInput) nameInput.value = '';
-    if (contentInput) contentInput.value = '';
+  if (feedback) {
+    feedback.textContent = '⏳ Đang lưu bình luận...';
+    feedback.style.display = 'block';
+    feedback.style.background = '#e0f2fe';
+    feedback.style.border = '1px solid #7dd3fc';
+    feedback.style.color = '#0369a1';
+  }
+
+  try {
+    const res = await submitComment(
+      productId,
+      nameInput?.value || '',
+      contentInput?.value || ''
+    );
+
+    if (feedback) {
+      if (res.success) {
+        feedback.textContent = `✓ ${res.message || 'Bình luận đã được gửi và đang chờ quản trị viên phê duyệt.'}`;
+        feedback.style.background = '#dcfce7';
+        feedback.style.border = '1px solid var(--color-mint-line)';
+        feedback.style.color = 'var(--color-court)';
+      } else {
+        feedback.textContent = `⚠️ ${res.message || 'Không thể gửi bình luận.'}`;
+        feedback.style.background = '#fef2f2';
+        feedback.style.border = '1px solid var(--color-danger)';
+        feedback.style.color = 'var(--color-danger)';
+      }
+      feedback.style.display = 'block';
+    }
+
+    if (res.success) {
+      // Only reset inputs on successful submit
+      if (nameInput) nameInput.value = '';
+      if (contentInput) contentInput.value = '';
+    }
+  } catch {
+    if (feedback) {
+      feedback.textContent = '⚠️ Lỗi kết nối khi gửi bình luận. Vui lòng thử lại.';
+      feedback.style.background = '#fef2f2';
+      feedback.style.border = '1px solid var(--color-danger)';
+      feedback.style.color = 'var(--color-danger)';
+      feedback.style.display = 'block';
+    }
+  } finally {
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Gửi bình luận';
+    }
   }
 };
 

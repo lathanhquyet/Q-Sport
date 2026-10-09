@@ -140,9 +140,9 @@ export async function renderProductDetailPage(slug: string): Promise<string> {
               <textarea id="comment-content" rows="3" required placeholder="Nhập cảm nhận của bạn về sản phẩm..." style="width: 100%; padding: 8px 12px; border-radius: var(--radius-control); border: 1px solid var(--color-mint-line); font-size: 0.875rem; font-family: inherit;"></textarea>
             </div>
 
-            <div id="comment-feedback" style="margin-bottom: var(--spacing-12); font-size: 0.875rem; font-weight: 600; display: none;"></div>
+            <div id="comment-feedback" role="status" aria-live="polite" style="margin-bottom: var(--spacing-12); font-size: 0.875rem; font-weight: 600; padding: 10px 14px; border-radius: var(--radius-control); display: none;"></div>
 
-            <button type="submit" class="btn btn-primary" style="min-height: 40px; font-size: 0.875rem;">
+            <button type="submit" id="submit-comment-btn" class="btn btn-primary" style="min-height: 40px; font-size: 0.875rem;">
               Gửi bình luận
             </button>
           </form>

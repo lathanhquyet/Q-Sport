@@ -1,7 +1,7 @@
 import { getCachedAdminSession } from '../services/authService';
 
 export function renderHeader(currentPath: string = '/'): string {
-  const isHome = currentPath === '/' || currentPath === '';
+  const isHome = currentPath === '/' || currentPath === '' || currentPath === '/index.html';
   const isProducts = currentPath.startsWith('/products');
   const isAbout = currentPath.startsWith('/about');
   const isCart = currentPath.startsWith('/cart');
@@ -9,30 +9,73 @@ export function renderHeader(currentPath: string = '/'): string {
   const loggedAdmin = getCachedAdminSession();
 
   return `
-    <header style="background: var(--color-white); border-bottom: 1px solid var(--color-mint-line); padding: var(--spacing-12) 0; position: sticky; top: 0; z-index: 100; box-shadow: var(--shadow-sm);">
-      <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
-        <a href="/" data-link style="display: flex; align-items: center; gap: 8px;">
-          <img src="/assets/logo.svg" alt="Q-Sport" height="38" style="display: block;" />
-        </a>
+    <header class="header-root">
+      <div class="container header-container">
+        <!-- Section 1: Brand / Logo -->
+        <div class="header-brand">
+          <a href="/" data-link class="brand-link" aria-label="Q-Sport Trang chủ">
+            <img src="/assets/logo.svg" alt="Q-Sport" height="38" class="header-logo" />
+          </a>
+        </div>
 
-        <nav style="display: flex; gap: var(--spacing-20); align-items: center; font-weight: 500;">
-          <a href="/" data-link style="color: ${isHome ? 'var(--color-court)' : 'var(--color-ink)'}; border-bottom: ${isHome ? '2px solid var(--color-court)' : 'none'}; padding-bottom: 2px;">
+        <!-- Section 2: Main Desktop Navigation -->
+        <nav class="header-nav" aria-label="Thực đơn chính">
+          <a href="/" data-link class="nav-link ${isHome ? 'active' : ''}">
             Trang chủ
           </a>
-          <a href="/products" data-link style="color: ${isProducts ? 'var(--color-court)' : 'var(--color-ink)'}; border-bottom: ${isProducts ? '2px solid var(--color-court)' : 'none'}; padding-bottom: 2px;">
+          <a href="/products" data-link class="nav-link ${isProducts ? 'active' : ''}">
             Sản phẩm
           </a>
-          <a href="/about" data-link style="color: ${isAbout ? 'var(--color-court)' : 'var(--color-ink)'}; border-bottom: ${isAbout ? '2px solid var(--color-court)' : 'none'}; padding-bottom: 2px;">
+          <a href="/about" data-link class="nav-link ${isAbout ? 'active' : ''}">
             Về chúng tôi
           </a>
-          <a href="/cart" data-link class="btn btn-secondary" style="min-height: 36px; padding: 4px 12px; font-size: 0.875rem; display: flex; align-items: center; gap: 6px; border-color: ${isCart ? 'var(--color-court-dark)' : 'var(--color-court)'}">
+        </nav>
+
+        <!-- Section 3: Action Controls -->
+        <div class="header-actions">
+          <a href="/cart" data-link class="btn btn-secondary header-cart-btn ${isCart ? 'active-cart' : ''}" aria-label="Giỏ hàng Q-Sport">
             <span>🛒 Giỏ hàng</span>
-            <span id="cart-count-badge" style="background: var(--color-court); color: var(--color-white); border-radius: 999px; padding: 1px 7px; font-size: 0.75rem; font-weight: 700;">0</span>
+            <span id="cart-count-badge" class="cart-badge">0</span>
           </a>
-          <a href="${loggedAdmin ? '/admin/products' : '/admin/login'}" data-link style="font-size: 0.8125rem; color: ${isAdmin ? 'var(--color-court)' : 'var(--color-muted)'}; text-decoration: none; padding: 4px 8px; border-radius: var(--radius-control); background: ${isAdmin ? 'var(--color-mint)' : 'transparent'}; font-weight: 600;">
+
+          <a href="${loggedAdmin ? '/admin/products' : '/admin/login'}" data-link class="header-admin-btn ${isAdmin ? 'active-admin' : ''}" aria-label="Quản trị Admin">
             ${loggedAdmin ? '🔑 Admin' : '🔐 Admin'}
           </a>
-        </nav>
+
+          <!-- Mobile Menu Toggle Button -->
+          <button
+            type="button"
+            id="mobile-menu-toggle"
+            class="mobile-menu-toggle"
+            aria-expanded="false"
+            aria-controls="mobile-nav-drawer"
+            aria-label="Mở thực đơn di động"
+            onclick="window.toggleMobileMenu && window.toggleMobileMenu()"
+          >
+            <span class="hamburger-icon">☰</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Navigation Drawer -->
+      <div id="mobile-nav-drawer" class="mobile-nav-drawer" aria-label="Thực đơn di động" hidden>
+        <div class="mobile-nav-content">
+          <a href="/" data-link class="mobile-nav-link ${isHome ? 'active' : ''}">
+            🏠 Trang chủ
+          </a>
+          <a href="/products" data-link class="mobile-nav-link ${isProducts ? 'active' : ''}">
+            🏸 Sản phẩm
+          </a>
+          <a href="/about" data-link class="mobile-nav-link ${isAbout ? 'active' : ''}">
+            ℹ️ Về chúng tôi
+          </a>
+          <a href="/cart" data-link class="mobile-nav-link ${isCart ? 'active' : ''}">
+            🛒 Giỏ hàng
+          </a>
+          <a href="${loggedAdmin ? '/admin/products' : '/admin/login'}" data-link class="mobile-nav-link ${isAdmin ? 'active' : ''}">
+            ${loggedAdmin ? '🔑 Quản trị Admin' : '🔐 Đăng nhập Admin'}
+          </a>
+        </div>
       </div>
     </header>
   `;

@@ -1,27 +1,26 @@
 import { describe, it, expect } from 'vitest';
 import { DEMO_PRODUCTS, getProducts } from '../../src/services/productService';
+import { PRODUCT_REAL_IMAGES, getProductImageUrl } from '../../src/config/productImages';
 
 describe('UI/UX Remediation Tests (Task A, Task B, Task C)', () => {
-  describe('Task A: Product Images Audit & Validation', () => {
-    it('should configure valid .svg image URLs for all 12 demo products', () => {
+  describe('Task C: Product Unsplash Images Audit & Validation', () => {
+    it('should configure valid Unsplash HTTP/HTTPS image URLs for all 12 demo products', () => {
       expect(DEMO_PRODUCTS).toHaveLength(12);
 
       DEMO_PRODUCTS.forEach(product => {
         expect(product.image_url).toBeDefined();
-        expect(product.image_url).toMatch(/^\/assets\/products\/[a-z0-9-]+\.svg$/);
+        expect(product.image_url).toMatch(/^https:\/\/images\.unsplash\.com\/photo-/);
       });
     });
 
-    it('should assign unique matching SVG illustrations based on category and SKU', () => {
-      const rackets = DEMO_PRODUCTS.filter(p => p.sku?.startsWith('QS-RKT'));
-      expect(rackets).toHaveLength(2);
-      expect(rackets[0].image_url).toBe('/assets/products/racket-attack.svg');
-      expect(rackets[1].image_url).toBe('/assets/products/racket-speed.svg');
+    it('should map unique high-resolution real photography URLs for each product code', () => {
+      const keys = Object.keys(PRODUCT_REAL_IMAGES);
+      expect(keys).toHaveLength(12);
+      expect(PRODUCT_REAL_IMAGES['PRD01']).toContain('unsplash.com');
+      expect(PRODUCT_REAL_IMAGES['PRD02']).toContain('unsplash.com');
 
-      const shoes = DEMO_PRODUCTS.filter(p => p.sku?.startsWith('QS-SH-'));
-      expect(shoes).toHaveLength(2);
-      expect(shoes[0].image_url).toBe('/assets/products/shoe-green.svg');
-      expect(shoes[1].image_url).toBe('/assets/products/shoe-pastel.svg');
+      // Check fallback helper return
+      expect(getProductImageUrl('PRD_INVALID', '/assets/products/fallback.svg')).toBe('/assets/products/fallback.svg');
     });
   });
 

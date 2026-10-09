@@ -1,6 +1,6 @@
 export function renderAdminLoginPage(): string {
   return `
-    <div class="container" style="padding-top: var(--spacing-48); padding-bottom: var(--spacing-48); max-width: 460px;">
+    <div class="container" style="padding-top: var(--spacing-48); padding-bottom: var(--spacing-48); max-width: 520px;">
       <div class="card" style="padding: var(--spacing-32); background: var(--color-white);">
         <div style="text-align: center; margin-bottom: var(--spacing-24);">
           <div style="font-size: 2.5rem; margin-bottom: var(--spacing-8);">🔐</div>
@@ -52,7 +52,34 @@ export function renderAdminLoginPage(): string {
           </button>
         </form>
 
-        <div style="margin-top: var(--spacing-20); text-align: center; border-top: 1px solid var(--color-mint-line); padding-top: 14px;">
+        <!-- Admin Setup Guide Toggle -->
+        <div style="margin-top: var(--spacing-24); border-top: 1px solid var(--color-mint-line); padding-top: 16px;">
+          <button
+            type="button"
+            onclick="const g = document.getElementById('admin-setup-guide'); if (g) g.hidden = !g.hidden;"
+            style="width: 100%; font-size: 0.8125rem; color: var(--color-court); background: var(--color-mint); border: 1px solid var(--color-mint-line); border-radius: var(--radius-control); padding: 8px 12px; font-weight: 600; text-align: center; cursor: pointer;"
+          >
+            ℹ️ Hướng dẫn tạo & phân quyền tài khoản Admin an toàn
+          </button>
+
+          <div id="admin-setup-guide" hidden style="margin-top: 12px; background: #f8faf9; border: 1px solid var(--color-mint-line); border-radius: var(--radius-control); padding: 14px; font-size: 0.8125rem; color: var(--color-ink); line-height: 1.5;">
+            <p style="font-weight: 700; color: var(--color-court); margin-bottom: 6px;">Quy trình 2 bước khởi tạo Admin an toàn:</p>
+            <ol style="padding-left: 18px; margin-bottom: 10px;">
+              <li style="margin-bottom: 4px;">Tạo user trong Supabase Dashboard &rarr; <strong>Authentication &rarr; Users</strong> (hoặc qua Sign Up).</li>
+              <li>Mở <strong>SQL Editor</strong> và chạy lệnh gán quyền Admin vào bảng <code>qsport.admin_users</code>:</li>
+            </ol>
+            <pre style="background: #1e293b; color: #f8fafc; padding: 10px; border-radius: 6px; font-size: 0.75rem; overflow-x: auto; margin-bottom: 8px;"><code>INSERT INTO qsport.admin_users (id, email, full_name, is_active)
+SELECT id, email, COALESCE(raw_user_meta_data->>'full_name', 'Q-Sport Admin'), true
+FROM auth.users
+WHERE email = 'YOUR_ADMIN_EMAIL@domain.com'
+ON CONFLICT (id) DO UPDATE SET is_active = true;</code></pre>
+            <p style="font-size: 0.75rem; color: var(--color-muted); font-style: italic;">
+              ⚠️ Lưu ý: Không hardcode mật khẩu trong source code. Luôn bật RLS trên bảng <code>qsport.admin_users</code>.
+            </p>
+          </div>
+        </div>
+
+        <div style="margin-top: var(--spacing-16); text-align: center;">
           <a href="/" data-link style="font-size: 0.8125rem; color: var(--color-court); text-decoration: none;">
             ← Quay về trang chủ cửa hàng
           </a>
