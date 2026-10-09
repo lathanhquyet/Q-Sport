@@ -30,7 +30,12 @@ export async function renderAdminProductsPage(): Promise<string> {
               onerror="this.src='/assets/products/placeholder.svg';"
             />
             <div>
-              <strong style="color: var(--color-ink); display: block;">${product.name}</strong>
+              <div style="display: flex; align-items: center; gap: 6px;">
+                <span style="background: var(--color-ink); color: #fff; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; font-weight: 700; font-family: monospace;">
+                  ${product.product_code || 'PRD--'}
+                </span>
+                <strong style="color: var(--color-ink);">${product.name}</strong>
+              </div>
               <span style="font-size: 0.75rem; color: var(--color-muted);">SKU: ${product.sku || 'N/A'}</span>
             </div>
           </div>

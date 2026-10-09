@@ -15,8 +15,8 @@ RETURNS TRIGGER AS $$
 DECLARE
     v_next_val INT;
 BEGIN
-    -- Protect code from being mutated on UPDATE
-    IF TG_OP = 'UPDATE' THEN
+    -- Protect code from being mutated on UPDATE if it was already set
+    IF TG_OP = 'UPDATE' AND OLD.category_code IS NOT NULL THEN
         NEW.category_code := OLD.category_code;
         RETURN NEW;
     END IF;
@@ -44,8 +44,8 @@ RETURNS TRIGGER AS $$
 DECLARE
     v_next_val INT;
 BEGIN
-    -- Protect code from being mutated on UPDATE
-    IF TG_OP = 'UPDATE' THEN
+    -- Protect code from being mutated on UPDATE if it was already set
+    IF TG_OP = 'UPDATE' AND OLD.product_code IS NOT NULL THEN
         NEW.product_code := OLD.product_code;
         RETURN NEW;
     END IF;
@@ -78,11 +78,36 @@ CREATE TRIGGER trg_assign_product_code
     BEFORE INSERT OR UPDATE ON qsport.products
     FOR EACH ROW EXECUTE FUNCTION qsport.assign_product_code();
 
--- 6. POPULATE EXISTING RECORDS IF ANY
-UPDATE qsport.categories SET category_code = 'CAT' || lpad(sort_order::text, 2, '0') WHERE category_code IS NULL;
-UPDATE qsport.products SET product_code = 'PRD' || lpad(substring(sku from 8 for 3), 2, '0') WHERE product_code IS NULL AND sku LIKE 'QS-%-0%';
+-- 6. POPULATE EXISTING NULL RECORDS SAFELY
+DO $$
+DECLARE
+    r RECORD;
+    i INT := 1;
+BEGIN
+    FOR r IN SELECT id FROM qsport.categories WHERE category_code IS NULL ORDER BY sort_order ASC, created_at ASC LOOP
+        UPDATE qsport.categories SET category_code = 'CAT' || lpad(i::text, 2, '0') WHERE id = r.id;
+        i := i + 1;
+    END LOOP;
+    IF i > 1 THEN
+        PERFORM setval('qsport.category_code_seq', i);
+    END IF;
+END $$;
 
--- 7. CONSTRAINTS
+DO $$
+DECLARE
+    r RECORD;
+    i INT := 1;
+BEGIN
+    FOR r IN SELECT id FROM qsport.products WHERE product_code IS NULL ORDER BY created_at ASC LOOP
+        UPDATE qsport.products SET product_code = 'PRD' || lpad(i::text, 2, '0') WHERE id = r.id;
+        i := i + 1;
+    END LOOP;
+    IF i > 1 THEN
+        PERFORM setval('qsport.product_code_seq', i);
+    END IF;
+END $$;
+
+-- 7. CONSTRAINTS (Unique & Not Null)
 ALTER TABLE qsport.categories DROP CONSTRAINT IF EXISTS uq_categories_category_code;
 ALTER TABLE qsport.categories ADD CONSTRAINT uq_categories_category_code UNIQUE (category_code);
 ALTER TABLE qsport.categories ALTER COLUMN category_code SET NOT NULL;

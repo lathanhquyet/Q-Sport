@@ -5,15 +5,16 @@
 -- 1. SEED CATEGORIES
 -- ============================================================================
 
-INSERT INTO qsport.categories (id, name, slug, description, sort_order, is_active)
+INSERT INTO qsport.categories (id, category_code, name, slug, description, sort_order, is_active)
 VALUES
-    ('c0000000-0000-0000-0000-000000000001', 'Giày', 'giay', 'Giày cầu lông chuyên dụng bám sân, chống lật cổ chân', 1, true),
-    ('c0000000-0000-0000-0000-000000000002', 'Vợt', 'vot', 'Vợt cầu lông công thủ toàn diện, chính hãng Q-Sport', 2, true),
-    ('c0000000-0000-0000-0000-000000000003', 'Quần', 'quan', 'Quần thể thao thoáng khí, co giãn 4 chiều', 3, true),
-    ('c0000000-0000-0000-0000-000000000004', 'Áo', 'ao', 'Áo thi đấu và tập luyện cầu lông công nghệ thấm hút', 4, true),
-    ('c0000000-0000-0000-0000-000000000005', 'Balo', 'balo', 'Balo và túi xách đựng vợt cầu lông chuyên nghiệp', 5, true),
-    ('c0000000-0000-0000-0000-000000000006', 'Phụ kiện', 'phu-kien', 'Quấn cán, dây cước, tất và phụ kiện thi đấu', 6, true)
+    ('c0000000-0000-0000-0000-000000000001', 'CAT01', 'Giày', 'giay', 'Giày cầu lông chuyên dụng bám sân, chống lật cổ chân', 1, true),
+    ('c0000000-0000-0000-0000-000000000002', 'CAT02', 'Vợt', 'vot', 'Vợt cầu lông công thủ toàn diện, chính hãng Q-Sport', 2, true),
+    ('c0000000-0000-0000-0000-000000000003', 'CAT03', 'Quần', 'quan', 'Quần thể thao thoáng khí, co giãn 4 chiều', 3, true),
+    ('c0000000-0000-0000-0000-000000000004', 'CAT04', 'Áo', 'ao', 'Áo thi đấu và tập luyện cầu lông công nghệ thấm hút', 4, true),
+    ('c0000000-0000-0000-0000-000000000005', 'CAT05', 'Balo', 'balo', 'Balo và túi xách đựng vợt cầu lông chuyên nghiệp', 5, true),
+    ('c0000000-0000-0000-0000-000000000006', 'CAT06', 'Phụ kiện', 'phu-kien', 'Quấn cán, dây cước, tất và phụ kiện thi đấu', 6, true)
 ON CONFLICT (slug) DO UPDATE SET
+    category_code = EXCLUDED.category_code,
     name = EXCLUDED.name,
     description = EXCLUDED.description,
     sort_order = EXCLUDED.sort_order,
@@ -24,11 +25,11 @@ ON CONFLICT (slug) DO UPDATE SET
 -- ============================================================================
 
 INSERT INTO qsport.products (
-    id, category_id, name, slug, sku, short_description, description, price, stock_quantity, image_url, is_active, is_featured
+    id, product_code, category_id, name, slug, sku, short_description, description, price, stock_quantity, image_url, is_active, is_featured
 ) VALUES
     -- Vợt Cầu Lông
     (
-        'a0000000-0000-0000-0000-000000000001',
+        'a0000000-0000-0000-0000-000000000001', 'PRD01',
         'c0000000-0000-0000-0000-000000000002',
         'Vợt Cầu Lông Q-Sport Pro Attack 100',
         'vot-cau-long-qsport-pro-attack-100',
@@ -38,7 +39,7 @@ INSERT INTO qsport.products (
         1450000, 15, '/assets/products/racket-attack.svg', true, true
     ),
     (
-        'a0000000-0000-0000-0000-000000000002',
+        'a0000000-0000-0000-0000-000000000002', 'PRD02',
         'c0000000-0000-0000-0000-000000000002',
         'Vợt Cầu Lông Q-Sport Speed Control 200',
         'vot-cau-long-qsport-speed-control-200',
@@ -50,7 +51,7 @@ INSERT INTO qsport.products (
 
     -- Giày Cầu Lông
     (
-        'a0000000-0000-0000-0000-000000000003',
+        'a0000000-0000-0000-0000-000000000003', 'PRD03',
         'c0000000-0000-0000-0000-000000000001',
         'Giày Cầu Lông Q-Sport GripMaster Green',
         'giay-cau-long-qsport-gripmaster-green',
@@ -60,7 +61,7 @@ INSERT INTO qsport.products (
         1150000, 12, '/assets/products/shoe-green.svg', true, true
     ),
     (
-        'a0000000-0000-0000-0000-000000000004',
+        'a0000000-0000-0000-0000-000000000004', 'PRD04',
         'c0000000-0000-0000-0000-000000000001',
         'Giày Cầu Lông Q-Sport AirFlex Pastel',
         'giay-cau-long-qsport-airflex-pastel',
@@ -72,7 +73,7 @@ INSERT INTO qsport.products (
 
     -- Áo Thể Thao
     (
-        'a0000000-0000-0000-0000-000000000005',
+        'a0000000-0000-0000-0000-000000000005', 'PRD05',
         'c0000000-0000-0000-0000-000000000004',
         'Áo Thi Đấu Cầu Lông Q-Sport Pro Dry Green',
         'ao-thi-dau-qsport-pro-dry-green',
@@ -82,7 +83,7 @@ INSERT INTO qsport.products (
         290000, 30, '/assets/products/shirt-green.svg', true, true
     ),
     (
-        'a0000000-0000-0000-0000-000000000006',
+        'a0000000-0000-0000-0000-000000000006', 'PRD06',
         'c0000000-0000-0000-0000-000000000004',
         'Áo T-Shirt Thể Thao Q-Sport Basic White',
         'ao-t-shirt-the-thao-qsport-basic-white',
@@ -94,7 +95,7 @@ INSERT INTO qsport.products (
 
     -- Quần Thể Thao
     (
-        'a0000000-0000-0000-0000-000000000007',
+        'a0000000-0000-0000-0000-000000000007', 'PRD07',
         'c0000000-0000-0000-0000-000000000003',
         'Quần Short Cầu Lông Q-Sport Active Black',
         'quan-short-qsport-active-black',
@@ -104,7 +105,7 @@ INSERT INTO qsport.products (
         195000, 40, '/assets/products/short-black.svg', true, false
     ),
     (
-        'a0000000-0000-0000-0000-000000000008',
+        'a0000000-0000-0000-0000-000000000008', 'PRD08',
         'c0000000-0000-0000-0000-000000000003',
         'Quần Short Cầu Lông Q-Sport Pro Match Green',
         'quan-short-qsport-pro-match-green',
@@ -116,7 +117,7 @@ INSERT INTO qsport.products (
 
     -- Balo & Túi
     (
-        'a0000000-0000-0000-0000-000000000009',
+        'a0000000-0000-0000-0000-000000000009', 'PRD09',
         'c0000000-0000-0000-0000-000000000005',
         'Balo Cầu Lông Q-Sport Tour 6 Rackets',
         'balo-cau-long-qsport-tour-6-rackets',
@@ -126,7 +127,7 @@ INSERT INTO qsport.products (
         680000, 10, '/assets/products/bag-tour.svg', true, true
     ),
     (
-        'a0000000-0000-0000-0000-000000000010',
+        'a0000000-0000-0000-0000-000000000010', 'PRD10',
         'c0000000-0000-0000-0000-000000000005',
         'Túi Xách Vợt Cầu Lông Q-Sport Compact Bag',
         'tui-xach-vot-qsport-compact-bag',
@@ -138,7 +139,7 @@ INSERT INTO qsport.products (
 
     -- Phụ Kiện
     (
-        'a0000000-0000-0000-0000-000000000011',
+        'a0000000-0000-0000-0000-000000000011', 'PRD11',
         'c0000000-0000-0000-0000-000000000006',
         'Quấn Cán Vợt Q-Sport Super Grip (Bộ 3 cái)',
         'quan-can-vot-qsport-super-grip-3-pcs',
@@ -148,7 +149,7 @@ INSERT INTO qsport.products (
         75000, 50, '/assets/products/grip-3pcs.svg', true, true
     ),
     (
-        'a0000000-0000-0000-0000-000000000012',
+        'a0000000-0000-0000-0000-000000000012', 'PRD12',
         'c0000000-0000-0000-0000-000000000006',
         'Dây Cước Vợt Q-Sport Repulsion 66',
         'day-cuoc-vot-qsport-repulsion-66',
@@ -158,6 +159,7 @@ INSERT INTO qsport.products (
         110000, 60, '/assets/products/string-66.svg', true, false
     )
 ON CONFLICT (slug) DO UPDATE SET
+    product_code = EXCLUDED.product_code,
     name = EXCLUDED.name,
     category_id = EXCLUDED.category_id,
     sku = EXCLUDED.sku,

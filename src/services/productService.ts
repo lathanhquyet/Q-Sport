@@ -4,6 +4,7 @@ import { Product } from '../types';
 export const DEMO_PRODUCTS: Product[] = [
   {
     id: 'a0000000-0000-0000-0000-000000000001',
+    product_code: 'PRD01',
     category_id: 'c0000000-0000-0000-0000-000000000002',
     name: 'Vợt Cầu Lông Q-Sport Pro Attack 100',
     slug: 'vot-cau-long-qsport-pro-attack-100',
@@ -20,6 +21,7 @@ export const DEMO_PRODUCTS: Product[] = [
   },
   {
     id: 'a0000000-0000-0000-0000-000000000002',
+    product_code: 'PRD02',
     category_id: 'c0000000-0000-0000-0000-000000000002',
     name: 'Vợt Cầu Lông Q-Sport Speed Control 200',
     slug: 'vot-cau-long-qsport-speed-control-200',
@@ -36,6 +38,7 @@ export const DEMO_PRODUCTS: Product[] = [
   },
   {
     id: 'a0000000-0000-0000-0000-000000000003',
+    product_code: 'PRD03',
     category_id: 'c0000000-0000-0000-0000-000000000001',
     name: 'Giày Cầu Lông Q-Sport GripMaster Green',
     slug: 'giay-cau-long-qsport-gripmaster-green',
@@ -52,6 +55,7 @@ export const DEMO_PRODUCTS: Product[] = [
   },
   {
     id: 'a0000000-0000-0000-0000-000000000004',
+    product_code: 'PRD04',
     category_id: 'c0000000-0000-0000-0000-000000000001',
     name: 'Giày Cầu Lông Q-Sport AirFlex Pastel',
     slug: 'giay-cau-long-qsport-airflex-pastel',
@@ -68,6 +72,7 @@ export const DEMO_PRODUCTS: Product[] = [
   },
   {
     id: 'a0000000-0000-0000-0000-000000000005',
+    product_code: 'PRD05',
     category_id: 'c0000000-0000-0000-0000-000000000004',
     name: 'Áo Thi Đấu Cầu Lông Q-Sport Pro Dry Green',
     slug: 'ao-thi-dau-qsport-pro-dry-green',
@@ -84,6 +89,7 @@ export const DEMO_PRODUCTS: Product[] = [
   },
   {
     id: 'a0000000-0000-0000-0000-000000000006',
+    product_code: 'PRD06',
     category_id: 'c0000000-0000-0000-0000-000000000004',
     name: 'Áo T-Shirt Thể Thao Q-Sport Basic White',
     slug: 'ao-t-shirt-the-thao-qsport-basic-white',
@@ -100,6 +106,7 @@ export const DEMO_PRODUCTS: Product[] = [
   },
   {
     id: 'a0000000-0000-0000-0000-000000000007',
+    product_code: 'PRD07',
     category_id: 'c0000000-0000-0000-0000-000000000003',
     name: 'Quần Short Cầu Lông Q-Sport Active Black',
     slug: 'quan-short-qsport-active-black',
@@ -116,6 +123,7 @@ export const DEMO_PRODUCTS: Product[] = [
   },
   {
     id: 'a0000000-0000-0000-0000-000000000008',
+    product_code: 'PRD08',
     category_id: 'c0000000-0000-0000-0000-000000000003',
     name: 'Quần Short Cầu Lông Q-Sport Pro Match Green',
     slug: 'quan-short-qsport-pro-match-green',
@@ -132,6 +140,7 @@ export const DEMO_PRODUCTS: Product[] = [
   },
   {
     id: 'a0000000-0000-0000-0000-000000000009',
+    product_code: 'PRD09',
     category_id: 'c0000000-0000-0000-0000-000000000005',
     name: 'Balo Cầu Lông Q-Sport Tour 6 Rackets',
     slug: 'balo-cau-long-qsport-tour-6-rackets',
@@ -148,6 +157,7 @@ export const DEMO_PRODUCTS: Product[] = [
   },
   {
     id: 'a0000000-0000-0000-0000-000000000010',
+    product_code: 'PRD10',
     category_id: 'c0000000-0000-0000-0000-000000000005',
     name: 'Túi Xách Vợt Cầu Lông Q-Sport Compact Bag',
     slug: 'tui-xach-vot-qsport-compact-bag',
@@ -164,6 +174,7 @@ export const DEMO_PRODUCTS: Product[] = [
   },
   {
     id: 'a0000000-0000-0000-0000-000000000011',
+    product_code: 'PRD11',
     category_id: 'c0000000-0000-0000-0000-000000000006',
     name: 'Quấn Cán Vợt Q-Sport Super Grip (Bộ 3 cái)',
     slug: 'quan-can-vot-qsport-super-grip-3-pcs',
@@ -180,6 +191,7 @@ export const DEMO_PRODUCTS: Product[] = [
   },
   {
     id: 'a0000000-0000-0000-0000-000000000012',
+    product_code: 'PRD12',
     category_id: 'c0000000-0000-0000-0000-000000000006',
     name: 'Dây Cước Vợt Q-Sport Repulsion 66',
     slug: 'day-cuoc-vot-qsport-repulsion-66',
@@ -193,7 +205,7 @@ export const DEMO_PRODUCTS: Product[] = [
     is_featured: false,
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString(),
-  }
+  },
 ];
 
 export interface FetchProductsOptions {

@@ -5,6 +5,7 @@ import { getProducts } from './productService';
 export interface AdminProductInput {
   name: string;
   category_id: string;
+  product_code?: string;
   price: number;
   stock_quantity: number;
   short_description?: string;
@@ -32,6 +33,21 @@ function generateSlug(name: string): string {
   return `${clean}-${Math.random().toString(36).substring(2, 6)}`;
 }
 
+export function generateNextProductCode(existingProducts: Product[]): string {
+  let maxSeq = 0;
+  for (const p of existingProducts) {
+    if (p.product_code && /^PRD\d{2}$/.test(p.product_code)) {
+      const seq = parseInt(p.product_code.substring(3), 10);
+      if (seq > maxSeq) maxSeq = seq;
+    }
+  }
+  const nextSeq = maxSeq + 1;
+  if (nextSeq > 99) {
+    throw new Error('Đã hết không gian mã sản phẩm khả dụng (tối đa 99 sản phẩm)');
+  }
+  return `PRD${nextSeq.toString().padStart(2, '0')}`;
+}
+
 export async function fetchAdminProducts(): Promise<Product[]> {
   if (isSupabaseConfigured()) {
     try {
@@ -51,6 +67,7 @@ export async function fetchAdminProducts(): Promise<Product[]> {
       const now = new Date().toISOString();
       return data.map((item: Record<string, unknown>) => ({
         id: item.id as string,
+        product_code: (item.product_code as string) || 'PRD00',
         category_id: item.category_id as string,
         name: item.name as string,
         slug: item.slug as string,
@@ -93,9 +110,17 @@ export async function createProduct(input: AdminProductInput): Promise<ActionRes
     return { success: false, message: 'Số lượng tồn kho không được nhỏ hơn 0' };
   }
 
+  if (input.product_code && !/^PRD\d{2}$/.test(input.product_code.trim())) {
+    return { success: false, message: 'Mã sản phẩm không đúng định dạng PRDxx (ví dụ: PRD01)' };
+  }
+
   const slug = generateSlug(input.name);
+  const existingProducts = await getProducts();
+  const productCode = input.product_code?.trim() || generateNextProductCode(existingProducts);
+
   const payload = {
     name: input.name.trim(),
+    product_code: productCode,
     slug,
     category_id: input.category_id,
     price: Math.floor(input.price),
@@ -128,8 +153,9 @@ export async function createProduct(input: AdminProductInput): Promise<ActionRes
   // Fallback demo product creation
   const now = new Date().toISOString();
   const demoProduct: Product = {
-    id: 'p-demo-' + Date.now(),
+    id: 'a0000000-0000-0000-0000-' + Date.now().toString(16).padStart(12, '0'),
     ...payload,
+    product_code: productCode,
     price: payload.price,
     stock_quantity: payload.stock_quantity,
     image_url: payload.image_url || undefined,
