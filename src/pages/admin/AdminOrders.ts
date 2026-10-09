@@ -1,8 +1,11 @@
-import { fetchAdminOrders, OrderStatus } from '../../services/adminOrderService';
+import { fetchAdminOrders, fetchAdminOrderCounts, OrderStatus } from '../../services/adminOrderService';
 import { formatVND } from '../../utils/formatters';
 
 export async function renderAdminOrdersPage(statusFilter: string = 'ALL'): Promise<string> {
-  const orders = await fetchAdminOrders(statusFilter);
+  const [orders, counts] = await Promise.all([
+    fetchAdminOrders(statusFilter),
+    fetchAdminOrderCounts(),
+  ]);
 
   const getStatusBadge = (status: OrderStatus) => {
     switch (status) {
@@ -68,11 +71,11 @@ export async function renderAdminOrdersPage(statusFilter: string = 'ALL'): Promi
   }).join('');
 
   const filterButtons = [
-    { key: 'ALL', label: 'Tất cả đơn' },
-    { key: 'NEW', label: 'Mới (NEW)' },
-    { key: 'PROCESSING', label: 'Đang xử lý' },
-    { key: 'SHIPPED', label: 'Đã giao' },
-    { key: 'CANCELLED', label: 'Đã hủy' },
+    { key: 'ALL', label: 'Tất cả đơn', count: counts.ALL || 0 },
+    { key: 'NEW', label: 'Mới (NEW)', count: counts.NEW || 0 },
+    { key: 'PROCESSING', label: 'Đang xử lý', count: counts.PROCESSING || 0 },
+    { key: 'SHIPPED', label: 'Đã giao', count: counts.SHIPPED || 0 },
+    { key: 'CANCELLED', label: 'Đã hủy', count: counts.CANCELLED || 0 },
   ];
 
   const filterBarHtml = filterButtons
@@ -82,9 +85,12 @@ export async function renderAdminOrdersPage(statusFilter: string = 'ALL'): Promi
         href="/admin/orders?status=${btn.key}"
         data-link
         class="btn ${statusFilter === btn.key ? 'btn-primary' : 'btn-secondary'}"
-        style="font-size: 0.8125rem; padding: 6px 14px;"
+        style="font-size: 0.8125rem; padding: 6px 14px; display: inline-flex; align-items: center; gap: 6px; border-radius: var(--radius-pill);"
       >
-        ${btn.label}
+        <span>${btn.label}</span>
+        <span class="order-count-badge" style="background: ${statusFilter === btn.key ? 'var(--color-white)' : 'var(--color-mint)'}; color: ${statusFilter === btn.key ? 'var(--color-court)' : 'var(--color-court)'}; border-radius: 999px; padding: 1px 7px; font-size: 0.75rem; font-weight: 700;">
+          ${btn.count}
+        </span>
       </a>
     `
     )
@@ -98,7 +104,7 @@ export async function renderAdminOrdersPage(statusFilter: string = 'ALL'): Promi
           <h1 style="font-family: var(--font-display); font-size: 2rem; color: var(--color-court); margin: 0;">
             📦 QUẢN LÝ ĐƠN HÀNG (ADMIN)
           </h1>
-          <span style="font-size: 0.875rem; color: var(--color-muted);">Hiển thị: ${orders.length} đơn hàng</span>
+          <span style="font-size: 0.875rem; color: var(--color-muted);">Hiển thị: ${orders.length} đơn hàng trong danh mục</span>
         </div>
 
         <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
@@ -114,8 +120,8 @@ export async function renderAdminOrdersPage(statusFilter: string = 'ALL'): Promi
         </div>
       </div>
 
-      <!-- Status Filter Tabs -->
-      <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: var(--spacing-20);">
+      <!-- Status Filter Tabs with Counts -->
+      <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: var(--spacing-20); overflow-x: auto; padding-bottom: 4px;">
         ${filterBarHtml}
       </div>
 

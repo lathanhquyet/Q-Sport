@@ -74,6 +74,55 @@ export async function fetchAdminOrders(statusFilter?: string): Promise<AdminOrde
   return getMockOrders(statusFilter);
 }
 
+export async function fetchAdminOrderCounts(): Promise<Record<string, number>> {
+  if (isSupabaseConfigured()) {
+    try {
+      const { data, error } = await supabase
+        .from('orders')
+        .select('order_status');
+
+      if (!error && data) {
+        const counts: Record<string, number> = {
+          ALL: data.length,
+          NEW: 0,
+          PROCESSING: 0,
+          SHIPPED: 0,
+          CANCELLED: 0,
+        };
+
+        data.forEach((item: { order_status?: string }) => {
+          const status = item.order_status as OrderStatus;
+          if (status && counts[status] !== undefined) {
+            counts[status]++;
+          }
+        });
+
+        return counts;
+      }
+    } catch {
+      // Fallback below
+    }
+  }
+
+  // Fallback mock order counts
+  const mockOrders = getMockOrders('ALL');
+  const counts: Record<string, number> = {
+    ALL: mockOrders.length,
+    NEW: 0,
+    PROCESSING: 0,
+    SHIPPED: 0,
+    CANCELLED: 0,
+  };
+
+  mockOrders.forEach(item => {
+    if (item.order_status && counts[item.order_status] !== undefined) {
+      counts[item.order_status]++;
+    }
+  });
+
+  return counts;
+}
+
 export async function fetchAdminOrderItems(orderId: string): Promise<AdminOrderItem[]> {
   if (!orderId) return [];
 

@@ -23,7 +23,8 @@ import {
   clearCart,
   onCartChange,
 } from '../services/cartService';
-import { createOrderCOD } from '../services/orderService';
+import { createOrderCOD, generateVietQRImageUrl } from '../services/orderService';
+import { SITE_CONFIG } from '../config/site';
 import {
   signInAdmin,
   signOutAdmin,
@@ -247,6 +248,22 @@ function closeMobileMenu(): void {
   }
 };
 
+let currentVietQROrderCode = '';
+
+(window as any).handlePaymentMethodChange = (method: 'COD' | 'VIETQR') => {
+  const title = document.getElementById('selected-payment-title');
+  const desc = document.getElementById('selected-payment-desc');
+  if (title && desc) {
+    if (method === 'VIETQR') {
+      title.textContent = '📱 Phương thức: Chuyển khoản VietQR';
+      desc.textContent = 'Quét mã QR tự động qua ứng dụng ngân hàng MB Bank / Napas.';
+    } else {
+      title.textContent = '💵 Phương thức: Thanh toán COD';
+      desc.textContent = 'Thanh toán tiền mặt trực tiếp cho shipper khi nhận hàng.';
+    }
+  }
+};
+
 (window as any).handleCheckoutSubmit = async () => {
   const submitBtn = document.getElementById('submit-order-btn') as HTMLButtonElement;
   const errorBox = document.getElementById('checkout-error-box');
@@ -255,6 +272,8 @@ function closeMobileMenu(): void {
   const phoneInput = document.getElementById('checkout-phone') as HTMLInputElement;
   const addressInput = document.getElementById('checkout-address') as HTMLTextAreaElement;
   const noteInput = document.getElementById('checkout-note') as HTMLInputElement;
+  const selectedPayRadio = document.querySelector('input[name="payment_method"]:checked') as HTMLInputElement;
+  const paymentMethod = (selectedPayRadio?.value || 'COD') as 'COD' | 'VIETQR';
 
   if (errorBox) errorBox.style.display = 'none';
 
@@ -269,11 +288,39 @@ function closeMobileMenu(): void {
       customer_phone: phoneInput?.value || '',
       shipping_address: addressInput?.value || '',
       customer_note: noteInput?.value || '',
+      payment_method: paymentMethod,
     });
 
     if (result.success && result.order_code) {
-      window.history.pushState({}, '', `/order-success/${result.order_code}`);
-      handleRouting();
+      if (paymentMethod === 'VIETQR') {
+        currentVietQROrderCode = result.order_code;
+        const qrModal = document.getElementById('vietqr-modal-backdrop');
+        const qrImage = document.getElementById('vietqr-image') as HTMLImageElement;
+        const qrAmount = document.getElementById('vietqr-amount');
+        const qrCode = document.getElementById('vietqr-code');
+
+        const qrUrl = generateVietQRImageUrl(
+          SITE_CONFIG.bankName,
+          SITE_CONFIG.bankAccountNumber,
+          SITE_CONFIG.bankAccountHolder,
+          result.total_amount || 0,
+          result.order_code
+        );
+
+        if (qrImage) qrImage.src = qrUrl;
+        if (qrAmount) qrAmount.textContent = formatVND(result.total_amount || 0);
+        if (qrCode) qrCode.textContent = result.order_code;
+
+        if (qrModal) qrModal.style.display = 'flex';
+
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = '🚀 Xác nhận đặt hàng';
+        }
+      } else {
+        window.history.pushState({}, '', `/order-success/${result.order_code}`);
+        handleRouting();
+      }
     } else {
       if (errorBox) {
         errorBox.textContent = `⚠️ ${result.message || 'Đặt hàng không thành công. Vui lòng kiểm tra lại.'}`;
@@ -281,7 +328,7 @@ function closeMobileMenu(): void {
       }
       if (submitBtn) {
         submitBtn.disabled = false;
-        submitBtn.textContent = '🚀 Xác nhận đặt hàng COD';
+        submitBtn.textContent = '🚀 Xác nhận đặt hàng';
       }
     }
   } catch {
@@ -291,8 +338,26 @@ function closeMobileMenu(): void {
     }
     if (submitBtn) {
       submitBtn.disabled = false;
-      submitBtn.textContent = '🚀 Xác nhận đặt hàng COD';
+      submitBtn.textContent = '🚀 Xác nhận đặt hàng';
     }
+  }
+};
+
+(window as any).handleConfirmVietQRDone = () => {
+  const qrModal = document.getElementById('vietqr-modal-backdrop');
+  if (qrModal) qrModal.style.display = 'none';
+  if (currentVietQROrderCode) {
+    window.history.pushState({}, '', `/order-success/${currentVietQROrderCode}`);
+    handleRouting();
+  }
+};
+
+(window as any).handleCloseVietQRModal = () => {
+  const qrModal = document.getElementById('vietqr-modal-backdrop');
+  if (qrModal) qrModal.style.display = 'none';
+  if (currentVietQROrderCode) {
+    window.history.pushState({}, '', `/order-success/${currentVietQROrderCode}`);
+    handleRouting();
   }
 };
 

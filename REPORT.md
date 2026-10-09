@@ -4,12 +4,11 @@
 
 # Báo cáo đồ án cuối khóa — Website Q-Sport
 
-- **Sinh viên:** _điền họ tên_ · **Lớp/Khóa:** _điền_
+- **Sinh viên:** Lã Thành Quyết · **Email:** ltquyet@qsport.vn
 - **Ngày nộp:** 17/10/2026
-- **Link GitHub (Public):** _điền_
-- **Link website đã deploy:** _điền (Cloudflare Pages)_
-
-> Các mục có chữ _điền_ hoặc _[...]_ là phần cần bổ sung sau khi hoàn thành. Phần đã viết sẵn dựa trên PRD.md; hãy sửa lại cho khớp sản phẩm thực tế.
+- **Link GitHub (Public):** https://github.com/lathanhquyet/Q-Sport
+- **Link website đã deploy:** https://q-sport.pages.dev/
+- **Commit nghiệm thu (Phase 7):** `519b7e457afcab32792614cd16491e238be3c987` (Branch: `main`)
 
 ---
 

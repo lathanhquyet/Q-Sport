@@ -8,7 +8,7 @@ import {
   getCartSubtotal,
   getCartTotalCount,
 } from '../../src/services/cartService';
-import { validateVietnamesePhone, createOrderCOD } from '../../src/services/orderService';
+import { validateVietnamesePhone, createOrderCOD, generateVietQRImageUrl } from '../../src/services/orderService';
 
 describe('Phase 3 (P3) Cart & COD Checkout Tests', () => {
   beforeEach(() => {
@@ -165,12 +165,39 @@ describe('Phase 3 (P3) Cart & COD Checkout Tests', () => {
         customer_phone: '0987654321',
         shipping_address: '56/1 Đ. Số 2, Thủ Đức, Hồ Chí Minh',
         customer_note: 'Giao ngoài giờ hành chính',
+        payment_method: 'COD',
       });
 
       expect(res.success).toBe(true);
       expect(res.order_code).toMatch(/^QS-[A-Z0-9]{6}$/);
       expect(res.total_amount).toBe(2900000);
+      expect(res.payment_method).toBe('COD');
       // Cart should be automatically cleared on success
+      expect(getCart()).toEqual([]);
+    });
+
+    it('should generate official VietQR image URL with exact Bank ID, account, amount, and order code', () => {
+      const qrUrl = generateVietQRImageUrl('MB', '0999999888', 'La Thanh Quyet', 2900000, 'QS-ABC123');
+      expect(qrUrl).toContain('https://img.vietqr.io/image/MB-0999999888-compact2.png');
+      expect(qrUrl).toContain('amount=2900000');
+      expect(qrUrl).toContain('addInfo=QS-ABC123');
+      expect(qrUrl).toContain('accountName=La%20Thanh%20Quyet');
+    });
+
+    it('should support creating order with VIETQR payment method', async () => {
+      addToCart({ id: 'p2', name: 'Giày Q-Sport GripMaster Green', price: 1150000 }, 1);
+
+      const res = await createOrderCOD({
+        customer_name: 'Trần Thị B',
+        customer_phone: '0398765432',
+        shipping_address: '456 Võ Văn Ngân, Thủ Đức',
+        payment_method: 'VIETQR',
+      });
+
+      expect(res.success).toBe(true);
+      expect(res.order_code).toBeDefined();
+      expect(res.payment_method).toBe('VIETQR');
+      expect(res.total_amount).toBe(1150000);
       expect(getCart()).toEqual([]);
     });
   });

@@ -13,6 +13,7 @@ import {
 } from '../../src/services/adminProductService';
 import {
   fetchAdminOrders,
+  fetchAdminOrderCounts,
   fetchAdminOrderItems,
   updateOrderStatus,
 } from '../../src/services/adminOrderService';
@@ -162,6 +163,15 @@ describe('Phase 4 (P4) Admin Auth, Product CRUD & Order Management Tests', () =>
 
       const resWithReason = await updateOrderStatus('ord-demo-1', 'CANCELLED', 'Khách báo hủy do đổi địa chỉ');
       expect(resWithReason.success).toBe(true);
+    });
+
+    it('should calculate accurate order counts for ALL, NEW, PROCESSING, SHIPPED, CANCELLED filters', async () => {
+      const counts = await fetchAdminOrderCounts();
+      expect(counts).toBeDefined();
+      expect(counts.ALL).toBeGreaterThanOrEqual(3);
+      expect(counts.NEW).toBeGreaterThanOrEqual(1);
+      expect(counts.PROCESSING).toBeGreaterThanOrEqual(1);
+      expect(counts.CANCELLED).toBeGreaterThanOrEqual(1);
     });
   });
 });

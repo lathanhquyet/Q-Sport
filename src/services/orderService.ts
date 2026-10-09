@@ -1,11 +1,13 @@
 import { supabase, isSupabaseConfigured } from './supabaseClient';
 import { getCart, clearCart } from './cartService';
+import { SITE_CONFIG } from '../config/site';
 
 export interface CheckoutFormData {
   customer_name: string;
   customer_phone: string;
   shipping_address: string;
   customer_note?: string;
+  payment_method?: 'COD' | 'VIETQR';
 }
 
 export interface CreateOrderResult {
@@ -14,15 +16,34 @@ export interface CreateOrderResult {
   order_code?: string;
   order_id?: string;
   total_amount?: number;
+  payment_method?: 'COD' | 'VIETQR';
 }
 
 export function validateVietnamesePhone(phone: string): boolean {
   if (!phone) return false;
   const cleanPhone = phone.trim().replace(/[\s.-]/g, '');
-  // 10 digits starting with 0 (specifically 03, 05, 07, 08, 09 or general 0x)
   const phoneRegex = /^0[3|5|7|8|9]\d{8}$/;
   const fallbackTenDigits = /^0\d{9}$/;
   return phoneRegex.test(cleanPhone) || fallbackTenDigits.test(cleanPhone);
+}
+
+/**
+ * Generates a official VietQR image URL using VietQR API standard.
+ */
+export function generateVietQRImageUrl(
+  bankName: string = SITE_CONFIG.bankName,
+  accountNo: string = SITE_CONFIG.bankAccountNumber,
+  accountName: string = SITE_CONFIG.bankAccountHolder,
+  amount: number = 0,
+  orderCode: string = ''
+): string {
+  const cleanBank = encodeURIComponent(bankName || 'MB');
+  const cleanAccount = encodeURIComponent(accountNo || '');
+  const cleanName = encodeURIComponent(accountName || '');
+  const cleanCode = encodeURIComponent(orderCode || '');
+  const cleanAmount = Math.max(0, Math.round(amount || 0));
+
+  return `https://img.vietqr.io/image/${cleanBank}-${cleanAccount}-compact2.png?amount=${cleanAmount}&addInfo=${cleanCode}&accountName=${cleanName}`;
 }
 
 export async function createOrderCOD(formData: CheckoutFormData): Promise<CreateOrderResult> {
@@ -30,6 +51,7 @@ export async function createOrderCOD(formData: CheckoutFormData): Promise<Create
   const phone = formData.customer_phone ? formData.customer_phone.trim() : '';
   const address = formData.shipping_address ? formData.shipping_address.trim() : '';
   const note = formData.customer_note ? formData.customer_note.trim() : '';
+  const paymentMethod = formData.payment_method || 'COD';
 
   if (!name) {
     return { success: false, message: 'Vui lòng nhập họ và tên nhận hàng' };
@@ -81,6 +103,7 @@ export async function createOrderCOD(formData: CheckoutFormData): Promise<Create
           order_code: data.order_code,
           order_id: data.order_id,
           total_amount: data.total_amount,
+          payment_method: paymentMethod,
         };
       }
     } catch {
@@ -99,5 +122,6 @@ export async function createOrderCOD(formData: CheckoutFormData): Promise<Create
     order_code: mockCode,
     order_id: 'ord-' + Date.now(),
     total_amount: mockSubtotal,
+    payment_method: paymentMethod,
   };
 }
