@@ -1,6 +1,19 @@
 import { supabase, isSupabaseConfigured } from './supabaseClient';
 import { Product } from '../types';
-import { PRODUCT_REAL_IMAGES } from '../config/productImages';
+import { PRODUCT_REAL_IMAGES, getProductImageUrl } from '../config/productImages';
+
+/**
+ * Ensures Product object uses high-resolution photographic image mapping if available.
+ * Preserves all other product attributes intact.
+ */
+export function enrichProductWithRealImage(product: Product): Product {
+  if (!product) return product;
+  const realUrl = getProductImageUrl(product.product_code || product.slug, product.image_url);
+  return {
+    ...product,
+    image_url: realUrl,
+  };
+}
 
 export const DEMO_PRODUCTS: Product[] = [
   {
@@ -251,7 +264,7 @@ export async function getProducts(options: FetchProductsOptions = {}): Promise<P
             result = result.filter(p => p.category_id === catData.id);
           }
         }
-        return result;
+        return result.map(enrichProductWithRealImage);
       }
     } catch {
       // Fallback below
@@ -289,7 +302,7 @@ export async function getProducts(options: FetchProductsOptions = {}): Promise<P
     list.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
   }
 
-  return list;
+  return list.map(enrichProductWithRealImage);
 }
 
 export async function getProductBySlug(slug: string): Promise<Product | null> {
@@ -303,7 +316,7 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
         .is('deleted_at', null)
         .single();
       if (!error && data) {
-        return data as Product;
+        return enrichProductWithRealImage(data as Product);
       }
     } catch {
       // Fallback
@@ -311,7 +324,7 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
   }
 
   const found = DEMO_PRODUCTS.find(p => p.slug === slug);
-  return found || null;
+  return found ? enrichProductWithRealImage(found) : null;
 }
 
 export async function getFeaturedProducts(): Promise<Product[]> {

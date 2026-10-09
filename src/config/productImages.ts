@@ -25,13 +25,44 @@ export const PRODUCT_REAL_IMAGES: Record<string, string> = {
   'PRD10': 'https://images.unsplash.com/photo-1622560480605-d83c853bc5c3?auto=format&fit=crop&w=800&q=80',
   // PRD11: Quấn Cán Vợt Q-Sport Super Grip (Bộ 3 cái)
   'PRD11': 'https://images.unsplash.com/photo-1587280501635-68a0e82cd5ff?auto=format&fit=crop&w=800&q=80',
-  // PRD12: Dây Cước Vợt Q-Sport Repulsion 66
-  'PRD12': 'https://images.unsplash.com/photo-1617083934555-563d39589d31?auto=format&fit=crop&w=800&q=80',
+  // PRD12: Dây Cước Vợt Q-Sport Repulsion 66 (Verified 200 OK)
+  'PRD12': 'https://images.unsplash.com/photo-1599474924187-334a4ae5bd3c?auto=format&fit=crop&w=800&q=80',
 };
 
 /**
- * Returns the photographic URL for a given product code or falls back to SVG asset.
+ * Fallback mapping table by product slug when product_code is missing or null.
  */
-export function getProductImageUrl(productCode: string, fallbackUrl?: string): string {
-  return PRODUCT_REAL_IMAGES[productCode] || fallbackUrl || '/assets/products/placeholder.svg';
+export const PRODUCT_SLUG_TO_CODE: Record<string, string> = {
+  'vot-cau-long-qsport-pro-attack-100': 'PRD01',
+  'vot-cau-long-qsport-speed-control-200': 'PRD02',
+  'giay-cau-long-qsport-gripmaster-green': 'PRD03',
+  'giay-cau-long-qsport-airflex-pastel': 'PRD04',
+  'ao-thi-dau-qsport-pro-dry-green': 'PRD05',
+  'ao-t-shirt-the-thao-qsport-basic-white': 'PRD06',
+  'quan-short-qsport-active-black': 'PRD07',
+  'quan-short-qsport-pro-match-green': 'PRD08',
+  'balo-cau-long-qsport-tour-6-rackets': 'PRD09',
+  'tui-xach-vot-qsport-compact-bag': 'PRD10',
+  'quan-can-vot-qsport-super-grip-3-pcs': 'PRD11',
+  'day-cuoc-vot-qsport-repulsion-66': 'PRD12',
+};
+
+/**
+ * Returns the photographic URL for a given product code or slug, or falls back safely.
+ */
+export function getProductImageUrl(productCodeOrSlug?: string | null, fallbackUrl?: string | null): string {
+  if (!productCodeOrSlug) {
+    return fallbackUrl || '/assets/products/placeholder.svg';
+  }
+  // Direct product code match (e.g. PRD01)
+  if (PRODUCT_REAL_IMAGES[productCodeOrSlug]) {
+    return PRODUCT_REAL_IMAGES[productCodeOrSlug];
+  }
+  // Slug match fallback
+  const codeFromSlug = PRODUCT_SLUG_TO_CODE[productCodeOrSlug];
+  if (codeFromSlug && PRODUCT_REAL_IMAGES[codeFromSlug]) {
+    return PRODUCT_REAL_IMAGES[codeFromSlug];
+  }
+  // Safe fallback to existing image_url or default placeholder SVG
+  return fallbackUrl || '/assets/products/placeholder.svg';
 }
