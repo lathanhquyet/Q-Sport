@@ -98,19 +98,19 @@ describe('Phase 2 (P2) Public Pages & Services Tests', () => {
     });
 
     it('should fetch APPROVED comments for product', async () => {
-      const comments = await getProductComments('p0000000-0000-0000-0000-000000000001');
+      const comments = await getProductComments('a0000000-0000-0000-0000-000000000001');
       expect(comments.length).toBeGreaterThan(0);
       comments.forEach(c => expect(c.status).toBe('APPROVED'));
     });
 
     it('should require non-empty content when submitting comment', async () => {
-      const res = await submitComment('p0000000-0000-0000-0000-000000000001', 'Test User', '  ');
+      const res = await submitComment('a0000000-0000-0000-0000-000000000001', 'Test User', '  ');
       expect(res.success).toBe(false);
       expect(res.message).toContain('không được để trống');
     });
 
     it('should default display_name to Khách hàng if empty', async () => {
-      const res = await submitComment('p0000000-0000-0000-0000-000000000001', '', 'Sản phẩm tuyệt vời!');
+      const res = await submitComment('a0000000-0000-0000-0000-000000000001', '', 'Sản phẩm tuyệt vời!');
       expect(res.success).toBe(true);
       expect(res.message).toContain('sau khi được duyệt');
     });
