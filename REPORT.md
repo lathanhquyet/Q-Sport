@@ -77,7 +77,9 @@ Bảo mật: bật RLS trên mọi bảng; khách không đọc được đơn h
 - Giỏ hàng lưu `localStorage`, giữ nguyên sau khi tải lại trang.
 - Tìm kiếm, lọc theo danh mục, sắp xếp sản phẩm.
 - Đăng nhập Admin bằng Supabase Auth, chặn truy cập `/admin/*` với người không phải Admin.
-- **Nhúng:** Google Maps (địa chỉ minh họa) và video YouTube ở trang About.
+- **Nhúng:** Google Maps (địa chỉ minh họa) và video YouTube ở trang About, trang Tin nội bộ.
+- **Giao diện Sky Blue (#81D7FF):** Màu nhận diện thương hiệu chủ đạo tươi sáng, phối màu chữ Navy `#102A43` tương phản cao (WCAG AAA), nút bấm và card nổi bật.
+- **Hero Banner trang chủ:** Hình ảnh vận động viên và dụng cụ cầu lông thực tế độ phân giải cao (`home-hero.webp`), bố cục 2 cột cân đối, không có vùng trống hình học.
 - Giao diện responsive (mobile, tablet, desktop), có trạng thái tải / trống / lỗi.
 - Đưa mã lên GitHub (Public) và deploy lên Cloudflare Pages.
 

@@ -1,4 +1,3 @@
-import { renderCourtHeroPattern } from '../components/CourtPattern';
 import { renderProductCard } from '../components/ProductCard';
 import { getFeaturedProducts } from '../services/productService';
 import { getCategories } from '../services/categoryService';
@@ -23,7 +22,7 @@ export async function renderHomePage(): Promise<string> {
   const categoryChipsHtml = categories
     .map(
       cat => `
-      <a href="/products?category=${cat.slug}" data-link class="btn btn-secondary" style="border-radius: var(--radius-pill); font-size: 0.875rem; padding: 6px 18px; min-height: 38px; display: inline-flex; align-items: center; gap: 6px;">
+      <a href="/products?category=${cat.slug}" data-link class="btn btn-secondary" style="border-radius: var(--radius-pill); font-size: 0.875rem; padding: 6px 18px; min-height: 38px; display: inline-flex; align-items: center; gap: 6px; border-color: var(--color-primary-border);">
         <span>${categoryIconMap[cat.slug] || '🏸'}</span>
         <span>${cat.name}</span>
       </a>
@@ -36,58 +35,80 @@ export async function renderHomePage(): Promise<string> {
     .join('');
 
   return `
-    <!-- Performance Sports Hero Section -->
-    <section style="position: relative; background: #0B1E19; color: var(--color-white); border-bottom: 3px solid var(--color-court); padding: var(--spacing-72) 0; overflow: hidden;">
-      ${renderCourtHeroPattern()}
+    <!-- Sky Blue Hero Section (Realistic Badminton Sports Imagery & Balanced 2-Column Layout) -->
+    <section style="position: relative; background: linear-gradient(135deg, #F0F9FF 0%, #E0F2FE 50%, #BAE6FD 100%); color: var(--color-text); border-bottom: 2px solid var(--color-primary); padding: var(--spacing-48) 0; overflow: hidden;">
       <div class="container" style="position: relative; z-index: 1;">
-        <div style="max-width: 720px;">
-          <div style="display: inline-flex; align-items: center; gap: 8px; background: var(--color-cork); color: var(--color-ink); font-weight: 800; font-size: 0.8125rem; padding: 6px 14px; border-radius: var(--radius-pill); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: var(--spacing-16);">
-            <span>⚡ BADMINTON PERFORMANCE STORE</span>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: var(--spacing-40); align-items: center;">
+
+          <!-- Column 1: Headline, Description & Action CTAs -->
+          <div>
+            <div style="display: inline-flex; align-items: center; gap: 8px; background: var(--color-surface); color: var(--color-primary-dark); font-weight: 800; font-size: 0.8125rem; padding: 6px 16px; border-radius: var(--radius-pill); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: var(--spacing-16); border: 1.5px solid var(--color-primary); box-shadow: var(--shadow-sm);">
+              <span>⚡ Q-SPORT BADMINTON STORE</span>
+            </div>
+
+            <h1 style="font-family: var(--font-display); font-size: clamp(2.25rem, 5vw, 3.75rem); color: var(--color-text); line-height: 1.1; letter-spacing: 0.5px; margin-bottom: var(--spacing-16);">
+              BỨT PHÁ PHONG ĐỘ <br />
+              <span style="color: var(--color-primary-dark);">TRÊN MỌI ĐƯỜNG CẦU</span>
+            </h1>
+
+            <p style="font-size: 1.0625rem; color: var(--color-text-secondary); margin-bottom: var(--spacing-24); line-height: 1.6; max-width: 580px;">
+              Trang bị vợt, giày và phụ kiện cầu lông cao cấp chính hãng Q-Sport. Khung carbon High Modulus trợ lực tối đa cho cú đập cầu uy lực, phản tạt linh hoạt và tốc độ bao sân đỉnh cao.
+            </p>
+
+            <div style="display: flex; gap: var(--spacing-16); flex-wrap: wrap; align-items: center; margin-bottom: var(--spacing-32);">
+              <a href="/products" data-link class="btn btn-primary" style="font-size: 1.0625rem; font-weight: 700; padding: 12px 28px;">
+                Mua sắm ngay 🏸
+              </a>
+              <a href="#categories" class="btn btn-secondary" style="font-size: 1.0625rem; padding: 12px 24px; background: var(--color-surface);">
+                Khám phá danh mục
+              </a>
+            </div>
+
+            <!-- Honest Value Badges Bar -->
+            <div style="display: flex; gap: var(--spacing-20); flex-wrap: wrap; font-size: 0.8125rem; color: var(--color-text-secondary); border-top: 1px solid var(--color-primary-border); padding-top: var(--spacing-16);">
+              <div style="display: flex; align-items: center; gap: 6px;">
+                <span style="font-size: 1.125rem;">🚚</span>
+                <span>Giao hàng COD &amp; VietQR toàn quốc</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 6px;">
+                <span style="font-size: 1.125rem;">🏸</span>
+                <span>Thiết bị cầu lông chính hãng</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 6px;">
+                <span style="font-size: 1.125rem;">🔄</span>
+                <span>Tư vấn &amp; Đổi trả dễ dàng</span>
+              </div>
+            </div>
           </div>
 
-          <h1 style="font-family: var(--font-display); font-size: clamp(2.5rem, 5.5vw, 4.25rem); color: var(--color-white); line-height: 1.05; letter-spacing: 0.5px; margin-bottom: var(--spacing-20); text-shadow: 0 2px 10px rgba(0,0,0,0.3);">
-            BỨT PHÁ PHONG ĐỘ <br />
-            <span style="color: var(--color-cork);">TRÊN MỌI ĐƯỜNG CẦU</span>
-          </h1>
-
-          <p style="font-size: 1.125rem; color: #D1E7DD; margin-bottom: var(--spacing-32); line-height: 1.6; max-width: 620px;">
-            Trang bị vợt, giày và phụ kiện cầu lông chính hãng Q-Sport. Khung vát hàng không trợ lực tối ưu cho cú đập cầu uy lực và phản tạt siêu tốc.
-          </p>
-
-          <div style="display: flex; gap: var(--spacing-16); flex-wrap: wrap; align-items: center;">
-            <a href="/products" data-link class="btn" style="background: var(--color-smash-orange); color: var(--color-white) !important; font-size: 1.125rem; font-weight: 700; padding: 14px 32px; border-radius: var(--radius-control); box-shadow: 0 4px 14px rgba(194, 65, 12, 0.4);">
-              Mua sắm ngay 🏸
-            </a>
-            <a href="/about" data-link class="btn btn-secondary" style="border-color: var(--color-mint-line); color: var(--color-white) !important; background: rgba(255,255,255,0.08); font-size: 1.125rem; padding: 14px 28px;">
-              Khám phá thương hiệu
-            </a>
-          </div>
-
-          <!-- Feature Highlights Bar -->
-          <div style="margin-top: var(--spacing-48); display: flex; gap: var(--spacing-24); flex-wrap: wrap; font-size: 0.875rem; color: var(--color-mint-line); border-top: 1px dashed rgba(184, 242, 209, 0.2); padding-top: var(--spacing-20);">
-            <div style="display: flex; align-items: center; gap: 8px;">
-              <span style="font-size: 1.25rem;">🚚</span>
-              <span>Giao hàng COD & VietQR toàn quốc</span>
-            </div>
-            <div style="display: flex; align-items: center; gap: 8px;">
-              <span style="font-size: 1.25rem;">💯</span>
-              <span>100% Chính hãng Q-Sport</span>
-            </div>
-            <div style="display: flex; align-items: center; gap: 8px;">
-              <span style="font-size: 1.25rem;">🔄</span>
-              <span>Bảo hành & Đổi trả dễ dàng</span>
+          <!-- Column 2: Realistic Badminton Photography Showcase -->
+          <div style="position: relative;">
+            <div style="position: relative; border-radius: var(--radius-card); overflow: hidden; box-shadow: 0 20px 40px rgba(16, 42, 67, 0.15); border: 4px solid var(--color-surface); aspect-ratio: 16 / 11; background: var(--color-primary-light);">
+              <img
+                src="/assets/banners/home-hero.webp"
+                alt="Vận động viên và dụng cụ cầu lông chuyên nghiệp Q-Sport"
+                loading="eager"
+                onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?auto=format&fit=crop&w=1200&q=80';"
+                style="width: 100%; height: 100%; object-fit: cover; object-position: center; display: block;"
+              />
+              <!-- Floating Media Badge -->
+              <div style="position: absolute; bottom: 16px; left: 16px; background: rgba(16, 42, 67, 0.88); backdrop-filter: blur(8px); color: var(--color-white); padding: 8px 16px; border-radius: var(--radius-pill); font-size: 0.8125rem; font-weight: 700; display: flex; align-items: center; gap: 8px; border: 1px solid rgba(255, 255, 255, 0.2);">
+                <span style="color: var(--color-primary);">●</span>
+                <span>Dụng Cụ Thi Đấu Đỉnh Cao</span>
+              </div>
             </div>
           </div>
+
         </div>
       </div>
     </section>
 
     <!-- Category Navigation Section -->
-    <section style="padding: var(--spacing-32) 0; background: var(--color-white); border-bottom: 1px solid var(--color-mint-line);">
+    <section id="categories" style="padding: var(--spacing-32) 0; background: var(--color-surface); border-bottom: 1px solid var(--color-primary-border);">
       <div class="container">
         <div style="text-align: center; margin-bottom: var(--spacing-16);">
-          <span style="color: var(--color-court); font-weight: 700; font-size: 0.8125rem; text-transform: uppercase; letter-spacing: 0.5px;">DANH MỤC THIẾT BỊ CẦU LÔNG</span>
-          <h2 style="font-family: var(--font-display); font-size: 1.75rem; color: var(--color-ink); margin-top: 4px;">
+          <span style="color: var(--color-primary-dark); font-weight: 700; font-size: 0.8125rem; text-transform: uppercase; letter-spacing: 0.5px;">DANH MỤC THIẾT BỊ CẦU LÔNG</span>
+          <h2 style="font-family: var(--font-display); font-size: 1.75rem; color: var(--color-text); margin-top: 4px;">
             LỰA CHỌN THEO NHU CẦU THI ĐẤU
           </h2>
         </div>
@@ -102,17 +123,17 @@ export async function renderHomePage(): Promise<string> {
     </section>
 
     <!-- Featured Products Section -->
-    <section style="padding: var(--spacing-48) 0; background: #FAFDFB;">
+    <section style="padding: var(--spacing-48) 0; background: var(--color-page-background);">
       <div class="container">
         <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: var(--spacing-32); flex-wrap: wrap; gap: 16px;">
           <div>
-            <span style="color: var(--color-court); font-weight: 700; font-size: 0.8125rem; text-transform: uppercase; letter-spacing: 0.5px;">SẢN PHẨM BÁN CHẠY</span>
-            <h2 style="font-family: var(--font-display); font-size: 2.25rem; color: var(--color-court); margin-top: 4px;">
+            <span style="color: var(--color-primary-dark); font-weight: 700; font-size: 0.8125rem; text-transform: uppercase; letter-spacing: 0.5px;">SẢN PHẨM BÁN CHẠY</span>
+            <h2 style="font-family: var(--font-display); font-size: 2.25rem; color: var(--color-text); margin-top: 4px;">
               SẢN PHẨM NỔI BẬT
             </h2>
-            <p style="color: var(--color-muted); font-size: 0.9375rem;">Những sản phẩm cầu lông cao cấp được các tay vợt tin dùng nhiều nhất</p>
+            <p style="color: var(--color-text-secondary); font-size: 0.9375rem;">Những sản phẩm cầu lông cao cấp được các tay vợt tin dùng nhiều nhất</p>
           </div>
-          <a href="/products" data-link class="btn btn-secondary" style="font-size: 0.875rem; border-color: var(--color-court);">
+          <a href="/products" data-link class="btn btn-secondary" style="font-size: 0.875rem;">
             Xem tất cả sản phẩm &rarr;
           </a>
         </div>
@@ -124,52 +145,52 @@ export async function renderHomePage(): Promise<string> {
     </section>
 
     <!-- Sports Performance Pillars Grid -->
-    <section style="padding: var(--spacing-48) 0; background: var(--color-white); border-top: 1px solid var(--color-mint-line); border-bottom: 1px solid var(--color-mint-line);">
+    <section style="padding: var(--spacing-48) 0; background: var(--color-surface); border-top: 1px solid var(--color-primary-border); border-bottom: 1px solid var(--color-primary-border);">
       <div class="container">
         <div style="text-align: center; margin-bottom: var(--spacing-32);">
-          <span style="color: var(--color-court); font-weight: 700; font-size: 0.8125rem; text-transform: uppercase; letter-spacing: 0.5px;">ĐẶC QUYỀN THƯƠNG HIỆU</span>
-          <h2 style="font-family: var(--font-display); font-size: 2rem; color: var(--color-court); margin-top: 4px;">
+          <span style="color: var(--color-primary-dark); font-weight: 700; font-size: 0.8125rem; text-transform: uppercase; letter-spacing: 0.5px;">ĐẶC QUYỀN THƯƠNG HIỆU</span>
+          <h2 style="font-family: var(--font-display); font-size: 2rem; color: var(--color-text); margin-top: 4px;">
             TẠI SAO CHỌN DỤNG CỤ CẦU LÔNG Q-SPORT?
           </h2>
         </div>
 
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--spacing-24);">
-          <div class="card" style="padding: var(--spacing-24); background: var(--color-mint); border-color: var(--color-mint-line);">
+          <div class="card" style="padding: var(--spacing-24); background: var(--color-primary-light); border-color: var(--color-primary-border);">
             <div style="font-size: 2.25rem; margin-bottom: 12px;">⚡</div>
-            <h3 style="font-family: var(--font-display); font-size: 1.25rem; color: var(--color-court); margin-bottom: 8px;">
+            <h3 style="font-family: var(--font-display); font-size: 1.25rem; color: var(--color-primary-dark); margin-bottom: 8px;">
               KHUNG VÁT HÀNG KHÔNG
             </h3>
-            <p style="font-size: 0.875rem; color: var(--color-muted); line-height: 1.6;">
+            <p style="font-size: 0.875rem; color: var(--color-text-secondary); line-height: 1.6;">
               Tối ưu hóa khí động học, giảm sức cản không khí giúp tốc độ vung vợt nhanh nhạy trong từng cú phản tạt.
             </p>
           </div>
 
-          <div class="card" style="padding: var(--spacing-24); background: var(--color-mint); border-color: var(--color-mint-line);">
+          <div class="card" style="padding: var(--spacing-24); background: var(--color-primary-light); border-color: var(--color-primary-border);">
             <div style="font-size: 2.25rem; margin-bottom: 12px;">🛡️</div>
-            <h3 style="font-family: var(--font-display); font-size: 1.25rem; color: var(--color-court); margin-bottom: 8px;">
+            <h3 style="font-family: var(--font-display); font-size: 1.25rem; color: var(--color-primary-dark); margin-bottom: 8px;">
               CARBON HIGH MODULUS
             </h3>
-            <p style="font-size: 0.875rem; color: var(--color-muted); line-height: 1.6;">
+            <p style="font-size: 0.875rem; color: var(--color-text-secondary); line-height: 1.6;">
               Chất liệu sợi carbon cao cấp gia tăng độ bền khung, chịu lực căng cước cao cho đường đập cầu uy lực.
             </p>
           </div>
 
-          <div class="card" style="padding: var(--spacing-24); background: var(--color-mint); border-color: var(--color-mint-line);">
+          <div class="card" style="padding: var(--spacing-24); background: var(--color-primary-light); border-color: var(--color-primary-border);">
             <div style="font-size: 2.25rem; margin-bottom: 12px;">👟</div>
-            <h3 style="font-family: var(--font-display); font-size: 1.25rem; color: var(--color-court); margin-bottom: 8px;">
+            <h3 style="font-family: var(--font-display); font-size: 1.25rem; color: var(--color-primary-dark); margin-bottom: 8px;">
               ĐẾ CAO SU TỔ ONG ANTI-SLIP
             </h3>
-            <p style="font-size: 0.875rem; color: var(--color-muted); line-height: 1.6;">
+            <p style="font-size: 0.875rem; color: var(--color-text-secondary); line-height: 1.6;">
               Đế giày tổ ong bám sân tuyệt đối, giảm chấn bảo vệ gót chân và khớp gối khi bật nhảy cứu cầu.
             </p>
           </div>
 
-          <div class="card" style="padding: var(--spacing-24); background: var(--color-mint); border-color: var(--color-mint-line);">
+          <div class="card" style="padding: var(--spacing-24); background: var(--color-primary-light); border-color: var(--color-primary-border);">
             <div style="font-size: 2.25rem; margin-bottom: 12px;">📱</div>
-            <h3 style="font-family: var(--font-display); font-size: 1.25rem; color: var(--color-court); margin-bottom: 8px;">
-              THANH TOÁN COD & VIETQR
+            <h3 style="font-family: var(--font-display); font-size: 1.25rem; color: var(--color-primary-dark); margin-bottom: 8px;">
+              THANH TOÁN COD &amp; VIETQR
             </h3>
-            <p style="font-size: 0.875rem; color: var(--color-muted); line-height: 1.6;">
+            <p style="font-size: 0.875rem; color: var(--color-text-secondary); line-height: 1.6;">
               Hỗ trợ thanh toán tiền mặt COD khi nhận hàng hoặc quét mã VietQR tự động qua app ngân hàng tiện lợi.
             </p>
           </div>
@@ -178,24 +199,24 @@ export async function renderHomePage(): Promise<string> {
     </section>
 
     <!-- Short About Snippet & Maps Section -->
-    <section style="padding: var(--spacing-48) 0; background: var(--color-mint); border-top: 1px solid var(--color-mint-line);">
+    <section style="padding: var(--spacing-48) 0; background: var(--color-primary-light); border-top: 1px solid var(--color-primary-border);">
       <div class="container">
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: var(--spacing-48); align-items: center;">
           <div>
-            <span style="color: var(--color-court); font-weight: 700; font-size: 0.875rem; text-transform: uppercase;">Về Q-Sport Store</span>
-            <h2 style="font-family: var(--font-display); font-size: 2.25rem; color: var(--color-court); margin: var(--spacing-8) 0 var(--spacing-16) 0;">
+            <span style="color: var(--color-primary-dark); font-weight: 700; font-size: 0.875rem; text-transform: uppercase;">Về Q-Sport Store</span>
+            <h2 style="font-family: var(--font-display); font-size: 2.25rem; color: var(--color-text); margin: var(--spacing-8) 0 var(--spacing-16) 0;">
               ĐỒNG HÀNH CÙNG ĐAM MÊ CẦU LÔNG
             </h2>
-            <p style="color: var(--color-ink); margin-bottom: var(--spacing-16); line-height: 1.6;">
+            <p style="color: var(--color-text); margin-bottom: var(--spacing-16); line-height: 1.6;">
               Q-Sport là thương hiệu tập trung cung cấp thiết bị cầu lông và phụ kiện thể thao chất lượng cao. Chúng tôi mang tới sự tinh tế trong từng đường kẻ sân và trải nghiệm mua sắm tối ưu nhất.
             </p>
-            <p style="color: var(--color-muted); font-size: 0.875rem; margin-bottom: var(--spacing-24);">
+            <p style="color: var(--color-text-secondary); font-size: 0.875rem; margin-bottom: var(--spacing-24);">
               📍 Showroom: ${SITE_CONFIG.address} (Địa chỉ minh họa cho đồ án)
             </p>
             <a href="/about" data-link class="btn btn-primary">Tìm hiểu thêm về Q-Sport</a>
           </div>
 
-          <div class="card" style="padding: var(--spacing-12); background: var(--color-white); border-radius: var(--radius-card);">
+          <div class="card" style="padding: var(--spacing-12); background: var(--color-surface); border-radius: var(--radius-card);">
             <div style="aspect-ratio: 4 / 3; width: 100%; overflow: hidden; border-radius: var(--radius-image);">
               <iframe
                 title="Bản đồ vị trí Q-Sport Store Thủ Đức"
@@ -208,7 +229,7 @@ export async function renderHomePage(): Promise<string> {
                 referrerpolicy="no-referrer-when-downgrade"
               ></iframe>
             </div>
-            <p style="font-size: 0.75rem; color: var(--color-muted); text-align: center; margin-top: var(--spacing-8);">
+            <p style="font-size: 0.75rem; color: var(--color-text-secondary); text-align: center; margin-top: var(--spacing-8);">
               📍 Địa chỉ minh họa cho đồ án: ${SITE_CONFIG.address}
             </p>
           </div>

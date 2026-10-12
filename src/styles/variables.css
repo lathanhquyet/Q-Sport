@@ -1,17 +1,36 @@
 :root {
-  /* Color Palette - Q-Sport Refreshed Vibrant Theme */
-  --color-court: #087F5B;
-  --color-court-dark: #066649;
-  --color-mint: #E8FFF3;
-  --color-mint-line: #B8F2D1;
+  /* ==========================================================================
+     Q-Sport Sky Blue Brand Theme (#81D7FF)
+     Bright, High-Contrast Performance Sports Retail Palette
+     ========================================================================== */
+  --color-primary: #81D7FF;
+  --color-primary-hover: #55C5FA;
+  --color-primary-dark: #0284C7;
+  --color-primary-light: #EAF8FF;
+  --color-primary-border: #B8E8FF;
+
+  /* Typography & Neutral System */
+  --color-text: #102A43;             /* Deep Navy for High Contrast Readability (WCAG AAA) */
+  --color-text-secondary: #486581;   /* Slate Navy for Secondary Text (WCAG AA 5.9:1) */
+  --color-surface: #FFFFFF;
+  --color-page-background: #F4FBFF;  /* Fresh Sky Tint Background */
+
+  /* Legacy & Semantic Mapping for Full Consistency */
+  --color-court: #0284C7;            /* Deep Sky Brand Blue for Links & Headings */
+  --color-court-dark: #0369A1;
+  --color-mint: #EAF8FF;             /* Soft Sky surface replacing mint */
+  --color-mint-line: #B8E8FF;        /* Sky border line */
   --color-white: #FFFFFF;
-  --color-ink: #122B24;
-  --color-muted: #4A6B60;
-  --color-cork: #FFB938;   /* Sport Yellow */
-  --color-smash: #FF795B;  /* Coral Accent for Highlights */
-  --color-smash-orange: #C2410C; /* Smash Orange Accent */
-  --color-sky: #E7F4FF;    /* Light Sky Blue */
-  --color-danger: #E03131;
+  --color-ink: #102A43;              /* Dark Navy body text */
+  --color-muted: #486581;            /* Slate Navy muted text */
+
+  /* Energetic Accents */
+  --color-cork: #FFB547;             /* Golden Yellow Accent for Badges */
+  --color-smash: #FF6B4A;            /* Coral Accent */
+  --color-smash-orange: #C2410C;     /* High Contrast Energetic Orange for Prices */
+  --color-sky: #81D7FF;              /* Primary Sky Blue */
+  --color-success: #059669;
+  --color-danger: #D92D20;
 
   /* Typography */
   --font-display: 'Barlow Condensed', 'Arial Narrow', sans-serif;
@@ -22,8 +41,10 @@
   --spacing-8: 8px;
   --spacing-12: 12px;
   --spacing-16: 16px;
+  --spacing-20: 20px;
   --spacing-24: 24px;
   --spacing-32: 32px;
+  --spacing-40: 40px;
   --spacing-48: 48px;
   --spacing-72: 72px;
 
@@ -36,9 +57,10 @@
   /* Container */
   --content-max: 1200px;
 
-  /* Box Shadows */
-  --shadow-sm: 0 2px 6px rgba(18, 43, 36, 0.05);
-  --shadow-md: 0 8px 20px rgba(8, 127, 91, 0.08);
+  /* Box Shadows - Modern Sky Tinted */
+  --shadow-sm: 0 2px 6px rgba(16, 42, 67, 0.06);
+  --shadow-md: 0 8px 24px rgba(2, 132, 199, 0.12);
+  --shadow-lg: 0 16px 36px rgba(16, 42, 67, 0.14);
 
   /* Transitions */
   --transition-fast: 0.15s ease;

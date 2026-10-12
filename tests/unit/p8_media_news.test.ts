@@ -128,4 +128,39 @@ describe('Media & Video Management Remediation (Tasks A, B, C, D)', () => {
       expect(adminGuideHtml).toContain('INTERNAL_NEWS_VIDEOS');
     });
   });
+
+  describe('Sky Blue Brand Theme & Homepage Hero Redesign', () => {
+    it('should configure mandatory #81D7FF as primary color token and high contrast text', async () => {
+      const fs = await import('fs');
+      const path = await import('path');
+      const variablesCss = fs.readFileSync(path.resolve(__dirname, '../../src/styles/variables.css'), 'utf-8');
+
+      expect(variablesCss).toContain('--color-primary: #81D7FF;');
+      expect(variablesCss).toContain('--color-text: #102A43;');
+      expect(variablesCss).toContain('--color-primary-light: #EAF8FF;');
+      expect(variablesCss).toContain('--color-primary-border: #B8E8FF;');
+    });
+
+    it('should ensure main.css pairs primary button with high-contrast text', async () => {
+      const fs = await import('fs');
+      const path = await import('path');
+      const mainCss = fs.readFileSync(path.resolve(__dirname, '../../src/styles/main.css'), 'utf-8');
+
+      expect(mainCss).toContain('background-color: var(--color-primary);');
+      expect(mainCss).toContain('color: var(--color-text) !important;');
+    });
+
+    it('should render homepage hero with realistic badminton photography asset instead of geometric lines', async () => {
+      const { renderHomePage } = await import('../../src/pages/Home');
+      const homeHtml = await renderHomePage();
+
+      // Verified hero banner image asset
+      expect(homeHtml).toContain('/assets/banners/home-hero.webp');
+      expect(homeHtml).toContain('BỨT PHÁ PHONG ĐỘ');
+      expect(homeHtml).toContain('Mua sắm ngay');
+      expect(homeHtml).toContain('Khám phá danh mục');
+      // No longer using isolated geometric pattern box as the only hero visual
+      expect(homeHtml).not.toContain('court-hero-pattern');
+    });
+  });
 });
