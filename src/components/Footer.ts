@@ -39,6 +39,7 @@ export function renderFooter(): string {
         <div style="border-top: 1px solid var(--color-mint-line); padding-top: var(--spacing-16); text-align: center; font-size: 0.875rem; color: var(--color-muted);">
           <p style="font-weight: 600; color: var(--color-ink); margin-bottom: 4px;">&copy; Q-Sport. Bản quyền thuộc về Q-Sport.</p>
           <p>Đại diện: ${SITE_CONFIG.representative} | Email: ${SITE_CONFIG.email}</p>
+          <p>Đây là sản phẩm demo trong quá trình học Vibecode - Mọi hình ảnh và nội dung đều tham khảo và copy từ các trang XSport, VNBshop và Internet</p>
         </div>
       </div>
     </footer>
