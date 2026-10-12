@@ -1,5 +1,6 @@
 import { renderHeader } from '../components/Header';
 import { renderFooter, initWeatherWidget, cleanupWeatherWidget } from '../components/Footer';
+import { renderFloatingContact } from '../components/FloatingContact';
 import { renderProductCard } from '../components/ProductCard';
 import { renderHomePage, initHeroSlider, cleanupHeroSlider } from '../pages/Home';
 import { renderProductsPage } from '../pages/Products';
@@ -157,6 +158,7 @@ export async function handleRouting(): Promise<void> {
       ${mainContentHtml}
     </main>
     ${renderFooter()}
+    ${renderFloatingContact(path)}
   `;
 
   // Khởi tạo Hero Slider nếu đang ở trang chủ

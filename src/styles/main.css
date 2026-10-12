@@ -574,3 +574,115 @@ a.btn-secondary:hover {
   0%, 100% { opacity: 0.6; }
   50% { opacity: 1; }
 }
+
+/* ==========================================================================
+   Global Floating Contact Widget
+   ========================================================================== */
+.floating-contact-widget {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: flex-end;
+  pointer-events: none;
+}
+
+.floating-contact-btn {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px;
+  border-radius: var(--radius-pill);
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--color-primary-border);
+  box-shadow: 0 4px 14px rgba(16, 42, 67, 0.15);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.floating-contact-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(16, 42, 67, 0.22);
+}
+
+.floating-contact-btn:focus-visible {
+  outline: 3px solid var(--color-primary-dark);
+  outline-offset: 2px;
+}
+
+.floating-btn-icon {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  transition: transform var(--transition-fast);
+}
+
+.floating-btn-messenger .floating-btn-icon {
+  background: linear-gradient(135deg, #00B2FF 0%, #006AFF 50%, #A033FF 100%);
+}
+
+.floating-btn-zalo .floating-btn-icon {
+  background: #0068FF;
+}
+
+.floating-btn-hotline .floating-btn-icon {
+  background: linear-gradient(135deg, #FF6B4A 0%, #D92D20 100%);
+}
+
+.pulse-animation {
+  animation: hotlineRingPulse 2.5s infinite;
+}
+
+@keyframes hotlineRingPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(217, 45, 32, 0.5);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(217, 45, 32, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(217, 45, 32, 0);
+  }
+}
+
+.floating-btn-label {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  padding-right: 12px;
+  color: var(--color-ink);
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .floating-contact-widget {
+    bottom: 20px;
+    right: 16px;
+    gap: 10px;
+  }
+
+  .floating-btn-label {
+    display: none;
+  }
+
+  .floating-contact-btn {
+    padding: 0;
+    border-radius: 50%;
+    border: none;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .floating-btn-icon {
+    box-shadow: 0 4px 12px rgba(16, 42, 67, 0.2);
+  }
+}
