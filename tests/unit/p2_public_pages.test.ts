@@ -9,7 +9,7 @@ describe('Phase 2 (P2) Public Pages & Services Tests', () => {
   describe('Site Configuration & Mandatory Details', () => {
     it('should configure official store address at Thủ Đức', () => {
       expect(SITE_CONFIG.address).toContain('Thủ Đức');
-      expect(SITE_CONFIG.address).toContain('56/1 Đ. Số 2');
+      expect(SITE_CONFIG.address).toContain('56 Đ. Số 2');
     });
 
     it('should configure mandatory legal representative and email', () => {
@@ -17,14 +17,14 @@ describe('Phase 2 (P2) Public Pages & Services Tests', () => {
       expect(SITE_CONFIG.email).toBe('ltquyet@qsport.vn');
     });
 
-    it('should configure default bank details (MB, 0999999888, La Thanh Quyet)', () => {
+    it('should configure default bank details (MB, 0999999888, TAI KHOAN DEMO)', () => {
       expect(SITE_CONFIG.bankName).toBe('MB');
       expect(SITE_CONFIG.bankAccountNumber).toBe('0999999888');
-      expect(SITE_CONFIG.bankAccountHolder).toBe('La Thanh Quyet');
+      expect(SITE_CONFIG.bankAccountHolder).toBe('TAI KHOAN DEMO');
     });
 
     it('should configure official YouTube channel URL', () => {
-      expect(SITE_CONFIG.youtubeChannelUrl).toBe('https://www.youtube.com/@buoctiepmoingay/videos');
+      expect(SITE_CONFIG.youtubeChannelUrl).toBe('https://www.youtube.com/@congdongvnb');
     });
   });
 
