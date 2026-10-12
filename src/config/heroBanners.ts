@@ -40,6 +40,12 @@ export const HERO_SLIDER_IMAGES: readonly HeroBannerSlide[] = [
     alt: 'Công nghệ khung vợt Graphite Throttle carbon trợ lực tối đa',
     badgeText: 'Khung Carbon Trợ Lực',
   },
+    {
+    id: 'hero-6',
+    url: '/assets/banners/banner-hero-graphite-throttle.webp',
+    alt: 'COPY Công nghệ khung vợt Graphite Throttle carbon trợ lực tối đa',
+    badgeText: 'COPY Khung Carbon Trợ Lực',
+  },
 ] as const;
 
 export const HERO_SLIDER_INTERVAL_MS = 3000;

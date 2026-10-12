@@ -13,10 +13,10 @@ export interface ContactConfig {
 
 export const CONTACT_CONFIG: ContactConfig = {
   // Link Messenger do chủ dự án cung cấp (để trống khi chưa có liên kết chính thức)
-  messengerUrl: '',
+  messengerUrl: 'https://facebook.com/messages/t/yourpageid',
 
   // Link Zalo cá nhân do chủ dự án cung cấp (để trống khi chưa có liên kết chính thức)
-  zaloUrl: '',
+  zaloUrl: 'https://zalo.me/0987654321',
 
   // Hotline mặc định theo yêu cầu đặc tả (0987 654 321)
   hotline: '0987 654 321',

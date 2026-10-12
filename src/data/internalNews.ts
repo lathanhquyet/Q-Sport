@@ -52,7 +52,7 @@ export const INTERNAL_NEWS_VIDEOS: InternalNewsVideo[] = [
     id: 'vid-01',
     title: 'Hướng dẫn kỹ thuật đập cầu (Smash) uy lực chuẩn thi đấu',
     description: 'Phân tích điểm tiếp xúc cầu, kỹ thuật xoay cổ tay và dồn trọng tâm giúp cú đập cầu cắm sân và đạt vận tốc tối đa.',
-    youtubeUrl: 'https://www.youtube.com/watch?v=4x9U0h4F4Qk',
+    youtubeUrl: 'https://www.youtube.com/watch?v=vMts0wdQfKI',
     publishedAt: '2026-10-10',
     isVisible: true,
     order: 1,
@@ -101,6 +101,15 @@ export const INTERNAL_NEWS_VIDEOS: InternalNewsVideo[] = [
     publishedAt: '2026-09-15',
     isVisible: true,
     order: 6,
+  },
+  {
+    id: 'vid-07',
+    title: 'Lỗi phát cầu lông: Phát Cầu - Nhận Cầu như thế nào Mới Đúng ???',
+    description: 'Lỗi phát cầu lông: Phát Cầu - Nhận Cầu như thế nào Mới Đúng ??',
+    youtubeUrl: 'https://www.youtube.com/watch?v=iQBhBivaBYU',
+    publishedAt: '2026-09-15',
+    isVisible: true,
+    order: 7,
   },
 ];
 

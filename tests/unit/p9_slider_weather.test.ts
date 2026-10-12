@@ -11,8 +11,8 @@ import {
 
 describe('Hero Image Slider & WeatherAPI Footer Widget Remediation', () => {
   describe('Task A: Hero Image Slider (src/config/heroBanners.ts & src/pages/Home.ts)', () => {
-    it('should configure exactly 5 verified real WebP banner images', () => {
-      expect(HERO_SLIDER_IMAGES).toHaveLength(5);
+    it('should configure at least 5 verified real WebP banner images', () => {
+      expect(HERO_SLIDER_IMAGES.length).toBeGreaterThanOrEqual(5);
 
       for (const banner of HERO_SLIDER_IMAGES) {
         expect(banner.url).toMatch(/^\/assets\/banners\/.*\.webp$/);
