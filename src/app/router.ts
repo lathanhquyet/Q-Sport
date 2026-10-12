@@ -1,7 +1,7 @@
 import { renderHeader } from '../components/Header';
-import { renderFooter } from '../components/Footer';
+import { renderFooter, initWeatherWidget, cleanupWeatherWidget } from '../components/Footer';
 import { renderProductCard } from '../components/ProductCard';
-import { renderHomePage } from '../pages/Home';
+import { renderHomePage, initHeroSlider, cleanupHeroSlider } from '../pages/Home';
 import { renderProductsPage } from '../pages/Products';
 import { renderProductDetailPage } from '../pages/ProductDetail';
 import { renderAboutPage } from '../pages/About';
@@ -54,6 +54,10 @@ import {
 import { formatVND } from '../utils/formatters';
 
 export async function handleRouting(): Promise<void> {
+  // Dọn dẹp timer slideshow và weather widget trước mỗi chuyển trang SPA
+  cleanupHeroSlider();
+  cleanupWeatherWidget();
+
   const appElement = document.getElementById('app');
   if (!appElement) return;
 
@@ -148,6 +152,14 @@ export async function handleRouting(): Promise<void> {
     </main>
     ${renderFooter()}
   `;
+
+  // Khởi tạo Hero Slider nếu đang ở trang chủ
+  if (path === '/' || path === '' || path === '/index.html') {
+    initHeroSlider();
+  }
+
+  // Khởi tạo Weather Widget trong Footer
+  initWeatherWidget();
 
   updateHeaderCartBadge();
   attachGlobalEventListeners();

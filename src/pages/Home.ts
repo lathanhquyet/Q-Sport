@@ -3,6 +3,111 @@ import { getFeaturedProducts } from '../services/productService';
 import { getCategories } from '../services/categoryService';
 import { renderSkeletonGrid } from '../components/StateViews';
 import { SITE_CONFIG } from '../config/site';
+import { HERO_SLIDER_IMAGES, HERO_SLIDER_INTERVAL_MS } from '../config/heroBanners';
+
+let heroSliderTimer: number | null = null;
+let currentSlideIndex = 0;
+
+/**
+ * Hủy timer của hero slider khi rời trang hoặc rerender SPA
+ */
+export function cleanupHeroSlider(): void {
+  if (heroSliderTimer !== null) {
+    window.clearInterval(heroSliderTimer);
+    heroSliderTimer = null;
+  }
+}
+
+/**
+ * Chuyển đổi slide hiện tại và cập nhật active state trên DOM
+ */
+export function setHeroSlide(targetIndex: number): void {
+  const container = document.getElementById('hero-slider-container');
+  if (!container) return;
+
+  const slides = container.querySelectorAll<HTMLElement>('.hero-slide');
+  const dots = container.querySelectorAll<HTMLElement>('.hero-slider-dot');
+  if (slides.length === 0) return;
+
+  currentSlideIndex = (targetIndex + slides.length) % slides.length;
+
+  slides.forEach((slide, idx) => {
+    if (idx === currentSlideIndex) {
+      slide.classList.add('active');
+    } else {
+      slide.classList.remove('active');
+    }
+  });
+
+  dots.forEach((dot, idx) => {
+    if (idx === currentSlideIndex) {
+      dot.classList.add('active');
+      dot.setAttribute('aria-current', 'true');
+    } else {
+      dot.classList.remove('active');
+      dot.setAttribute('aria-current', 'false');
+    }
+  });
+}
+
+/**
+ * Khởi tạo tự động chuyển slide mỗi 3000ms
+ * Hỗ trợ dừng khi hover, tôn trọng prefers-reduced-motion và click dot điều hướng
+ */
+export function initHeroSlider(): void {
+  cleanupHeroSlider();
+  currentSlideIndex = 0;
+
+  const container = document.getElementById('hero-slider-container');
+  if (!container) return;
+
+  const slides = container.querySelectorAll('.hero-slide');
+  if (slides.length <= 1) return;
+
+  // Lắng nghe click trên các nút chấm tròn (dots)
+  const dots = container.querySelectorAll<HTMLButtonElement>('.hero-slider-dot');
+  dots.forEach(dot => {
+    dot.addEventListener('click', (e: Event) => {
+      e.stopPropagation();
+      const target = Number(dot.getAttribute('data-slide-target'));
+      if (!Number.isNaN(target)) {
+        setHeroSlide(target);
+        restartTimer();
+      }
+    });
+  });
+
+  // Tôn trọng prefers-reduced-motion: reduce -> giữ slide tĩnh trừ khi click tay
+  const prefersReducedMotion =
+    typeof window.matchMedia === 'function'
+      ? window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      : false;
+  if (prefersReducedMotion) {
+    return;
+  }
+
+  function startTimer() {
+    if (heroSliderTimer !== null) return;
+    heroSliderTimer = window.setInterval(() => {
+      setHeroSlide(currentSlideIndex + 1);
+    }, HERO_SLIDER_INTERVAL_MS);
+  }
+
+  function restartTimer() {
+    cleanupHeroSlider();
+    startTimer();
+  }
+
+  // Tạm dừng khi rê chuột vào banner và tiếp tục khi chuột rời đi
+  container.addEventListener('mouseenter', () => {
+    cleanupHeroSlider();
+  });
+  container.addEventListener('mouseleave', () => {
+    startTimer();
+  });
+
+  startTimer();
+}
 
 export async function renderHomePage(): Promise<string> {
   const [categories, featuredProducts] = await Promise.all([
@@ -81,20 +186,53 @@ export async function renderHomePage(): Promise<string> {
             </div>
           </div>
 
-          <!-- Column 2: Realistic Badminton Photography Showcase -->
-          <div style="position: relative;">
-            <div style="position: relative; border-radius: var(--radius-card); overflow: hidden; box-shadow: 0 20px 40px rgba(16, 42, 67, 0.15); border: 4px solid var(--color-surface); aspect-ratio: 16 / 11; background: var(--color-primary-light);">
-              <img
-                src="/assets/banners/home-hero.webp"
-                alt="Vận động viên và dụng cụ cầu lông chuyên nghiệp Q-Sport"
-                loading="eager"
-                onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?auto=format&fit=crop&w=1200&q=80';"
-                style="width: 100%; height: 100%; object-fit: cover; object-position: center; display: block;"
-              />
-              <!-- Floating Media Badge -->
-              <div style="position: absolute; bottom: 16px; left: 16px; background: rgba(16, 42, 67, 0.88); backdrop-filter: blur(8px); color: var(--color-white); padding: 8px 16px; border-radius: var(--radius-pill); font-size: 0.8125rem; font-weight: 700; display: flex; align-items: center; gap: 8px; border: 1px solid rgba(255, 255, 255, 0.2);">
-                <span style="color: var(--color-primary);">●</span>
-                <span>Dụng Cụ Thi Đấu Đỉnh Cao</span>
+          <!-- Column 2: Badminton Photography Hero Slider (5 Real WebP Images, Auto-3s & Dots) -->
+          <div class="hero-slider-wrapper">
+            <div
+              id="hero-slider-container"
+              class="hero-slider-container"
+              role="region"
+              aria-label="Hình ảnh thể thao nổi bật Q-Sport"
+              aria-roledescription="carousel"
+            >
+              ${HERO_SLIDER_IMAGES.map(
+                (slide, idx) => `
+                <div
+                  class="hero-slide ${idx === 0 ? 'active' : ''}"
+                  data-slide-index="${idx}"
+                  role="group"
+                  aria-roledescription="slide"
+                  aria-label="Ảnh ${idx + 1} trên ${HERO_SLIDER_IMAGES.length}: ${slide.badgeText}"
+                >
+                  <img
+                    src="${slide.url}"
+                    alt="${slide.alt}"
+                    loading="${idx === 0 ? 'eager' : 'lazy'}"
+                    onerror="this.onerror=null; this.src='/assets/banners/home-hero.webp';"
+                    class="hero-slide-image"
+                  />
+                  <!-- Floating Media Badge -->
+                  <div class="hero-slide-badge">
+                    <span style="color: var(--color-primary); font-size: 0.75rem;">●</span>
+                    <span>${slide.badgeText}</span>
+                  </div>
+                </div>
+              `
+              ).join('')}
+
+              <!-- Slider Navigation Dots -->
+              <div class="hero-slider-controls" aria-label="Điều khiển slideshow">
+                ${HERO_SLIDER_IMAGES.map(
+                  (_, idx) => `
+                  <button
+                    type="button"
+                    class="hero-slider-dot ${idx === 0 ? 'active' : ''}"
+                    data-slide-target="${idx}"
+                    aria-label="Chuyển đến ảnh ${idx + 1}"
+                    aria-current="${idx === 0 ? 'true' : 'false'}"
+                  ></button>
+                `
+                ).join('')}
               </div>
             </div>
           </div>

@@ -78,8 +78,8 @@ Bảo mật: bật RLS trên mọi bảng; khách không đọc được đơn h
 - Tìm kiếm, lọc theo danh mục, sắp xếp sản phẩm.
 - Đăng nhập Admin bằng Supabase Auth, chặn truy cập `/admin/*` với người không phải Admin.
 - **Nhúng:** Google Maps (địa chỉ minh họa) và video YouTube ở trang About, trang Tin nội bộ.
-- **Giao diện Sky Blue (#81D7FF):** Màu nhận diện thương hiệu chủ đạo tươi sáng, phối màu chữ Navy `#102A43` tương phản cao (WCAG AAA), nút bấm và card nổi bật.
-- **Hero Banner trang chủ:** Hình ảnh vận động viên và dụng cụ cầu lông thực tế độ phân giải cao (`home-hero.webp`), bố cục 2 cột cân đối, không có vùng trống hình học.
+- **Hero Image Slider trang chủ (Task A):** Slideshow 5 ảnh cầu lông/thể thao thực tế từ `public/assets/banners/` (`home-hero.webp`, `banner-player-smash.webp`, `banner-racket-speed.webp`, `banner-match-court.webp`, `banner-tournament.webp`), tự động chuyển ảnh mỗi 3 giây (3000ms), hiệu ứng fade nhẹ mượt mà, bộ chấm điều hướng (dots) trực quan, bảo toàn tỷ lệ 16:11 chống CLS. Tự động dọn dẹp timer khi chuyển trang SPA và tôn trọng `prefers-reduced-motion`.
+- **Widget thời tiết WeatherAPI.com ở Footer (Task B):** Bổ sung cột thứ 4 tại Footer với tiêu đề "Thời tiết TP. Hồ Chí Minh hôm nay". Tích hợp WeatherAPI.com (endpoint `current.json`, vị trí TP. Hồ Chí Minh, ngôn ngữ tiếng Việt), hiển thị nhiệt độ °C, mô tả, icon, cảm giác như, độ ẩm, tốc độ gió và mốc thời gian cập nhật. Cơ chế cache 10 phút tiết kiệm quota, xử lý trạng thái tải/lỗi/dữ liệu lưu trữ và bảo vệ cấu hình an toàn qua `VITE_WEATHERAPI_KEY` (không hardcode key trong source code).
 - Giao diện responsive (mobile, tablet, desktop), có trạng thái tải / trống / lỗi.
 - Đưa mã lên GitHub (Public) và deploy lên Cloudflare Pages.
 
