@@ -123,6 +123,26 @@ export async function fetchAdminOrderCounts(): Promise<Record<string, number>> {
   return counts;
 }
 
+export async function fetchAdminNewOrdersCount(): Promise<number> {
+  if (isSupabaseConfigured()) {
+    try {
+      const { count, error } = await supabase
+        .from('orders')
+        .select('*', { count: 'exact', head: true })
+        .eq('order_status', 'NEW');
+
+      if (!error && typeof count === 'number') {
+        return count;
+      }
+    } catch {
+      // Fallback below
+    }
+  }
+
+  const mockOrders = getMockOrders('ALL');
+  return mockOrders.filter(o => o.order_status === 'NEW').length;
+}
+
 export async function fetchAdminOrderItems(orderId: string): Promise<AdminOrderItem[]> {
   if (!orderId) return [];
 
@@ -203,56 +223,82 @@ export async function updateOrderStatus(
     }
   }
 
+  const mockOrder = mockOrders.find(o => o.id === orderId);
+  if (mockOrder) {
+    mockOrder.order_status = newStatus;
+    if (newStatus === 'CANCELLED') {
+      mockOrder.cancel_reason = cancelReason?.trim();
+    }
+  }
+
   return { success: true, message: `Đã chuyển đơn hàng sang trạng thái ${newStatus} (Demo Mode)` };
 }
 
 // Mock fallback orders for development/demo
-function getMockOrders(statusFilter?: string): AdminOrder[] {
-  const all: AdminOrder[] = [
-    {
-      id: 'ord-demo-1',
-      order_code: 'QS-9A8B7C',
-      customer_name: 'Nguyễn Văn A',
-      customer_phone: '0987654321',
-      shipping_address: '123 Đường Cầu Lông, Quận 1, TP. HCM',
-      customer_note: 'Giao giờ hành chính',
-      payment_method: 'COD',
-      payment_status: 'COD_PENDING',
-      order_status: 'NEW',
-      total_amount: 2900000,
-      created_at: new Date(Date.now() - 3600000).toISOString(),
-    },
-    {
-      id: 'ord-demo-2',
-      order_code: 'QS-3D2E1F',
-      customer_name: 'Trần Thị B',
-      customer_phone: '0398765432',
-      shipping_address: '456 Võ Văn Ngân, Thủ Đức, TP. HCM',
-      payment_method: 'COD',
-      payment_status: 'COD_PENDING',
-      order_status: 'PROCESSING',
-      total_amount: 1450000,
-      created_at: new Date(Date.now() - 86400000).toISOString(),
-    },
-    {
-      id: 'ord-demo-3',
-      order_code: 'QS-7F6E5D',
-      customer_name: 'Lê Văn C',
-      customer_phone: '0771234567',
-      shipping_address: '789 Phạm Văn Đồng, Thủ Đức',
-      payment_method: 'COD',
-      payment_status: 'COD_PENDING',
-      order_status: 'CANCELLED',
-      cancel_reason: 'Khách hàng đổi ý mua mẫu khác',
-      total_amount: 850000,
-      created_at: new Date(Date.now() - 172800000).toISOString(),
-    },
-  ];
+const INITIAL_MOCK_ORDERS: AdminOrder[] = [
+  {
+    id: 'ord-demo-1',
+    order_code: 'QS-9A8B7C',
+    customer_name: 'Nguyễn Văn A',
+    customer_phone: '0987654321',
+    shipping_address: '123 Đường Cầu Lông, Quận 1, TP. HCM',
+    customer_note: 'Giao giờ hành chính',
+    payment_method: 'COD',
+    payment_status: 'COD_PENDING',
+    order_status: 'NEW',
+    total_amount: 2900000,
+    created_at: new Date(Date.now() - 3600000).toISOString(),
+  },
+  {
+    id: 'ord-demo-2',
+    order_code: 'QS-3D2E1F',
+    customer_name: 'Trần Thị B',
+    customer_phone: '0398765432',
+    shipping_address: '456 Võ Văn Ngân, Thủ Đức, TP. HCM',
+    payment_method: 'COD',
+    payment_status: 'COD_PENDING',
+    order_status: 'PROCESSING',
+    total_amount: 1450000,
+    created_at: new Date(Date.now() - 86400000).toISOString(),
+  },
+  {
+    id: 'ord-demo-3',
+    order_code: 'QS-7F6E5D',
+    customer_name: 'Lê Văn C',
+    customer_phone: '0771234567',
+    shipping_address: '789 Phạm Văn Đồng, Thủ Đức',
+    payment_method: 'COD',
+    payment_status: 'COD_PENDING',
+    order_status: 'CANCELLED',
+    cancel_reason: 'Khách hàng đổi ý mua mẫu khác',
+    total_amount: 850000,
+    created_at: new Date(Date.now() - 172800000).toISOString(),
+  },
+  {
+    id: 'ord-demo-4',
+    order_code: 'QS-4A5B6C',
+    customer_name: 'Phạm Thị D',
+    customer_phone: '0912345678',
+    shipping_address: '101 Nguyễn Huệ, Quận 1, TP. HCM',
+    payment_method: 'COD',
+    payment_status: 'COD_PENDING',
+    order_status: 'NEW',
+    total_amount: 1200000,
+    created_at: new Date(Date.now() - 1800000).toISOString(),
+  },
+];
 
+let mockOrders: AdminOrder[] = INITIAL_MOCK_ORDERS.map(o => ({ ...o }));
+
+export function resetMockOrders(): void {
+  mockOrders = INITIAL_MOCK_ORDERS.map(o => ({ ...o }));
+}
+
+function getMockOrders(statusFilter?: string): AdminOrder[] {
   if (statusFilter && statusFilter !== 'ALL') {
-    return all.filter(o => o.order_status === statusFilter);
+    return mockOrders.filter(o => o.order_status === statusFilter);
   }
-  return all;
+  return mockOrders;
 }
 
 function getMockOrderItems(orderId: string): AdminOrderItem[] {

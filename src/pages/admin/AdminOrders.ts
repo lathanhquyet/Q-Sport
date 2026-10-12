@@ -1,10 +1,13 @@
 import { fetchAdminOrders, fetchAdminOrderCounts, OrderStatus } from '../../services/adminOrderService';
+import { renderAdminSubHeader } from '../../components/admin/AdminNav';
+import { fetchAdminBadgeCounts } from '../../services/adminBadgeService';
 import { formatVND } from '../../utils/formatters';
 
 export async function renderAdminOrdersPage(statusFilter: string = 'ALL'): Promise<string> {
-  const [orders, counts] = await Promise.all([
+  const [orders, counts, badgeCounts] = await Promise.all([
     fetchAdminOrders(statusFilter),
     fetchAdminOrderCounts(),
+    fetchAdminBadgeCounts(),
   ]);
 
   const getStatusBadge = (status: OrderStatus) => {
@@ -98,30 +101,15 @@ export async function renderAdminOrdersPage(statusFilter: string = 'ALL'): Promi
 
   return `
     <div class="container" style="padding-top: var(--spacing-32); padding-bottom: var(--spacing-48);">
-      <!-- Admin Sub-header Navigation -->
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--spacing-24); border-bottom: 2px solid var(--color-mint-line); padding-bottom: 12px; flex-wrap: wrap; gap: 12px;">
-        <div>
-          <h1 style="font-family: var(--font-display); font-size: 2rem; color: var(--color-court); margin: 0;">
-            📦 QUẢN LÝ ĐƠN HÀNG (ADMIN)
-          </h1>
-          <span style="font-size: 0.875rem; color: var(--color-muted);">Hiển thị: ${orders.length} đơn hàng trong danh mục</span>
-        </div>
-
-        <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
-          <a href="/admin/products" data-link class="btn btn-secondary" style="font-size: 0.875rem;">
-            🛠️ Quản lý sản phẩm
-          </a>
-          <a href="/admin/comments" data-link class="btn btn-secondary" style="font-size: 0.875rem;">
-            💬 Quản lý bình luận
-          </a>
-          <a href="/admin/news" data-link class="btn btn-secondary" style="font-size: 0.875rem;">
-            📰 Quản lý Tin nội bộ
-          </a>
-          <button onclick="window.handleAdminLogout()" class="btn" style="background: #f1f5f9; color: var(--color-ink); font-size: 0.875rem;">
-            🚪 Đăng xuất
-          </button>
-        </div>
-      </div>
+      ${renderAdminSubHeader({
+        activeTab: 'orders',
+        title: '📦 QUẢN LÝ ĐƠN HÀNG (ADMIN)',
+        subtitle: `Hiển thị: ${orders.length} đơn hàng trong danh mục`,
+        counts: {
+          newOrders: counts.NEW ?? badgeCounts.newOrders,
+          pendingComments: badgeCounts.pendingComments,
+        },
+      })}
 
       <!-- Status Filter Tabs with Counts -->
       <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: var(--spacing-20); overflow-x: auto; padding-bottom: 4px;">

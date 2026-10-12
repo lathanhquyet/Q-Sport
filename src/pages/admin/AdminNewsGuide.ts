@@ -1,6 +1,8 @@
 import { INTERNAL_NEWS_VIDEOS } from '../../data/internalNews';
+import { renderAdminSubHeader } from '../../components/admin/AdminNav';
+import { AdminBadgeCounts } from '../../services/adminBadgeService';
 
-export function renderAdminNewsGuidePage(): string {
+export function renderAdminNewsGuidePage(counts?: AdminBadgeCounts): string {
   const videoRowsHtml = INTERNAL_NEWS_VIDEOS.map(v => `
     <tr style="border-bottom: 1px solid var(--color-mint-line);">
       <td style="padding: 12px; font-size: 0.8125rem; font-family: monospace; font-weight: 600;">${v.id}</td>
@@ -26,30 +28,12 @@ export function renderAdminNewsGuidePage(): string {
 
   return `
     <div class="container" style="padding-top: var(--spacing-32); padding-bottom: var(--spacing-72);">
-      <!-- Admin Header Navigation -->
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--spacing-24); border-bottom: 2px solid var(--color-mint-line); padding-bottom: 12px; flex-wrap: wrap; gap: 12px;">
-        <div>
-          <h1 style="font-family: var(--font-display); font-size: 2rem; color: var(--color-court); margin: 0;">
-            📰 QUẢN LÝ TIN NỘI BỘ (CODE-CONFIG)
-          </h1>
-          <span style="font-size: 0.875rem; color: var(--color-muted);">Cấu hình video YouTube qua source code TypeScript</span>
-        </div>
-
-        <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
-          <a href="/admin/products" data-link class="btn btn-secondary" style="font-size: 0.875rem;">
-            🏸 Quản lý sản phẩm
-          </a>
-          <a href="/admin/orders" data-link class="btn btn-secondary" style="font-size: 0.875rem;">
-            📦 Quản lý đơn hàng
-          </a>
-          <a href="/admin/comments" data-link class="btn btn-secondary" style="font-size: 0.875rem;">
-            💬 Quản lý bình luận
-          </a>
-          <button onclick="window.handleAdminLogout()" class="btn" style="background: #f1f5f9; color: var(--color-ink); font-size: 0.875rem;">
-            🚪 Đăng xuất
-          </button>
-        </div>
-      </div>
+      ${renderAdminSubHeader({
+        activeTab: 'news',
+        title: '📰 QUẢN LÝ TIN NỘI BỘ (CODE-CONFIG)',
+        subtitle: 'Cấu hình video YouTube qua source code TypeScript',
+        counts,
+      })}
 
       <!-- Current Video List Table -->
       <div class="card" style="margin-bottom: var(--spacing-32); padding: 0; overflow-x: auto;">

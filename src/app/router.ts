@@ -51,6 +51,11 @@ import {
   updateCommentStatus,
   deleteComment,
 } from '../services/commentService';
+import {
+  fetchAdminBadgeCounts,
+  startAdminBadgeWatcher,
+  stopAdminBadgeWatcher,
+} from '../services/adminBadgeService';
 import { formatVND } from '../utils/formatters';
 
 export async function handleRouting(): Promise<void> {
@@ -128,7 +133,8 @@ export async function handleRouting(): Promise<void> {
         handleRouting();
         return;
       }
-      mainContentHtml = renderAdminNewsGuidePage();
+      const badgeCounts = await fetchAdminBadgeCounts();
+      mainContentHtml = renderAdminNewsGuidePage(badgeCounts);
     } else {
       mainContentHtml = `
         <div class="container" style="padding-top: var(--spacing-48);">
@@ -160,6 +166,13 @@ export async function handleRouting(): Promise<void> {
 
   // Khởi tạo Weather Widget trong Footer
   initWeatherWidget();
+
+  // Khởi tạo hoặc dừng Admin Badge Watcher tùy theo route
+  if (path.startsWith('/admin/') && path !== '/admin/login') {
+    startAdminBadgeWatcher();
+  } else {
+    stopAdminBadgeWatcher();
+  }
 
   updateHeaderCartBadge();
   attachGlobalEventListeners();
@@ -608,6 +621,7 @@ let currentVietQROrderCode = '';
 
 (window as any).handleAdminLogout = async () => {
   if (confirm('Bạn có chắc chắn muốn đăng xuất tài khoản Admin?')) {
+    stopAdminBadgeWatcher();
     await signOutAdmin();
     window.history.pushState({}, '', '/admin/login');
     handleRouting();

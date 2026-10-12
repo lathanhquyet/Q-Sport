@@ -1,7 +1,12 @@
 import { fetchAdminComments } from '../../services/commentService';
+import { renderAdminSubHeader } from '../../components/admin/AdminNav';
+import { fetchAdminBadgeCounts } from '../../services/adminBadgeService';
 
 export async function renderAdminCommentsPage(statusFilter: string = 'ALL'): Promise<string> {
-  const comments = await fetchAdminComments(statusFilter);
+  const [comments, badgeCounts] = await Promise.all([
+    fetchAdminComments(statusFilter),
+    fetchAdminBadgeCounts(),
+  ]);
 
   const getStatusBadge = (status: string) => {
     switch (status) {
@@ -87,30 +92,12 @@ export async function renderAdminCommentsPage(statusFilter: string = 'ALL'): Pro
 
   return `
     <div class="container" style="padding-top: var(--spacing-32); padding-bottom: var(--spacing-48);">
-      <!-- Admin Sub-header Navigation -->
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--spacing-24); border-bottom: 2px solid var(--color-mint-line); padding-bottom: 12px; flex-wrap: wrap; gap: 12px;">
-        <div>
-          <h1 style="font-family: var(--font-display); font-size: 2rem; color: var(--color-court); margin: 0;">
-            💬 QUẢN LÝ BÌNH LUẬN (ADMIN)
-          </h1>
-          <span style="font-size: 0.875rem; color: var(--color-muted);">Hiển thị: ${comments.length} bình luận</span>
-        </div>
-
-        <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
-          <a href="/admin/products" data-link class="btn btn-secondary" style="font-size: 0.875rem;">
-            🛠️ Quản lý sản phẩm
-          </a>
-          <a href="/admin/orders" data-link class="btn btn-secondary" style="font-size: 0.875rem;">
-            📦 Quản lý đơn hàng
-          </a>
-          <a href="/admin/news" data-link class="btn btn-secondary" style="font-size: 0.875rem;">
-            📰 Quản lý Tin nội bộ
-          </a>
-          <button onclick="window.handleAdminLogout()" class="btn" style="background: #f1f5f9; color: var(--color-ink); font-size: 0.875rem;">
-            🚪 Đăng xuất
-          </button>
-        </div>
-      </div>
+      ${renderAdminSubHeader({
+        activeTab: 'comments',
+        title: '💬 QUẢN LÝ BÌNH LUẬN (ADMIN)',
+        subtitle: `Hiển thị: ${comments.length} bình luận`,
+        counts: badgeCounts,
+      })}
 
       <!-- Status Filter Tabs -->
       <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: var(--spacing-20);">

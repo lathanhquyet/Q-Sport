@@ -310,6 +310,25 @@ a.btn-secondary:hover {
   outline-offset: 2px;
 }
 
+/* Admin Sub-navigation Real-time Badges */
+.admin-nav-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 1px 6px;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  line-height: 1;
+  color: #ffffff;
+  border-radius: var(--radius-pill);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
+  transition: background-color var(--transition-fast), opacity var(--transition-fast);
+  pointer-events: none;
+  user-select: none;
+}
+
 /* Mobile Menu Toggle & Drawer */
 .mobile-menu-toggle {
   display: none;

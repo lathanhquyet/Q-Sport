@@ -225,3 +225,22 @@ export async function deleteComment(commentId: string): Promise<CommentActionRes
   }
   return { success: true, message: 'Đã xóa bình luận thành công (Demo Mode)' };
 }
+
+export async function fetchAdminPendingCommentsCount(): Promise<number> {
+  if (isSupabaseConfigured()) {
+    try {
+      const { count, error } = await supabase
+        .from('product_comments')
+        .select('*', { count: 'exact', head: true })
+        .eq('status', 'PENDING');
+
+      if (!error && typeof count === 'number') {
+        return count;
+      }
+    } catch {
+      // Fallback below
+    }
+  }
+
+  return memoryComments.filter(c => c.status === 'PENDING').length;
+}
