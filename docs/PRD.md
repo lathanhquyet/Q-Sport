@@ -32,14 +32,20 @@ Website bán hàng Q-Sport: khách xem sản phẩm, xem chi tiết, bình luậ
 ## 2. Phạm vi MVP (bắt buộc)
 
 ### 2.1 Khách truy cập (không cần đăng nhập)
-- Xem trang chủ, danh sách sản phẩm, chi tiết sản phẩm, trang Về chúng tôi.
+- Xem trang chủ, danh sách sản phẩm, chi tiết sản phẩm, trang Về chúng tôi, trang Tin nội bộ & Video.
 - Tìm theo tên, lọc theo danh mục, sắp xếp (mới nhất / giá tăng / giá giảm).
+- Bộ chọn nhanh Product Quick Add (chọn số lượng, variant màu/size, thêm giỏ trực tiếp trên thẻ sản phẩm).
 - Giỏ hàng trong `localStorage`: thêm, xóa, tăng/giảm số lượng, xóa hết; giữ nguyên khi reload.
-- Checkout: nhập họ tên, số điện thoại, địa chỉ, ghi chú; thanh toán **COD**.
+- Checkout: nhập họ tên, số điện thoại, địa chỉ, ghi chú.
+- **Thanh toán linh hoạt:** Hỗ trợ COD và **Tạo mã VietQR động** (MB Bank) chứa số tài khoản, tên chủ thẻ, số tiền và nội dung mã đơn hàng.
+- **Alert thông báo đơn hàng:** Tự động gửi thông tin đơn hàng mới đến Telegram Bot quản trị viên server-side an toàn.
+- **Widget thời tiết tại Footer:** Tích hợp WeatherAPI.com hiển thị thời tiết TP. Hồ Chí Minh hôm nay (nhiệt độ, độ ẩm, gió, icon, cache 10 phút).
+- **Widget liên hệ nổi (Floating Contact):** Nút liên hệ góc màn hình kết nối trực tiếp qua Facebook Messenger, Zalo và Hotline điện thoại (`tel:`).
 - Gửi bình luận cho sản phẩm (chờ Admin duyệt mới hiển thị).
 
 ### 2.2 Admin
 - Đăng nhập bằng Supabase Auth (email + mật khẩu). Không có đăng ký Admin công khai.
+- **Huy hiệu Real-Time Badges:** Hiển thị số lượng đơn hàng mới (`NEW`) và bình luận chờ duyệt (`PENDING`) trực tiếp trên 2 nút menu quản trị, tự động cập nhật ngầm 30s.
 - Sản phẩm: thêm, sửa, ẩn/hiện, xóa (xóa mềm nếu sản phẩm đã có trong đơn).
 - Đơn hàng: xem danh sách và chi tiết, đổi trạng thái (`NEW → PROCESSING → SHIPPED`, hoặc `CANCELLED` kèm lý do).
 - Bình luận: duyệt, ẩn, xóa.
@@ -50,15 +56,14 @@ Website bán hàng Q-Sport: khách xem sản phẩm, xem chi tiết, bình luậ
 - Hết hàng / ẩn: vẫn xem được (hết hàng) nhưng không thêm vào giỏ; sản phẩm ẩn không hiện ở public.
 - Giá và tổng tiền luôn do **database** tính lại khi tạo đơn, không tin giá từ trình duyệt.
 
-## 3. Stretch (chỉ làm khi MVP đã PASS toàn bộ mục 9 và được chủ dự án duyệt)
+## 3. Các tính năng nâng cao & mở rộng đã hoàn thành
 
-1. Thanh toán VietQR (ảnh QR + nút “Đã chuyển” → `PENDING_CONFIRMATION`; Admin xác nhận `PAID`).
-2. Thông báo Telegram qua Supabase Edge Function (token nằm trong Edge Function Secrets).
-3. Upload ảnh sản phẩm lên Supabase Storage.
-4. Quản lý danh mục trong Admin; bộ lọc đơn theo ngày/tháng/năm.
-5. Dashboard thống kê; lịch sử trạng thái đơn.
-
-Không tự ý làm Stretch hoặc thêm tính năng ngoài PRD.
+1. **Thanh toán VietQR động:** Khách chọn thanh toán VietQR tại `/checkout`, hệ thống tự sinh mã QR ngân hàng chuẩn xác kèm nội dung chuyển khoản mã đơn.
+2. **Thông báo đơn hàng tức thì qua Bot Telegram (Telegram Order Alert):** Xử lý server-side độc lập qua Cloudflare Pages Functions (`/api/telegram-alert`), giữ bí mật tuyệt đối `TELEGRAM_BOT_TOKEN` và `TELEGRAM_CHAT_ID` trên Cloudflare Dashboard, fail-safe 100%.
+3. **Nhúng API Thời tiết tại Footer (WeatherAPI):** Tích hợp WeatherAPI.com cột 4 Footer, cập nhật trạng thái thời tiết TP. Hồ Chí Minh hôm nay, cache 10 phút.
+4. **Kênh liên hệ đa kênh nổi (Floating Contact):** Quản lý tập trung qua `src/config/contact.ts` với Messenger, Zalo và Hotline điện thoại, tự động ẩn trên các trang Admin.
+5. **Product Quick Add:** Thêm giỏ hàng tức thì từ thẻ sản phẩm mà không cần mở trang chi tiết.
+6. **Admin Real-Time Badges:** Thông báo số lượng đơn hàng mới và bình luận chưa xử lý trên thanh điều hướng Admin.
 
 ## 4. Kiến trúc
 

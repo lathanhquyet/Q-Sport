@@ -28,9 +28,34 @@ Website bán hàng của thương hiệu **Q-Sport** (thương hiệu hư cấu,
 
 HTML5, CSS3, TypeScript (strict), Vite · `@supabase/supabase-js` · Supabase PostgreSQL + Auth + RLS · Cloudflare Pages.
 
-Chọn phiên bản dependency theo trạng thái repo hiện tại; không đổi framework lớn khi chưa được duyệt.
+## 3. Các tính năng nổi bật của hệ thống
 
-## 3. Cấu trúc thư mục
+1. **Nhúng API Thời tiết tại Footer:**
+   - Cột thứ 4 tại Footer tích hợp WeatherAPI.com (endpoint `current.json`, vị trí TP. Hồ Chí Minh, ngôn ngữ Tiếng Việt).
+   - Hiển thị nhiệt độ thực tế (°C), biểu tượng thời tiết, độ ẩm, tốc độ gió và thời gian cập nhật.
+   - Cơ chế bộ nhớ đệm (cache) 10 phút tối ưu dung lượng và tốc độ tải trang.
+
+2. **Alert thông báo đơn hàng tức thì qua Bot Telegram:**
+   - Tích hợp gửi thông báo realtime ngay khi khách hoàn tất đặt hàng COD hoặc VietQR.
+   - Xử lý server-side bảo mật tuyệt đối qua Cloudflare Pages Functions (`/api/telegram-alert`). Token và Chat ID được cấu hình trên Cloudflare Dashboard (không bao giờ lộ ra frontend).
+   - Thiết kế cơ chế fail-safe: nếu Telegram gặp lỗi mạng, đơn hàng trong database vẫn được tạo an toàn 100%.
+
+3. **Tạo mã VietQR động khi tạo đơn hàng:**
+   - Hỗ trợ thanh toán chuyển khoản ngân hàng VietQR (MB Bank) song song với hình thức COD.
+   - Hệ thống tự động sinh mã VietQR chuẩn NAPAS chứa chính xác số tài khoản, tên chủ thẻ, số tiền đơn hàng và mã đơn hàng nội dung chuyển khoản để khách quét mã thanh toán tức thì.
+
+4. **Widget liên hệ đa kênh tiện lợi (Floating Contact):**
+   - Tiện ích nổi ở góc màn hình gồm 3 kênh: Facebook Messenger, Zalo cá nhân/OA, và gọi điện Hotline nhanh (`tel:`).
+   - Quản lý tập trung qua file cấu hình `src/config/contact.ts`.
+   - Kiểm tra an toàn URL ngoài (`noopener noreferrer`), tự động ẩn hoàn toàn trên mọi trang quản trị Admin (`/admin/*`) để tối ưu không gian làm việc.
+
+5. **Các tiện ích nâng cao khác:**
+   - **Product Quick Add:** Tùy chọn số lượng (`-`, input, `+`) và thêm vào giỏ trực tiếp trên từng thẻ sản phẩm Product Card.
+   - **Admin Real-Time Badges:** Huy hiệu số đếm đơn hàng mới (`NEW`) và bình luận chờ duyệt (`PENDING`) trực tiếp trên 2 nút menu Admin, tự động cập nhật ngầm mỗi 30s.
+   - **Hero Image Slider & Gallery:** Slideshow 5+ banner 3:2 tự động chuyển ảnh và gallery chuyển ảnh thumbnail chi tiết trên trang sản phẩm.
+   - **Chuyên trang Tin nội bộ & Video:** Danh mục video kỹ thuật cầu lông nhúng YouTube iframe kèm trình phát modal player.
+
+## 4. Cấu trúc thư mục
 
 ```text
 qsport-online-store/
@@ -65,7 +90,7 @@ qsport-online-store/
 
 Chỉ tạo thư mục khi cần; cập nhật mục này nếu cấu trúc đổi.
 
-## 4. Cấu hình môi trường
+## 5. Cấu hình môi trường
 
 ```bash
 cp .env.example .env.local
@@ -74,11 +99,13 @@ cp .env.example .env.local
 ```dotenv
 VITE_SUPABASE_URL=https://YOUR_PROJECT_REF.supabase.co
 VITE_SUPABASE_PUBLISHABLE_KEY=YOUR_PUBLIC_PUBLISHABLE_KEY
+# Khóa công khai WeatherAPI.com (hiển thị thời tiết tại Footer)
+VITE_WEATHERAPI_KEY=YOUR_WEATHERAPI_KEY_HERE
 ```
 
 **Không bao giờ** đặt vào `VITE_*`, source hoặc Git: Supabase secret/service-role key, mật khẩu Admin, connection string có mật khẩu. File `.env.local` phải nằm trong `.gitignore`. Vì repo để **Public**, hãy kiểm tra `git status` và lịch sử commit trước khi push.
 
-## 5. Cài đặt và chạy local
+## 6. Cài đặt và chạy local
 
 ```bash
 npm install
@@ -87,16 +114,18 @@ npm run build      # build production (thư mục dist)
 npm run preview    # xem bản build
 npm run typecheck  # kiểm tra TypeScript
 npm run lint       # kiểm tra code
+npm test           # chạy toàn bộ 175 unit tests (Vitest)
 ```
 
 Dùng một package manager duy nhất (một lockfile). Không báo “PASS” cho lệnh chưa chạy.
 
-## 6. Thiết lập Supabase
+## 7. Thiết lập Supabase
 
 1. Tạo project Supabase; lấy **Project URL** và **publishable (anon) key** đưa vào `.env.local`.
 2. Chạy các file trong `supabase/migrations/` theo thứ tự trong SQL Editor hoặc Supabase CLI:
    - `supabase/migrations/20261009000000_create_qsport_schema.sql`
    - `supabase/migrations/20261009000001_create_rpc_create_order.sql`
+   - `supabase/migrations/20261009000002_add_short_codes.sql`
    - Sau đó chạy `supabase/seed.sql` để tạo 6 danh mục mặc định và 12 sản phẩm demo.
 3. Xác nhận RLS đã **bật** cho mọi bảng trong schema `public`.
 4. Tạo tài khoản Admin: Supabase Dashboard → Authentication → Users → Add user (email + mật khẩu tự chọn, **không bao giờ ghi vào repo**).
@@ -113,28 +142,34 @@ Dùng một package manager duy nhất (một lockfile). Không báo “PASS” 
 
 Tham khảo: https://supabase.com/docs/guides/database/postgres/row-level-security · https://supabase.com/docs/guides/getting-started/api-keys
 
-## 7. Deploy (Cloudflare Pages)
+## 8. Deploy (Cloudflare Pages)
 
 1. Đưa code lên GitHub (repo **Public**).
 2. Cloudflare Dashboard → Workers & Pages → Create → Pages → Connect to Git → chọn repo.
 3. Build command: `npm run build` · Output directory: `dist`.
-4. Environment variables (Production): `VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY`.
+4. Environment variables & Secrets (Production):
+   - `VITE_SUPABASE_URL`: URL project Supabase.
+   - `VITE_SUPABASE_PUBLISHABLE_KEY`: Anon publishable key.
+   - `VITE_WEATHERAPI_KEY`: API key WeatherAPI.com (cho widget thời tiết Footer).
+   - `TELEGRAM_BOT_TOKEN` & `TELEGRAM_CHAT_ID`: Cấu hình trong phần **Variables and secrets** (an toàn server-side cho alert đơn hàng qua `functions/api/telegram-alert.ts`).
 5. Đảm bảo `public/_redirects` có dòng `/*    /index.html   200` để vào thẳng `/about`, `/products/...` không bị 404.
 6. Sau deploy, mở **từng URL** trực tiếp: `/`, `/products`, `/products/<slug>`, `/about`, `/cart`, `/checkout`, `/admin/login`.
 
-## 8. Checklist trước khi nộp
+## 9. Checklist trước khi nộp
 
 - [ ] Menu/footer liên kết được mọi trang; logo Q-Sport đúng file gốc ở header, footer, favicon
-- [ ] Đặt hàng COD ghi vào `orders`/`order_items`; Admin CRUD sản phẩm; bình luận gửi và duyệt được
+- [ ] Đặt hàng COD & VietQR ghi vào `orders`/`order_items`; Admin CRUD sản phẩm; bình luận gửi và duyệt được
+- [ ] Widget thời tiết WeatherAPI hoạt động ở Footer; thông báo Telegram Order Alert server-side sẵn sàng
+- [ ] Widget liên hệ Messenger, Zalo, Hotline hiển thị đầy đủ
 - [ ] Google Maps và YouTube hiển thị
 - [ ] Không có secret trong repo hoặc bundle (`git grep -i "service_role"`, kiểm tra `dist/`)
 - [ ] Repo ở chế độ **Public**; link GitHub và link website đã điền ở đầu README
 - [ ] Đủ các file .md trong `docs/`; `docs/REPORT.md` đã điền đầy đủ, `docs/PROMPTS.md` có đủ thứ tự prompt
 
-## 9. Nguồn ảnh
+## 10. Nguồn ảnh
 
 _Ghi nguồn ảnh sản phẩm/banner (Unsplash, Pexels hoặc tự tạo) tại đây khi thêm ảnh._
 
-## 10. Quy tắc cho Antigravity
+## 11. Quy tắc cho Antigravity
 
 Xem mục 11 trong [`docs/PRD.md`](docs/PRD.md). Tóm tắt: làm đúng giai đoạn được giao, nêu kế hoạch trước khi code, không tự push/deploy, không đưa secret vào repo, dùng đúng logo và token trong [`docs/DESIGN.md`](docs/DESIGN.md), ghi từng prompt vào [`docs/PROMPTS.md`](docs/PROMPTS.md).

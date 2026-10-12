@@ -15,4 +15,8 @@ export const SITE_CONFIG = {
   youtubeChannelUrl: 'https://www.youtube.com/@buoctiepmoingay/videos',
   youtubeEmbedUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
   mapsEmbedUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3918.443660943714!2d106.7583648!3d10.8538289!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752797e8cb3725%3A0x6fb837b01d0a519!2zNTYvMSDEkC4gU-G7kSAyLCBMaSWGrW5nIENoaeG7g3UsIFRo4bunIMSQ4bupYywgSOG7kyBDaMOtIE1pbmgsIFZpZXRuYW0!5e0!3m2!1svi!2s!4v1700000000000!5m2!1svi!2s',
+
+  // Persistent Demo Notice Text
+  demoNoticeText:
+    '⚠️ WEBSITE DEMO HỌC TẬP — KHÔNG NHẰM MỤC ĐÍCH THƯƠNG MẠI. Một số hình ảnh và nội dung được sử dụng cho mục đích minh họa, tham khảo từ XSport, ShopVNB và các nguồn Internet. Quyền sở hữu thuộc về chủ sở hữu tương ứng. Website phục vụ đồ án Vibecode và dự kiến ngừng hoạt động sau khi kết thúc khóa học.',
 };

@@ -1,6 +1,7 @@
 import { renderHeader } from '../components/Header';
 import { renderFooter, initWeatherWidget, cleanupWeatherWidget } from '../components/Footer';
 import { renderFloatingContact } from '../components/FloatingContact';
+import { renderDemoNotice } from '../components/DemoNotice';
 import { renderProductCard } from '../components/ProductCard';
 import { renderHomePage, initHeroSlider, cleanupHeroSlider } from '../pages/Home';
 import { renderProductsPage } from '../pages/Products';
@@ -153,6 +154,7 @@ export async function handleRouting(): Promise<void> {
 
   // Render Full Layout
   appElement.innerHTML = `
+    ${renderDemoNotice(path)}
     ${renderHeader(path)}
     <main style="min-height: 60vh;">
       ${mainContentHtml}

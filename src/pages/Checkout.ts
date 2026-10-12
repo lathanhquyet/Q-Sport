@@ -59,6 +59,14 @@ export function renderCheckoutPage(): string {
             THÔNG TIN NGƯỜI NHẬN HÀNG
           </h2>
 
+          <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: var(--radius-control); padding: 12px 14px; margin-bottom: var(--spacing-20); font-size: 0.8125rem; color: #92400e; display: flex; align-items: flex-start; gap: 8px;">
+            <span style="font-size: 1.125rem; line-height: 1;">⚠️</span>
+            <div>
+              <strong style="display: block; margin-bottom: 2px;">LƯU Ý THỬ NGHIỆM ĐỒ ÁN:</strong>
+              <span>Website phục vụ đồ án học tập, không hoạt động thương mại. Các đơn hàng được tạo nhằm mục đích minh họa và kiểm thử chức năng hệ thống.</span>
+            </div>
+          </div>
+
           <form id="checkout-form" onsubmit="event.preventDefault(); window.handleCheckoutSubmit();">
             <div style="margin-bottom: var(--spacing-16);">
               <label for="checkout-name" style="display: block; font-size: 0.875rem; font-weight: 600; color: var(--color-ink); margin-bottom: 6px;">Họ và tên người nhận (*)</label>
@@ -151,11 +159,15 @@ export function renderCheckoutPage(): string {
           </div>
 
           <!-- Order Created Confirmation Badge -->
-          <div style="background: #dcfce7; border: 1px solid var(--color-mint-line); border-radius: var(--radius-control); padding: 10px; margin-bottom: 16px;">
+          <div style="background: #dcfce7; border: 1px solid var(--color-mint-line); border-radius: var(--radius-control); padding: 10px; margin-bottom: 12px;">
             <span style="font-weight: 700; color: var(--color-court); font-size: 0.875rem; display: block;">
               ✓ Đã tạo đơn hàng thành công!
             </span>
             <span style="font-size: 0.75rem; color: var(--color-muted);">Vui lòng quét QR bên dưới để hoàn tất chuyển khoản.</span>
+          </div>
+
+          <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: var(--radius-control); padding: 8px 12px; margin-bottom: 14px; font-size: 0.75rem; color: #92400e;">
+            ⚠️ <strong>Minh họa kỹ thuật:</strong> Đây là mã QR demo phục vụ học tập. Vui lòng không thực hiện chuyển khoản tiền thật.
           </div>
 
           <!-- QR Image Box -->

@@ -686,3 +686,81 @@ a.btn-secondary:hover {
     box-shadow: 0 4px 12px rgba(16, 42, 67, 0.2);
   }
 }
+
+/* ==========================================================================
+   Persistent Learning Demo Notice Component
+   ========================================================================== */
+.demo-notice-bar {
+  width: 100%;
+  background-color: #fef2f2;
+  border-bottom: 1px solid #fecaca;
+  color: #991b1b;
+  overflow: hidden;
+  position: relative;
+  z-index: 40;
+  display: block;
+}
+
+.demo-notice-marquee {
+  display: flex;
+  width: max-content;
+  overflow: hidden;
+  user-select: none;
+}
+
+.demo-notice-track {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  white-space: nowrap;
+  animation: demoMarqueeScroll 35s linear infinite;
+  padding: 6px 0;
+}
+
+.demo-notice-bar:hover .demo-notice-track {
+  animation-play-state: paused;
+}
+
+.demo-notice-text {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  padding: 0 40px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+@keyframes demoMarqueeScroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+/* Reduced motion accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .demo-notice-marquee {
+    width: 100%;
+    display: block;
+  }
+
+  .demo-notice-track {
+    animation: none;
+    white-space: normal;
+    text-align: center;
+    padding: 8px 16px;
+    display: block;
+  }
+
+  .demo-notice-track[aria-hidden="true"] {
+    display: none;
+  }
+
+  .demo-notice-text {
+    padding: 0;
+    display: inline;
+  }
+}
