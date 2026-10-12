@@ -35,17 +35,19 @@ Logo được thiết kế **trước khi** xây dựng website và dùng đúng
 |---|---|---|---|
 | `/` | Trang chủ (Home) | Hero, danh mục, sản phẩm nổi bật, giới thiệu ngắn, Google Maps | _[chèn ảnh]_ |
 | `/products` | Danh sách sản phẩm | Tìm kiếm, lọc danh mục, sắp xếp | _[chèn ảnh]_ |
-| `/products/:slug` | **Chi tiết sản phẩm (Detail)** | Thông tin sản phẩm, thêm giỏ, bình luận | _[chèn ảnh]_ |
+| `/products/:slug` | **Chi tiết sản phẩm (Detail)** | Thông tin sản phẩm, thêm giỏ, bình luận, zoom hover | _[chèn ảnh]_ |
+| `/news` | **Tin nội bộ & Video** | Gridview YouTube video hướng dẫn cầu lông, modal player | _[chèn ảnh]_ |
 | `/about` | **Về chúng tôi (About Us)** | Câu chuyện thương hiệu, YouTube, Google Maps | _[chèn ảnh]_ |
 | `/cart` | Giỏ hàng | Thêm/xóa/đổi số lượng | _[chèn ảnh]_ |
-| `/checkout` | Thanh toán | Form khách hàng, đặt hàng COD | _[chèn ảnh]_ |
+| `/checkout` | Thanh toán | Form khách hàng, đặt hàng COD & VietQR | _[chèn ảnh]_ |
 | `/order-success/:code` | Đặt hàng thành công | Hiển thị mã đơn | _[chèn ảnh]_ |
 | `/admin/login` | Đăng nhập Admin | Supabase Auth | _[chèn ảnh]_ |
-| `/admin/products` | Quản lý sản phẩm | Thêm, sửa, ẩn/hiện, xóa | _[chèn ảnh]_ |
-| `/admin/orders` | Quản lý đơn hàng | Xem, đổi trạng thái, hủy có lý do | _[chèn ảnh]_ |
+| `/admin/products` | Quản lý sản phẩm | Thêm, sửa, ẩn/hiện, xóa, hướng dẫn ảnh Git | _[chèn ảnh]_ |
+| `/admin/orders` | Quản lý đơn hàng | Xem, đổi trạng thái, badge đếm đơn | _[chèn ảnh]_ |
 | `/admin/comments` | Quản lý bình luận | Duyệt, ẩn, xóa | _[chèn ảnh]_ |
+| `/admin/news` | Quản lý Tin nội bộ | Hướng dẫn cấu hình video YouTube qua code Git | _[chèn ảnh]_ |
 
-**Liên kết giữa các trang:** header và footer ở mọi trang có link tới Trang chủ, Sản phẩm, Về chúng tôi và Giỏ hàng; logo dẫn về Trang chủ; thẻ sản phẩm dẫn tới trang chi tiết.
+**Liên kết giữa các trang:** header và footer ở mọi trang có link tới Trang chủ, Sản phẩm, Tin nội bộ, Về chúng tôi và Giỏ hàng; logo dẫn về Trang chủ; thẻ sản phẩm dẫn tới trang chi tiết.
 
 ## 3. Các chức năng đã thực hiện
 

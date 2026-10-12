@@ -111,6 +111,9 @@ export async function renderAdminProductsPage(): Promise<string> {
           <a href="/admin/comments" data-link class="btn btn-secondary" style="font-size: 0.875rem;">
             💬 Quản lý bình luận
           </a>
+          <a href="/admin/news" data-link class="btn btn-secondary" style="font-size: 0.875rem;">
+            📰 Quản lý Tin nội bộ
+          </a>
           <button onclick="window.handleAdminLogout()" class="btn" style="background: #f1f5f9; color: var(--color-ink); font-size: 0.875rem;">
             🚪 Đăng xuất
           </button>
@@ -125,7 +128,7 @@ export async function renderAdminProductsPage(): Promise<string> {
       </div>
 
       <!-- Products Table -->
-      <div class="card" style="padding: 0; overflow-x: auto;">
+      <div class="card" style="padding: 0; overflow-x: auto; margin-bottom: var(--spacing-32);">
         <table style="width: 100%; border-collapse: collapse; text-align: left;">
           <thead>
             <tr style="background: var(--color-mint); border-bottom: 2px solid var(--color-mint-line);">
@@ -142,6 +145,50 @@ export async function renderAdminProductsPage(): Promise<string> {
             ${rowsHtml || `<tr><td colspan="7" style="padding: 24px; text-align: center; color: var(--color-muted);">Chưa có sản phẩm nào. Bấm "Thêm sản phẩm mới" để bắt đầu.</td></tr>`}
           </tbody>
         </table>
+      </div>
+
+      <!-- Image Management Guidance Panel (GitHub Repository Asset Management) -->
+      <div class="card" style="background: #f8fafc; border: 1.5px dashed var(--color-court); padding: var(--spacing-24); margin-bottom: var(--spacing-32);">
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: var(--spacing-12);">
+          <span style="font-size: 1.5rem;">📁</span>
+          <h2 style="font-family: var(--font-display); font-size: 1.25rem; color: var(--color-court); margin: 0; text-transform: uppercase;">
+            Quy trình quản lý hình ảnh sản phẩm &amp; Banner qua GitHub Repository
+          </h2>
+        </div>
+        <p style="font-size: 0.875rem; color: var(--color-ink); margin-bottom: var(--spacing-16); line-height: 1.5;">
+          Để tối ưu chi phí và giữ cấu trúc kiến trúc tĩnh nhẹ, toàn bộ hình ảnh và logo của Q-Sport được lưu trữ trực tiếp trong GitHub repository và tự động phân phối bởi Cloudflare Pages.
+        </p>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--spacing-16); margin-bottom: var(--spacing-16);">
+          <div style="background: #fff; border: 1px solid var(--color-mint-line); border-radius: var(--radius-control); padding: var(--spacing-16);">
+            <strong style="color: var(--color-court); font-size: 0.875rem; display: block; margin-bottom: 8px;">📂 1. Cấu trúc thư mục chuẩn:</strong>
+            <pre style="font-size: 0.75rem; background: #0f172a; color: #e2e8f0; padding: 10px; border-radius: 6px; overflow-x: auto; line-height: 1.4;">public/assets/
+  ├── products/
+  │   ├── Giay/    (vd: yonexZ65.jpg)
+  │   ├── Vot/     (vd: Linning100.jpg)
+  │   ├── Quan/    (vd: shortActive.jpg)
+  │   ├── Ao/      (vd: shirtDry.jpg)
+  │   ├── Balo/    (vd: bagCompact.jpg)
+  │   └── PhuKien/ (vd: gripSuper.jpg)
+  ├── branding/    (logo.png, favicon.svg)
+  └── banners/     (home-main.webp)</pre>
+          </div>
+
+          <div style="background: #fff; border: 1px solid var(--color-mint-line); border-radius: var(--radius-control); padding: var(--spacing-16);">
+            <strong style="color: var(--color-court); font-size: 0.875rem; display: block; margin-bottom: 8px;">🚀 2. Các bước cập nhật hình ảnh:</strong>
+            <ol style="font-size: 0.8125rem; color: var(--color-ink); padding-left: 20px; line-height: 1.6; margin: 0;">
+              <li>Đặt file ảnh (định dạng JPG/PNG/WebP/SVG, tên không dấu) vào đúng thư mục tương ứng trong <code>public/assets/products/...</code>.</li>
+              <li>Chạy <code>git commit</code> và <code>git push origin main</code>.</li>
+              <li>Chờ Cloudflare Pages build và deploy hoàn tất (tự động sau 1-2 phút).</li>
+              <li>Vào bảng Quản lý sản phẩm, nhấn <strong>✏️ Sửa</strong> và điền đường dẫn ảnh (ví dụ: <code>/assets/products/Giay/yonexZ65.jpg</code>).</li>
+              <li>Nhấn <strong>Lưu sản phẩm</strong> để cập nhật cơ sở dữ liệu.</li>
+            </ol>
+          </div>
+        </div>
+
+        <div style="background: #e6fffa; border-left: 4px solid var(--color-court); padding: 8px 12px; font-size: 0.8125rem; color: var(--color-ink);">
+          💡 <em>Lưu ý: Không tạo màn hình upload file giả lập trên trình duyệt vì Cloudflare Pages không hỗ trợ ghi file vào runtime production. Phương án lưu Git đảm bảo tính toàn vẹn và dễ phục hồi dữ liệu.</em>
+        </div>
       </div>
 
       <!-- Add/Edit Product Modal Container -->
@@ -181,6 +228,7 @@ export async function renderAdminProductsPage(): Promise<string> {
               <div>
                 <label style="display: block; font-size: 0.8125rem; font-weight: 600; margin-bottom: 4px;">Đường dẫn ảnh (Image URL)</label>
                 <input id="modal-product-image" type="text" placeholder="/assets/products/placeholder.svg" style="width: 100%; padding: 8px 12px; border-radius: var(--radius-control); border: 1px solid var(--color-mint-line);" />
+                <small style="font-size: 0.75rem; color: var(--color-muted); display: block; margin-top: 4px;">VD: /assets/products/Giay/yonexZ65.jpg hoặc /assets/products/Vot/Linning100.jpg</small>
               </div>
             </div>
 

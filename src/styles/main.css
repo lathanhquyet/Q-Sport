@@ -86,20 +86,73 @@ a.btn-secondary:hover {
   color: var(--color-court-dark) !important;
 }
 
-/* Card Component */
+/* Card Component & Product Image Hover Effects */
 .card {
   background-color: var(--color-white);
   border: 1px solid var(--color-mint-line);
   border-radius: var(--radius-card);
   padding: var(--spacing-24);
   box-shadow: var(--shadow-sm);
-  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.product-card {
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 }
 
 .product-card:hover {
   transform: translateY(-4px);
-  box-shadow: var(--shadow-md);
+  box-shadow: 0 12px 28px rgba(8, 127, 91, 0.14);
   border-color: var(--color-court);
+}
+
+/* Image container and smooth zoom hover effect */
+.product-image-box {
+  display: block;
+  background: var(--color-mint);
+  border-radius: var(--radius-image);
+  overflow: hidden;
+  aspect-ratio: 1 / 1;
+  margin-bottom: var(--spacing-12);
+  text-align: center;
+  position: relative;
+  padding: 8px;
+  transition: background-color 0.25s ease;
+}
+
+.product-image-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  border-radius: 8px;
+  transition: transform 0.25s ease, filter 0.25s ease;
+  will-change: transform;
+}
+
+.product-card:hover .product-image-box {
+  background-color: #d1fae5;
+}
+
+.product-card:hover .product-image-box img {
+  transform: scale(1.04);
+  filter: brightness(1.02);
+}
+
+/* Detail page main image hover effect */
+.product-detail-image-box {
+  overflow: hidden;
+  border-radius: var(--radius-card);
+  background: var(--color-mint);
+  transition: background-color 0.25s ease;
+}
+
+.product-detail-image-box img {
+  transition: transform 0.3s ease;
+}
+
+.product-detail-image-box:hover img {
+  transform: scale(1.03);
 }
 
 /* Price Styling */
@@ -124,7 +177,7 @@ a.btn-secondary:hover {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 64px;
+  height: 72px;
 }
 
 .header-brand {
@@ -146,29 +199,53 @@ a.btn-secondary:hover {
 
 .header-nav {
   display: flex;
-  gap: var(--spacing-24);
+  gap: var(--spacing-16);
   align-items: center;
   font-weight: 600;
 }
 
+/* Redesigned Menu Link with Floating Card Hover Effect */
 .nav-link {
   color: var(--color-ink);
-  padding: 4px 8px;
-  font-size: 0.9375rem;
-  border-bottom: 2px solid transparent;
-  transition: all var(--transition-fast);
+  padding: 8px 18px;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  border-radius: var(--radius-control);
+  border: 1px solid transparent;
+  background: transparent;
+  display: inline-flex;
+  align-items: center;
+  line-height: 1.4;
+  letter-spacing: 0.2px;
+  transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 
-.nav-link:hover,
-.nav-link.active {
+.nav-link:hover {
   color: var(--color-court);
-  border-bottom-color: var(--color-court);
+  background: var(--color-mint);
+  border-color: var(--color-mint-line);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(8, 127, 91, 0.12);
+}
+
+.nav-link.active {
+  color: var(--color-white) !important;
+  background: var(--color-court);
+  border-color: var(--color-court-dark);
+  box-shadow: 0 2px 8px rgba(8, 127, 91, 0.25);
+  font-weight: 700;
+}
+
+.nav-link.active:hover {
+  background: var(--color-court-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(8, 127, 91, 0.35);
 }
 
 .nav-link:focus-visible {
-  outline: 2px solid var(--color-court);
+  outline: 3px solid var(--color-cork);
   outline-offset: 2px;
-  border-radius: 4px;
+  border-radius: var(--radius-control);
 }
 
 .header-actions {
@@ -178,39 +255,46 @@ a.btn-secondary:hover {
 }
 
 .header-cart-btn {
-  min-height: 38px;
-  padding: 4px 14px;
-  font-size: 0.875rem;
+  min-height: 42px;
+  padding: 6px 16px;
+  font-size: 0.9375rem;
   display: inline-flex;
   align-items: center;
   gap: 6px;
   border-radius: var(--radius-pill);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.header-cart-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(8, 127, 91, 0.15);
 }
 
 .cart-badge {
   background: var(--color-court);
   color: var(--color-white);
   border-radius: 999px;
-  padding: 1px 8px;
-  font-size: 0.75rem;
+  padding: 2px 9px;
+  font-size: 0.8125rem;
   font-weight: 700;
 }
 
 .header-admin-btn {
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   color: var(--color-muted);
   text-decoration: none;
-  padding: 6px 12px;
+  padding: 8px 14px;
   border-radius: var(--radius-control);
   background: var(--color-mint);
   font-weight: 600;
-  transition: all var(--transition-fast);
+  transition: all 0.2s ease;
 }
 
 .header-admin-btn:hover,
 .header-admin-btn.active-admin {
   color: var(--color-court);
   background: var(--color-mint-line);
+  transform: translateY(-1px);
 }
 
 .header-admin-btn:focus-visible {
@@ -222,7 +306,7 @@ a.btn-secondary:hover {
 .mobile-menu-toggle {
   display: none;
   font-size: 1.5rem;
-  padding: 4px 10px;
+  padding: 6px 12px;
   border-radius: var(--radius-control);
   color: var(--color-ink);
   background: var(--color-mint);
@@ -249,24 +333,47 @@ a.btn-secondary:hover {
 }
 
 .mobile-nav-link {
-  font-size: 1rem;
+  font-size: 1.0625rem;
   font-weight: 600;
   color: var(--color-ink);
-  padding: 10px 14px;
+  padding: 12px 16px;
   border-radius: var(--radius-control);
   background: var(--color-mint);
-  transition: background var(--transition-fast);
+  transition: background 0.2s ease, transform 0.2s ease;
 }
 
-.mobile-nav-link:hover,
-.mobile-nav-link.active {
+.mobile-nav-link:hover {
   background: var(--color-mint-line);
   color: var(--color-court);
+  transform: translateX(4px);
+}
+
+.mobile-nav-link.active {
+  background: var(--color-court);
+  color: var(--color-white) !important;
 }
 
 .mobile-nav-link:focus-visible {
   outline: 3px solid var(--color-court);
   outline-offset: 2px;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .product-card,
+  .product-card:hover,
+  .nav-link,
+  .nav-link:hover,
+  .header-cart-btn:hover,
+  .header-admin-btn:hover,
+  .mobile-nav-link:hover,
+  .product-image-box img,
+  .product-card:hover .product-image-box img,
+  .product-detail-image-box img,
+  .product-detail-image-box:hover img {
+    transform: none !important;
+    transition: none !important;
+  }
 }
 
 /* Responsive Breakpoints (375px, 768px, 1280px) */

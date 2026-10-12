@@ -47,7 +47,7 @@ export async function renderProductDetailPage(slug: string): Promise<string> {
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--spacing-48); margin-bottom: var(--spacing-48);">
 
         <!-- Product Image -->
-        <div class="card" style="padding: var(--spacing-16); background: var(--color-mint); text-align: center;">
+        <div class="card product-detail-image-box" style="padding: var(--spacing-16); text-align: center;">
           <img
             src="${product.image_url || '/assets/products/placeholder.svg'}"
             alt="${product.name}"

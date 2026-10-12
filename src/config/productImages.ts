@@ -51,6 +51,20 @@ export const PRODUCT_SLUG_TO_CODE: Record<string, string> = {
  * Returns the photographic URL for a given product code or slug, or falls back safely.
  */
 export function getProductImageUrl(productCodeOrSlug?: string | null, fallbackUrl?: string | null): string {
+  // Direct local repository asset paths taking precedence if explicitly set by admin or user
+  if (fallbackUrl && (
+    fallbackUrl.startsWith('/assets/products/Giay/') ||
+    fallbackUrl.startsWith('/assets/products/Vot/') ||
+    fallbackUrl.startsWith('/assets/products/Quan/') ||
+    fallbackUrl.startsWith('/assets/products/Ao/') ||
+    fallbackUrl.startsWith('/assets/products/Balo/') ||
+    fallbackUrl.startsWith('/assets/products/PhuKien/') ||
+    fallbackUrl.startsWith('/assets/branding/') ||
+    fallbackUrl.startsWith('/assets/banners/')
+  )) {
+    return fallbackUrl;
+  }
+
   if (!productCodeOrSlug) {
     return fallbackUrl || '/assets/products/placeholder.svg';
   }

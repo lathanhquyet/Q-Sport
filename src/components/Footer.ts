@@ -17,6 +17,7 @@ export function renderFooter(): string {
             <ul style="list-style: none; display: flex; flex-direction: column; gap: 8px; font-size: 0.875rem;">
               <li><a href="/" data-link>Trang chủ</a></li>
               <li><a href="/products" data-link>Danh sách sản phẩm</a></li>
+              <li><a href="/news" data-link>Tin nội bộ &amp; Video</a></li>
               <li><a href="/about" data-link>Về chúng tôi Q-Sport</a></li>
               <li><a href="/cart" data-link>Giỏ hàng</a></li>
             </ul>

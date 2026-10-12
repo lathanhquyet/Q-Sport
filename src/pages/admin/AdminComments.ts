@@ -103,6 +103,9 @@ export async function renderAdminCommentsPage(statusFilter: string = 'ALL'): Pro
           <a href="/admin/orders" data-link class="btn btn-secondary" style="font-size: 0.875rem;">
             📦 Quản lý đơn hàng
           </a>
+          <a href="/admin/news" data-link class="btn btn-secondary" style="font-size: 0.875rem;">
+            📰 Quản lý Tin nội bộ
+          </a>
           <button onclick="window.handleAdminLogout()" class="btn" style="background: #f1f5f9; color: var(--color-ink); font-size: 0.875rem;">
             🚪 Đăng xuất
           </button>

@@ -114,6 +114,9 @@ export async function renderAdminOrdersPage(statusFilter: string = 'ALL'): Promi
           <a href="/admin/comments" data-link class="btn btn-secondary" style="font-size: 0.875rem;">
             💬 Quản lý bình luận
           </a>
+          <a href="/admin/news" data-link class="btn btn-secondary" style="font-size: 0.875rem;">
+            📰 Quản lý Tin nội bộ
+          </a>
           <button onclick="window.handleAdminLogout()" class="btn" style="background: #f1f5f9; color: var(--color-ink); font-size: 0.875rem;">
             🚪 Đăng xuất
           </button>

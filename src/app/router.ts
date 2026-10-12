@@ -14,6 +14,8 @@ import { renderAdminLoginPage } from '../pages/admin/AdminLogin';
 import { renderAdminProductsPage } from '../pages/admin/AdminProducts';
 import { renderAdminOrdersPage } from '../pages/admin/AdminOrders';
 import { renderAdminCommentsPage } from '../pages/admin/AdminComments';
+import { renderInternalNewsPage } from '../pages/InternalNews';
+import { renderAdminNewsGuidePage } from '../pages/admin/AdminNewsGuide';
 import { renderErrorState } from '../components/StateViews';
 import {
   addToCart,
@@ -113,6 +115,16 @@ export async function handleRouting(): Promise<void> {
       }
       const statusParam = queryParams.get('status') || 'ALL';
       mainContentHtml = await renderAdminCommentsPage(statusParam);
+    } else if (path === '/news' || path === '/tin-noi-bo') {
+      mainContentHtml = renderInternalNewsPage();
+    } else if (path === '/admin/news') {
+      const admin = await checkCurrentAdminSession();
+      if (!admin) {
+        window.history.pushState({}, '', '/admin/login');
+        handleRouting();
+        return;
+      }
+      mainContentHtml = renderAdminNewsGuidePage();
     } else {
       mainContentHtml = `
         <div class="container" style="padding-top: var(--spacing-48);">
@@ -756,5 +768,35 @@ let currentVietQROrderCode = '';
 
   (window as any).handleAutoProductFilter();
 };
+
+(window as any).handleOpenVideoModal = (videoId: string, title: string) => {
+  const backdrop = document.getElementById('video-modal-backdrop');
+  const iframe = document.getElementById('video-modal-iframe') as HTMLIFrameElement;
+  const titleEl = document.getElementById('video-modal-title');
+  if (!backdrop || !iframe) return;
+
+  if (titleEl) titleEl.textContent = title || 'Xem video';
+  iframe.src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(videoId)}?rel=0&modestbranding=1`;
+  backdrop.style.display = 'flex';
+};
+
+(window as any).handleCloseVideoModal = (event?: MouseEvent) => {
+  if (event && event.target !== event.currentTarget) return;
+  const backdrop = document.getElementById('video-modal-backdrop');
+  const iframe = document.getElementById('video-modal-iframe') as HTMLIFrameElement;
+  if (!backdrop) return;
+
+  backdrop.style.display = 'none';
+  if (iframe) iframe.src = '';
+};
+
+window.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    const backdrop = document.getElementById('video-modal-backdrop');
+    if (backdrop && backdrop.style.display !== 'none') {
+      (window as any).handleCloseVideoModal();
+    }
+  }
+});
 
 window.addEventListener('popstate', handleRouting);

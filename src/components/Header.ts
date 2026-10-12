@@ -3,6 +3,7 @@ import { getCachedAdminSession } from '../services/authService';
 export function renderHeader(currentPath: string = '/'): string {
   const isHome = currentPath === '/' || currentPath === '' || currentPath === '/index.html';
   const isProducts = currentPath.startsWith('/products');
+  const isNews = currentPath.startsWith('/news') || currentPath.startsWith('/tin-noi-bo');
   const isAbout = currentPath.startsWith('/about');
   const isCart = currentPath.startsWith('/cart');
   const isAdmin = currentPath.startsWith('/admin');
@@ -14,7 +15,7 @@ export function renderHeader(currentPath: string = '/'): string {
         <!-- Section 1: Brand / Logo -->
         <div class="header-brand">
           <a href="/" data-link class="brand-link" aria-label="Q-Sport Trang chủ">
-            <img src="/assets/logo.svg" alt="Q-Sport" height="38" class="header-logo" />
+            <img src="/assets/logo.svg" alt="Q-Sport" height="40" class="header-logo" />
           </a>
         </div>
 
@@ -25,6 +26,9 @@ export function renderHeader(currentPath: string = '/'): string {
           </a>
           <a href="/products" data-link class="nav-link ${isProducts ? 'active' : ''}">
             Sản phẩm
+          </a>
+          <a href="/news" data-link class="nav-link ${isNews ? 'active' : ''}">
+            Tin nội bộ
           </a>
           <a href="/about" data-link class="nav-link ${isAbout ? 'active' : ''}">
             Về chúng tôi
@@ -65,6 +69,9 @@ export function renderHeader(currentPath: string = '/'): string {
           </a>
           <a href="/products" data-link class="mobile-nav-link ${isProducts ? 'active' : ''}">
             🏸 Sản phẩm
+          </a>
+          <a href="/news" data-link class="mobile-nav-link ${isNews ? 'active' : ''}">
+            📰 Tin nội bộ
           </a>
           <a href="/about" data-link class="mobile-nav-link ${isAbout ? 'active' : ''}">
             ℹ️ Về chúng tôi

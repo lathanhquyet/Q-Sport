@@ -18,7 +18,7 @@ export function renderProductCard(product: Product): string {
       }
 
       <div>
-        <a href="/products/${product.slug}" data-link style="display: block; background: var(--color-mint); border-radius: var(--radius-image); overflow: hidden; aspect-ratio: 1 / 1; margin-bottom: var(--spacing-12); text-align: center; position: relative; padding: 8px;">
+        <a href="/products/${product.slug}" data-link class="product-image-box">
           <img
             src="${product.image_url || '/assets/products/placeholder.svg'}"
             alt="${product.name}"
