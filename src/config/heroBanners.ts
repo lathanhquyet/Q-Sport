@@ -6,8 +6,8 @@ export interface HeroBannerSlide {
 }
 
 /**
- * Danh sách 5 ảnh banner cầu lông/thể thao thực tế từ public/assets/banners/
- * Ưu tiên định dạng WebP tối ưu hiệu năng và không gây layout shift.
+ * Danh sách 5 ảnh banner cầu lông thực tế được tối ưu hóa cho Hero Slider từ public/assets/banners/
+ * Định dạng WebP chất lượng cao, tỷ lệ khung hình 3:2 chuẩn hóa chống CLS và tải mượt mà.
  */
 export const HERO_SLIDER_IMAGES: readonly HeroBannerSlide[] = [
   {
@@ -18,27 +18,27 @@ export const HERO_SLIDER_IMAGES: readonly HeroBannerSlide[] = [
   },
   {
     id: 'hero-2',
-    url: '/assets/banners/banner-player-smash.webp',
-    alt: 'Vận động viên bật nhảy thực hiện cú đập cầu smash uy lực',
-    badgeText: 'Tốc Độ & Sức Mạnh Smash',
+    url: '/assets/banners/banner-hero-nanoflare-1000z.webp',
+    alt: 'Siêu phẩm vợt Yonex Nanoflare 1000Z gia tăng tốc độ đập cầu',
+    badgeText: 'Nanoflare 1000Z Siêu Tốc',
   },
   {
     id: 'hero-3',
-    url: '/assets/banners/banner-racket-speed.webp',
-    alt: 'Khung vợt cầu lông carbon công nghệ khí động học tăng tốc vung vợt',
-    badgeText: 'Khung Carbon Trợ Lực',
+    url: '/assets/banners/banner-hero-shoes-shbvazm.webp',
+    alt: 'Giày cầu lông chuyên nghiệp Yonex SHBVAZM 2026 bám sân giảm chấn',
+    badgeText: 'Giày Thi Đấu 2026',
   },
   {
     id: 'hero-4',
-    url: '/assets/banners/banner-match-court.webp',
-    alt: 'Mặt sân thảm cầu lông tiêu chuẩn và vạch kẻ thi đấu',
-    badgeText: 'Bao Quát Mọi Đường Cầu',
+    url: '/assets/banners/banner-hero-one-piece.webp',
+    alt: 'Bộ sưu tập dụng cụ cầu lông Yonex x One Piece độc quyền chính hãng',
+    badgeText: 'Bộ Sưu Tập Giới Hạn',
   },
   {
     id: 'hero-5',
-    url: '/assets/banners/banner-tournament.webp',
-    alt: 'Trang thiết bị phụ kiện cầu lông chính hãng phục vụ giải đấu',
-    badgeText: 'Chính Hãng Q-Sport',
+    url: '/assets/banners/banner-hero-graphite-throttle.webp',
+    alt: 'Công nghệ khung vợt Graphite Throttle carbon trợ lực tối đa',
+    badgeText: 'Khung Carbon Trợ Lực',
   },
 ] as const;
 

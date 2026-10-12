@@ -1,8 +1,13 @@
 import { Product } from '../types';
 import { formatVND } from '../utils/formatters';
+import { getProductLocalImage } from '../config/productImages';
 
 export function renderProductCard(product: Product): string {
   const isOutOfStock = product.stock_quantity <= 0;
+  const displayImage =
+    getProductLocalImage(product.product_code || product.slug) ||
+    product.image_url ||
+    '/assets/products/placeholder.svg';
 
   return `
     <div class="card product-card" style="display: flex; flex-direction: column; justify-content: space-between; position: relative; height: 100%; padding: var(--spacing-16); transition: transform var(--transition-fast), box-shadow var(--transition-fast);">
@@ -20,7 +25,7 @@ export function renderProductCard(product: Product): string {
       <div>
         <a href="/products/${product.slug}" data-link class="product-image-box">
           <img
-            src="${product.image_url || '/assets/products/placeholder.svg'}"
+            src="${displayImage}"
             alt="${product.name}"
             loading="lazy"
             onerror="this.onerror=null; this.src='/assets/products/placeholder.svg';"

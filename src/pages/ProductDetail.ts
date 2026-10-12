@@ -1,7 +1,27 @@
 import { getProductBySlug } from '../services/productService';
 import { getProductComments } from '../services/commentService';
+import { getProductGallery } from '../config/productImages';
 import { formatVND, formatDateTime } from '../utils/formatters';
 import { renderErrorState } from '../components/StateViews';
+
+// Helper toàn cục chuyển đổi ảnh chính khi click thumbnail
+if (typeof window !== 'undefined') {
+  (window as any).selectProductDetailImage = (url: string, btn: HTMLElement) => {
+    const mainImg = document.getElementById('product-detail-main-img') as HTMLImageElement | null;
+    if (mainImg) {
+      mainImg.src = url;
+    }
+    const thumbs = document.querySelectorAll('.product-gallery-thumb');
+    thumbs.forEach(t => {
+      (t as HTMLElement).style.borderColor = 'var(--color-primary-border)';
+      (t as HTMLElement).classList.remove('active');
+    });
+    if (btn) {
+      btn.style.borderColor = 'var(--color-primary-dark)';
+      btn.classList.add('active');
+    }
+  };
+}
 
 export async function renderProductDetailPage(slug: string): Promise<string> {
   const product = await getProductBySlug(slug);
@@ -16,6 +36,8 @@ export async function renderProductDetailPage(slug: string): Promise<string> {
 
   const comments = await getProductComments(product.id);
   const isOutOfStock = product.stock_quantity <= 0;
+  const galleryImages = getProductGallery(product.product_code || product.slug);
+  const initialMainImage = product.image_url || (galleryImages.length > 0 ? galleryImages[0] : '/assets/products/placeholder.svg');
 
   const commentsListHtml =
     comments.length > 0
@@ -46,14 +68,47 @@ export async function renderProductDetailPage(slug: string): Promise<string> {
       <!-- Main Detail Grid -->
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--spacing-48); margin-bottom: var(--spacing-48);">
 
-        <!-- Product Image -->
+        <!-- Product Image & Interactive Gallery -->
         <div class="card product-detail-image-box" style="padding: var(--spacing-16); text-align: center;">
-          <img
-            src="${product.image_url || '/assets/products/placeholder.svg'}"
-            alt="${product.name}"
-            style="width: 100%; max-height: 440px; object-fit: contain; border-radius: var(--radius-image);"
-            onerror="this.onerror=null; this.src='/assets/products/placeholder.svg';"
-          />
+          <div style="position: relative; width: 100%; aspect-ratio: 1 / 1; display: flex; align-items: center; justify-content: center; background: var(--color-white); border-radius: var(--radius-image); overflow: hidden;">
+            <img
+              id="product-detail-main-img"
+              src="${initialMainImage}"
+              alt="${product.name}"
+              style="max-width: 100%; max-height: 100%; object-fit: contain; border-radius: var(--radius-image); transition: opacity 0.2s ease;"
+              onerror="this.onerror=null; this.src='/assets/products/placeholder.svg';"
+            />
+          </div>
+
+          ${
+            galleryImages.length > 1
+              ? `
+            <!-- Gallery Thumbnails Switcher -->
+            <div style="margin-top: var(--spacing-16); border-top: 1px solid var(--color-mint-line); padding-top: var(--spacing-12);">
+              <span style="font-size: 0.75rem; font-weight: 700; color: var(--color-muted); text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 8px;">
+                Hình ảnh chi tiết (${galleryImages.length} ảnh)
+              </span>
+              <div class="product-gallery-thumbnails" style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;">
+                ${galleryImages
+                  .map(
+                    (imgUrl, idx) => `
+                  <button
+                    type="button"
+                    class="product-gallery-thumb ${idx === 0 ? 'active' : ''}"
+                    onclick="window.selectProductDetailImage('${imgUrl}', this)"
+                    style="border: 2px solid ${idx === 0 ? 'var(--color-primary-dark)' : 'var(--color-primary-border)'}; border-radius: var(--radius-control); padding: 2px; background: var(--color-white); cursor: pointer; width: 62px; height: 62px; overflow: hidden; transition: all 0.2s ease; display: inline-flex; align-items: center; justify-content: center;"
+                    aria-label="Xem ảnh ${idx + 1}"
+                  >
+                    <img src="${imgUrl}" alt="${product.name} - ảnh ${idx + 1}" style="width: 100%; height: 100%; object-fit: contain;" />
+                  </button>
+                `
+                  )
+                  .join('')}
+              </div>
+            </div>
+          `
+              : ''
+          }
         </div>
 
         <!-- Product Info & Actions -->
