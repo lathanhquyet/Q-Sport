@@ -6,6 +6,8 @@ export interface CartItem {
   image_url?: string | null;
   stock_quantity?: number;
   slug?: string;
+  selected_color?: string;
+  selected_size?: string;
 }
 
 const CART_STORAGE_KEY = 'qsport_cart';
@@ -48,7 +50,16 @@ export function saveCart(cart: CartItem[]): void {
 }
 
 export function addToCart(
-  product: { id: string; name: string; price: number; image_url?: string | null; stock_quantity?: number; slug?: string },
+  product: {
+    id: string;
+    name: string;
+    price: number;
+    image_url?: string | null;
+    stock_quantity?: number;
+    slug?: string;
+    selected_color?: string;
+    selected_size?: string;
+  },
   quantity: number = 1
 ): { success: boolean; message: string } {
   if (!product || !product.id) {
@@ -57,7 +68,12 @@ export function addToCart(
 
   const addQty = Math.max(1, Math.floor(quantity));
   const cart = getCart();
-  const existingIndex = cart.findIndex(item => item.product_id === product.id);
+  const existingIndex = cart.findIndex(
+    item =>
+      item.product_id === product.id &&
+      (item.selected_color || '') === (product.selected_color || '') &&
+      (item.selected_size || '') === (product.selected_size || '')
+  );
 
   const maxStock = product.stock_quantity ?? 99;
 
@@ -79,6 +95,8 @@ export function addToCart(
       image_url: product.image_url,
       stock_quantity: maxStock,
       slug: product.slug,
+      selected_color: product.selected_color,
+      selected_size: product.selected_size,
     });
   }
 

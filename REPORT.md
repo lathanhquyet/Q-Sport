@@ -81,10 +81,10 @@ Bảo mật: bật RLS trên mọi bảng; khách không đọc được đơn h
 - **Hero Image Slider trang chủ:** Slideshow 5 ảnh cầu lông thực tế được tối ưu hóa từ `public/assets/banners/` (`home-hero.webp`, `banner-hero-nanoflare-1000z.webp`, `banner-hero-shoes-shbvazm.webp`, `banner-hero-one-piece.webp`, `banner-hero-graphite-throttle.webp`), tỷ lệ 3:2 đồng nhất, tự động chuyển ảnh mỗi 3 giây (3000ms), hiệu ứng fade mượt mà, bộ chấm điều hướng (dots) tương tác, bảo toàn tỷ lệ 16:11 chống CLS. Tự động dọn dẹp timer khi chuyển trang SPA và tôn trọng `prefers-reduced-motion`.
 - **Tích hợp toàn diện 25 ảnh sản phẩm local & Gallery:** Đưa 100% 25 ảnh sản phẩm trong `public/assets/products/` (`Ao/`, `Balo/`, `Giay/`, `PhuKien/`, `Quan/`, `Vot/`) lên giao diện website. Thẻ sản phẩm hiển thị ảnh local sắc nét; trang chi tiết sản phẩm tích hợp bộ chuyển đổi ảnh thumbnail gallery cho phép click xem các góc chụp chi tiết.
 - **Widget thời tiết WeatherAPI.com ở Footer:** Bổ sung cột thứ 4 tại Footer với tiêu đề "Thời tiết TP. Hồ Chí Minh hôm nay". Tích hợp WeatherAPI.com (endpoint `current.json`, vị trí TP. Hồ Chí Minh, ngôn ngữ tiếng Việt), hiển thị nhiệt độ °C, mô tả, icon, cảm giác như, độ ẩm, tốc độ gió và mốc thời gian cập nhật. Cơ chế cache 10 phút tiết kiệm quota, xử lý trạng thái tải/lỗi/dữ liệu lưu trữ và bảo vệ cấu hình an toàn qua `VITE_WEATHERAPI_KEY` (không hardcode key trong source code).
+- **Product Quick Add (Phase 11):** Bổ sung bộ điều khiển số lượng (`-`, input, `+`) và nút "Thêm vào giỏ" tức thì trên từng thẻ sản phẩm Product Card; hỗ trợ chọn màu sắc / size khi có dữ liệu; debounce chống click trùng; cập nhật tức thì giỏ hàng và số lượng trên Header icon; giữ nguyên link "Xem chi tiết".
+- **Telegram Order Alert (Phase 11):** Tích hợp thông báo đơn hàng mới tức thì tới Telegram Bot của quản trị viên qua Cloudflare Pages Functions server-side (`functions/api/telegram-alert.ts`), bảo mật tuyệt đối `TELEGRAM_BOT_TOKEN` và `TELEGRAM_CHAT_ID` trên Cloudflare Dashboard (không bao giờ lộ ra frontend). Fail-safe 100% không ảnh hưởng đơn hàng nếu Telegram gặp sự cố. Hướng dẫn chi tiết tại `docs/TELEGRAM_ORDER_ALERT_SETUP.md`.
 - Giao diện responsive (mobile, tablet, desktop), có trạng thái tải / trống / lỗi.
 - Đưa mã lên GitHub (Public) và deploy lên Cloudflare Pages.
-
-_[Ghi thêm hoặc xóa mục cho khớp sản phẩm thực tế, kể cả tính năng Stretch nếu có làm.]_
 
 ## 4. Các file .md và chức năng
 

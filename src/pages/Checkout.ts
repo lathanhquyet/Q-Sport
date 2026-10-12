@@ -22,6 +22,16 @@ export function renderCheckoutPage(): string {
       <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed var(--color-mint-line); padding: 10px 0; font-size: 0.875rem;">
         <div>
           <strong style="color: var(--color-ink); display: block;">${item.name}</strong>
+          ${
+            item.selected_color || item.selected_size
+              ? `<span style="color: var(--color-court); font-size: 0.75rem; display: block;">${[
+                  item.selected_color ? `Màu: ${item.selected_color}` : '',
+                  item.selected_size ? `Size: ${item.selected_size}` : '',
+                ]
+                  .filter(Boolean)
+                  .join(' | ')}</span>`
+              : ''
+          }
           <span style="color: var(--color-muted); font-size: 0.75rem;">Số lượng: ${item.quantity} x ${formatVND(item.price)}</span>
         </div>
         <span class="price-tag" style="font-size: 1rem;">${formatVND(item.price * item.quantity)}</span>

@@ -272,6 +272,113 @@ function closeMobileMenu(): void {
   }
 };
 
+(window as any).changeQuickAddQty = (productId: string, delta: number) => {
+  const input = document.getElementById(`quick-qty-${productId}`) as HTMLInputElement;
+  if (input) {
+    const current = parseInt(input.value, 10) || 1;
+    const max = parseInt(input.getAttribute('max') || '99', 10);
+    const newQty = Math.max(1, Math.min(max, current + delta));
+    input.value = newQty.toString();
+  }
+};
+
+(window as any).selectQuickVariant = (
+  productId: string,
+  variantType: 'color' | 'size',
+  variantValue: string,
+  btnElement: HTMLElement
+) => {
+  const card = document.getElementById(`product-card-${productId}`);
+  if (!card) return;
+
+  const chips = card.querySelectorAll<HTMLButtonElement>(
+    `.quick-variant-chip[data-variant-type="${variantType}"]`
+  );
+  chips.forEach(chip => {
+    chip.classList.remove('active');
+    chip.style.background = 'var(--color-white)';
+    chip.style.color = 'var(--color-ink)';
+  });
+
+  if (btnElement) {
+    btnElement.classList.add('active');
+    btnElement.style.background = 'var(--color-court)';
+    btnElement.style.color = '#fff';
+  }
+
+  card.dataset[`selected${variantType === 'color' ? 'Color' : 'Size'}`] = variantValue;
+};
+
+(window as any).handleQuickAddToCart = (productId: string, btn: HTMLButtonElement) => {
+  const card = document.getElementById(`product-card-${productId}`);
+  if (!card) return;
+
+  const name = card.dataset.productName || 'Sản phẩm';
+  const price = parseInt(card.dataset.productPrice || '0', 10);
+  const image = card.dataset.productImage || '';
+  const stock = parseInt(card.dataset.productStock || '99', 10);
+  const slug = card.dataset.productSlug || '';
+
+  if (stock <= 0) return;
+
+  const qtyInput = document.getElementById(`quick-qty-${productId}`) as HTMLInputElement;
+  const qty = qtyInput ? parseInt(qtyInput.value, 10) || 1 : 1;
+
+  let selectedColor = card.dataset.selectedColor;
+  if (!selectedColor) {
+    const activeColorChip = card.querySelector<HTMLButtonElement>(
+      '.quick-variant-chip[data-variant-type="color"].active'
+    );
+    if (activeColorChip) {
+      selectedColor = activeColorChip.dataset.variantValue;
+    }
+  }
+
+  let selectedSize = card.dataset.selectedSize;
+  if (!selectedSize) {
+    const activeSizeChip = card.querySelector<HTMLButtonElement>(
+      '.quick-variant-chip[data-variant-type="size"].active'
+    );
+    if (activeSizeChip) {
+      selectedSize = activeSizeChip.dataset.variantValue;
+    }
+  }
+
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = '⏳ Đang thêm...';
+  }
+
+  const result = addToCart(
+    {
+      id: productId,
+      name,
+      price,
+      image_url: image,
+      stock_quantity: stock,
+      slug,
+      selected_color: selectedColor,
+      selected_size: selectedSize,
+    },
+    qty
+  );
+
+  const feedback = document.getElementById(`quick-add-feedback-${productId}`);
+  if (feedback) {
+    feedback.textContent = `✓ ${result.message}`;
+    feedback.style.display = 'block';
+  }
+
+  if (btn) {
+    btn.textContent = '✓ Đã thêm!';
+    setTimeout(() => {
+      btn.disabled = false;
+      btn.textContent = '🛒 Thêm vào giỏ';
+      if (feedback) feedback.style.display = 'none';
+    }, 1500);
+  }
+};
+
 let currentVietQROrderCode = '';
 
 (window as any).handlePaymentMethodChange = (method: 'COD' | 'VIETQR') => {

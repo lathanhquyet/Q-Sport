@@ -1,6 +1,7 @@
 import { supabase, isSupabaseConfigured } from './supabaseClient';
 import { getCart, clearCart } from './cartService';
 import { SITE_CONFIG } from '../config/site';
+import { sendTelegramOrderAlert } from './telegramService';
 
 export interface CheckoutFormData {
   customer_name: string;
@@ -74,6 +75,12 @@ export async function createOrderCOD(formData: CheckoutFormData): Promise<Create
     return { success: false, message: 'Giỏ hàng của bạn đang trống. Vui lòng chọn sản phẩm trước khi thanh toán.' };
   }
 
+  const itemsSnapshot = cart.map(item => ({
+    name: item.name,
+    quantity: item.quantity,
+    price: item.price,
+  }));
+
   const payloadItems = cart.map(item => ({
     product_id: item.product_id,
     quantity: item.quantity,
@@ -98,6 +105,21 @@ export async function createOrderCOD(formData: CheckoutFormData): Promise<Create
 
       if (data && data.success) {
         clearCart();
+
+        // Safe Telegram notification dispatch - never breaks order
+        sendTelegramOrderAlert({
+          order_code: data.order_code,
+          customer_name: name,
+          customer_phone: phone,
+          shipping_address: address,
+          customer_note: note || null,
+          total_amount: data.total_amount,
+          payment_method: paymentMethod,
+          items: itemsSnapshot,
+        }).catch(() => {
+          // Fail-safe
+        });
+
         return {
           success: true,
           order_code: data.order_code,
@@ -116,6 +138,19 @@ export async function createOrderCOD(formData: CheckoutFormData): Promise<Create
   const mockSubtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   clearCart();
+
+  sendTelegramOrderAlert({
+    order_code: mockCode,
+    customer_name: name,
+    customer_phone: phone,
+    shipping_address: address,
+    customer_note: note || null,
+    total_amount: mockSubtotal,
+    payment_method: paymentMethod,
+    items: itemsSnapshot,
+  }).catch(() => {
+    // Fail-safe
+  });
 
   return {
     success: true,

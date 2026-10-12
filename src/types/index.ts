@@ -36,6 +36,8 @@ export interface Product {
   is_active: boolean;
   is_featured: boolean;
   deleted_at?: string | null;
+  colors?: string[];
+  sizes?: string[];
   created_at: string;
   updated_at: string;
 }

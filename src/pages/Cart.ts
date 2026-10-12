@@ -24,6 +24,14 @@ export function renderCartPage(): string {
             <img src="${item.image_url || '/assets/products/placeholder.jpg'}" alt="${item.name}" style="width: 72px; height: 72px; object-fit: cover; border-radius: var(--radius-image); background: var(--color-mint);" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'100\' height=\'100\' viewBox=\'0 0 100 100\'><rect width=\'100\' height=\'100\' fill=\'%23EAF7EF\'/></svg>'" />
             <div>
               <a href="/products/${item.slug || ''}" data-link style="font-weight: 600; color: var(--color-ink); display: block; margin-bottom: 4px;">${item.name}</a>
+              ${
+                item.selected_color || item.selected_size
+                  ? `<div style="font-size: 0.75rem; color: var(--color-court); margin-bottom: 4px;">
+                      ${item.selected_color ? `<span style="background: var(--color-mint); padding: 1px 6px; border-radius: 4px; margin-right: 4px;">Màu: ${item.selected_color}</span>` : ''}
+                      ${item.selected_size ? `<span style="background: var(--color-mint); padding: 1px 6px; border-radius: 4px;">Size: ${item.selected_size}</span>` : ''}
+                    </div>`
+                  : ''
+              }
               <span style="font-size: 0.8125rem; color: var(--color-muted);">Đơn giá: ${formatVND(item.price)}</span>
             </div>
           </div>
