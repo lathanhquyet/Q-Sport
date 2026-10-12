@@ -5,7 +5,7 @@
 - **Đại diện:** Lã Thành Quyết — ltquyet@qsport.vn
 - **Ngôn ngữ giao diện:** Tiếng Việt · **Múi giờ:** Asia/Ho_Chi_Minh · **Tiền tệ:** VND (số nguyên)
 - **Hạn nộp:** 17/10/2026 (buổi học cuối)
-- **Tài liệu liên quan:** `DESIGN.md` (giao diện, logo), `README.md` (cài đặt/deploy), `PROMPTS.md` (nhật ký prompt), `REPORT.md` (báo cáo nộp bài)
+- **Tài liệu liên quan:** `DESIGN.md` (giao diện, logo), `../README.md` (cài đặt/deploy), `PROMPTS.md` (nhật ký prompt), `REPORT.md` (báo cáo nộp bài)
 
 > **Thay đổi so với bản 1.0:** Bản 1.0 là đặc tả cho cửa hàng thương mại đầy đủ (8 phase). Bản 2.0 giữ nguyên hướng sản phẩm nhưng thu gọn thành MVP làm được trong ~8 ngày và bám sát thang điểm đồ án. Telegram, VietQR, audit log, Edge Functions chuyển sang mục **Stretch** (mục 3).
 
@@ -21,7 +21,7 @@ Website bán hàng Q-Sport: khách xem sản phẩm, xem chi tiết, bình luậ
 | Có database (3đ) | Supabase PostgreSQL: categories, products, orders, order_items, product_comments, admin_users |
 | ≥2 chức năng sửa DB (2đ) | **F1** Đặt hàng (insert) · **F2** Admin CRUD sản phẩm (insert/update/delete) · **F3** Bình luận + duyệt (insert/update) · **F4** Admin đổi trạng thái đơn (update) |
 | Nhúng Maps hoặc YouTube (0,5đ) | Cả hai: Google Maps (About/Home) và YouTube (About) |
-| File .md (0,5đ) | PRD.md, DESIGN.md, README.md, PROMPTS.md, REPORT.md |
+| File .md (0,5đ) | PRD.md, DESIGN.md, ../README.md, PROMPTS.md, REPORT.md |
 | GitHub Public (0,5đ) | Repo public, không chứa secret |
 | Deploy (0,5đ) | Cloudflare Pages |
 | Trừ điểm: trang không liên kết | Header/footer có link đến Home, Products, About, Cart ở **mọi** trang |

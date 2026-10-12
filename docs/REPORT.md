@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="public/assets/logo.svg" alt="Q-Sport" height="72">
+  <img src="../public/assets/logo.svg" alt="Q-Sport" height="72">
 </p>
 
 # Báo cáo đồ án cuối khóa — Website Q-Sport
@@ -23,7 +23,7 @@
 
 Logo được thiết kế **trước khi** xây dựng website và dùng đúng file này ở header, footer và favicon.
 
-![Logo Q-Sport](public/assets/logo.png)
+![Logo Q-Sport](../public/assets/logo.png)
 
 - **Ý tưởng:** chữ **Q** là một cây **vợt cầu lông** (đầu vợt oval nghiêng có dây, cán vợt màu vàng), nối với “-Sport”. Dấu gạch ngang màu vàng cùng màu cán vợt.
 - **Màu:** xanh court `#1F6B4A` (thương hiệu), vàng cork `#F2A93B` (điểm nhấn), mint `#EAF7EF` (nền).
@@ -94,9 +94,11 @@ Bảo mật: bật RLS trên mọi bảng; khách không đọc được đơn h
 |---|---|
 | `PRD.md` | **Product Requirements Document** — đặc tả yêu cầu: sản phẩm làm gì, cho ai, những trang nào, dữ liệu gì, tiêu chí nghiệm thu, kế hoạch theo ngày. Là tài liệu để AI coding hiểu đúng và không làm lệch phạm vi. |
 | `DESIGN.md` | Quy chuẩn thiết kế: logo, màu, font, bố cục, component, trạng thái, cách viết nội dung. Giúp giao diện nhất quán và để AI sinh code đúng phong cách. |
-| `README.md` | Giới thiệu dự án, cấu trúc thư mục, cách cài đặt, cấu hình Supabase, deploy, danh sách kiểm tra. |
+| `../README.md` | Giới thiệu dự án, cấu trúc thư mục, cách cài đặt, cấu hình Supabase, deploy, danh sách kiểm tra (tại thư mục gốc). |
 | `PROMPTS.md` | Kế hoạch prompt và nhật ký thứ tự các prompt cùng kết quả. |
 | `REPORT.md` | Báo cáo này. |
+| `TELEGRAM_ORDER_ALERT_SETUP.md` | Hướng dẫn cấu hình thông báo đơn hàng Telegram Bot qua Cloudflare Pages Functions. |
+| `SUPABASE_INTEGRATION_GATE_REPORT.md` | Báo cáo đánh giá và kết quả xác minh tích hợp Supabase Cloud. |
 
 **PRD.md khác DESIGN.md thế nào?** PRD trả lời “làm **gì**” (chức năng, dữ liệu, quy tắc nghiệp vụ). DESIGN trả lời “trông **như thế nào**” (màu sắc, chữ, bố cục, logo). Tách riêng để mỗi file ngắn gọn và AI không lẫn yêu cầu nghiệp vụ với quyết định giao diện.
 

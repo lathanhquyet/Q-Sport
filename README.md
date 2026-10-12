@@ -12,15 +12,17 @@ Website bán hàng của thương hiệu **Q-Sport** (thương hiệu hư cấu,
 
 ## 1. Tài liệu trong repo
 
-Đọc theo thứ tự: `PRD.md` → `DESIGN.md` → README này. Khi tài liệu mâu thuẫn, **PRD.md là nguồn yêu cầu chính**; không tự đổi nghiệp vụ, hãy ghi nhận và hỏi chủ dự án.
+Đọc theo thứ tự: [`docs/PRD.md`](docs/PRD.md) → [`docs/DESIGN.md`](docs/DESIGN.md) → README này. Khi tài liệu mâu thuẫn, **docs/PRD.md là nguồn yêu cầu chính**; không tự đổi nghiệp vụ, hãy ghi nhận và hỏi chủ dự án.
 
 | File | Chức năng |
 |---|---|
-| `PRD.md` | Đặc tả yêu cầu sản phẩm: phạm vi MVP, trang, dữ liệu, RLS, tiêu chí nghiệm thu, kế hoạch theo ngày. Là “hợp đồng” để AI coding làm đúng việc. |
-| `DESIGN.md` | Quy chuẩn thiết kế: logo, màu, font, bố cục, component, trạng thái, nội dung chữ. Giúp mọi trang nhất quán. |
-| `README.md` | Giới thiệu, cách cài đặt, chạy, cấu hình Supabase, deploy. |
-| `PROMPTS.md` | Kế hoạch prompt và nhật ký các prompt đã dùng cùng kết quả (phục vụ báo cáo). |
-| `REPORT.md` | Báo cáo nộp bài: mô tả dự án, trang, chức năng, file .md, thứ tự prompt. |
+| [`docs/PRD.md`](docs/PRD.md) | Đặc tả yêu cầu sản phẩm: phạm vi MVP, trang, dữ liệu, RLS, tiêu chí nghiệm thu, kế hoạch theo ngày. Là “hợp đồng” để AI coding làm đúng việc. |
+| [`docs/DESIGN.md`](docs/DESIGN.md) | Quy chuẩn thiết kế: logo, màu, font, bố cục, component, trạng thái, nội dung chữ. Giúp mọi trang nhất quán. |
+| [`README.md`](README.md) | Giới thiệu, cách cài đặt, chạy, cấu hình Supabase, deploy. |
+| [`docs/PROMPTS.md`](docs/PROMPTS.md) | Kế hoạch prompt và nhật ký các prompt đã dùng cùng kết quả (phục vụ báo cáo). |
+| [`docs/REPORT.md`](docs/REPORT.md) | Báo cáo nộp bài: mô tả dự án, trang, chức năng, file .md, thứ tự prompt. |
+| [`docs/TELEGRAM_ORDER_ALERT_SETUP.md`](docs/TELEGRAM_ORDER_ALERT_SETUP.md) | Hướng dẫn cấu hình thông báo đơn hàng Telegram Bot qua Cloudflare Pages Functions. |
+| [`docs/SUPABASE_INTEGRATION_GATE_REPORT.md`](docs/SUPABASE_INTEGRATION_GATE_REPORT.md) | Báo cáo đánh giá và kết quả xác minh tích hợp Supabase Cloud. |
 
 ## 2. Công nghệ
 
@@ -32,7 +34,14 @@ Chọn phiên bản dependency theo trạng thái repo hiện tại; không đ�
 
 ```text
 qsport-online-store/
-├── PRD.md  DESIGN.md  README.md  PROMPTS.md  REPORT.md
+├── README.md
+├── docs/
+│   ├── PRD.md
+│   ├── DESIGN.md
+│   ├── PROMPTS.md
+│   ├── REPORT.md
+│   ├── TELEGRAM_ORDER_ALERT_SETUP.md
+│   └── SUPABASE_INTEGRATION_GATE_REPORT.md
 ├── .env.example
 ├── index.html
 ├── package.json
@@ -120,7 +129,7 @@ Tham khảo: https://supabase.com/docs/guides/database/postgres/row-level-securi
 - [ ] Google Maps và YouTube hiển thị
 - [ ] Không có secret trong repo hoặc bundle (`git grep -i "service_role"`, kiểm tra `dist/`)
 - [ ] Repo ở chế độ **Public**; link GitHub và link website đã điền ở đầu README
-- [ ] Đủ 5 file .md; `REPORT.md` đã điền đầy đủ, `PROMPTS.md` có đủ thứ tự prompt
+- [ ] Đủ các file .md trong `docs/`; `docs/REPORT.md` đã điền đầy đủ, `docs/PROMPTS.md` có đủ thứ tự prompt
 
 ## 9. Nguồn ảnh
 
@@ -128,4 +137,4 @@ _Ghi nguồn ảnh sản phẩm/banner (Unsplash, Pexels hoặc tự tạo) tạ
 
 ## 10. Quy tắc cho Antigravity
 
-Xem mục 11 trong `PRD.md`. Tóm tắt: làm đúng giai đoạn được giao, nêu kế hoạch trước khi code, không tự push/deploy, không đưa secret vào repo, dùng đúng logo và token trong `DESIGN.md`, ghi từng prompt vào `PROMPTS.md`.
+Xem mục 11 trong [`docs/PRD.md`](docs/PRD.md). Tóm tắt: làm đúng giai đoạn được giao, nêu kế hoạch trước khi code, không tự push/deploy, không đưa secret vào repo, dùng đúng logo và token trong [`docs/DESIGN.md`](docs/DESIGN.md), ghi từng prompt vào [`docs/PROMPTS.md`](docs/PROMPTS.md).

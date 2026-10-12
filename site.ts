@@ -38,18 +38,18 @@ export const SITE = {
     email: 'Email: ltquyet@qsport.vn',
   },
 
-  // Logo: chỉ dùng đúng các file này (xem DESIGN.md mục 2).
+  // Logo: chỉ dùng đúng các file này (xem docs/DESIGN.md mục 2).
   logo: {
     main: '/assets/logo.svg',
     mark: '/assets/logo-mark.svg',
     favicon: '/assets/favicon.svg',
   },
 
-  // Phí vận chuyển MVP (VND, số nguyên). Xem PRD mục 12.
+  // Phí vận chuyển MVP (VND, số nguyên). Xem docs/PRD.md mục 12.
   shippingFee: 0,
 } as const;
 
-/** Chỉ cho phép nhúng từ các nguồn đã biết; không cho HTML/JS tùy ý (PRD mục 7). */
+/** Chỉ cho phép nhúng từ các nguồn đã biết; không cho HTML/JS tùy ý (docs/PRD.md mục 7). */
 const ALLOWED_EMBED_HOSTS = [
   'www.google.com', // Google Maps embed: /maps/embed...
   'www.youtube.com',

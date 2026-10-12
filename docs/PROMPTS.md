@@ -38,12 +38,12 @@ Cách ghi: số thứ tự · công cụ · nội dung prompt (tóm tắt hoặc
 
 ## B. Bộ prompt kế hoạch cho Antigravity
 
-Chuẩn bị: đặt các file trong gói tài liệu (`PRD.md`, `DESIGN.md`, `README.md`, `PROMPTS.md`, `REPORT.md`, `.env.example`, `public/`) vào thư mục gốc của repo trước khi bắt đầu. Sau mỗi prompt: kiểm tra kết quả, chạy thử, rồi ghi vào Phần A.
+Chuẩn bị: đặt các file tài liệu trong thư mục `docs/` (`docs/PRD.md`, `docs/DESIGN.md`, `docs/PROMPTS.md`, `docs/REPORT.md`) và `README.md` tại thư mục gốc của repo trước khi bắt đầu. Sau mỗi prompt: kiểm tra kết quả, chạy thử, rồi ghi vào Phần A.
 
 ### A0 — Khởi động và kế hoạch (09/10)
 
 ```text
-Đọc toàn bộ PRD.md, DESIGN.md và README.md trong repo. Chưa viết code.
+Đọc toàn bộ docs/PRD.md, docs/DESIGN.md và README.md trong repo. Chưa viết code.
 Hãy trả lời ngắn gọn:
 1) Bạn hiểu MVP gồm những trang và chức năng nào (theo PRD mục 2 và 5)?
 2) Liệt kê các điểm mâu thuẫn hoặc mơ hồ nếu có.
