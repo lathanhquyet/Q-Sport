@@ -106,19 +106,21 @@ export async function createOrderCOD(formData: CheckoutFormData): Promise<Create
       if (data && data.success) {
         clearCart();
 
-        // Safe Telegram notification dispatch - never breaks order
-        sendTelegramOrderAlert({
-          order_code: data.order_code,
-          customer_name: name,
-          customer_phone: phone,
-          shipping_address: address,
-          customer_note: note || null,
-          total_amount: data.total_amount,
-          payment_method: paymentMethod,
-          items: itemsSnapshot,
-        }).catch(() => {
-          // Fail-safe
-        });
+        // Safe Telegram notification dispatch - awaited so fetch completes before page routing
+        try {
+          await sendTelegramOrderAlert({
+            order_code: data.order_code,
+            customer_name: name,
+            customer_phone: phone,
+            shipping_address: address,
+            customer_note: note || null,
+            total_amount: data.total_amount,
+            payment_method: paymentMethod,
+            items: itemsSnapshot,
+          });
+        } catch {
+          // Fail-safe: telegram alert failure NEVER breaks order confirmation
+        }
 
         return {
           success: true,
@@ -139,18 +141,20 @@ export async function createOrderCOD(formData: CheckoutFormData): Promise<Create
 
   clearCart();
 
-  sendTelegramOrderAlert({
-    order_code: mockCode,
-    customer_name: name,
-    customer_phone: phone,
-    shipping_address: address,
-    customer_note: note || null,
-    total_amount: mockSubtotal,
-    payment_method: paymentMethod,
-    items: itemsSnapshot,
-  }).catch(() => {
+  try {
+    await sendTelegramOrderAlert({
+      order_code: mockCode,
+      customer_name: name,
+      customer_phone: phone,
+      shipping_address: address,
+      customer_note: note || null,
+      total_amount: mockSubtotal,
+      payment_method: paymentMethod,
+      items: itemsSnapshot,
+    });
+  } catch {
     // Fail-safe
-  });
+  }
 
   return {
     success: true,
