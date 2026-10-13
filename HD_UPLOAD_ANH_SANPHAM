@@ -1,0 +1,28 @@
+2. HƯỚNG DẪN DÀNH CHO CHỦ CỬA HÀNG (ADMIN)
+📸 A. Cách thêm / thay đổi ảnh sản phẩm & Logo
+Đặt file ảnh mới (định dạng JPG/PNG/WebP, tên không dấu, ví dụ: yonexZ65.jpg) vào đúng thư mục tương ứng trong 
+public/assets/products/Giay/ (hoặc Vot/, Quan/, Ao/, Balo/, PhuKien/).
+Chạy lệnh commit & push lên GitHub origin main.
+Chờ Cloudflare Pages hoàn tất build và deploy (tự động sau 1–2 phút).
+
+Vào Admin → Quản lý sản phẩm → Chọn ✏️ Sửa sản phẩm và điền đường dẫn ảnh:
+
+/assets/products/Giay/yonexZ65.jpg
+
+Nhấn Lưu sản phẩm. Ảnh sẽ hiển thị ngay lập tức trên website.
+
+📹 B. Cách thêm / sửa video Tin nội bộ
+Mở file 
+src/data/internalNews.ts
+
+Thêm một đối tượng video vào mảng INTERNAL_NEWS_VIDEOS:
+{
+  id: 'vid-07',
+  title: 'Hướng dẫn căng cước vợt cầu lông 4 nút chuẩn thi đấu',
+  description: 'Chi tiết kỹ thuật căng cước bảo vệ khung vợt và tối ưu độ nảy...',
+  youtubeUrl: 'https://www.youtube.com/watch?v=XXXXXXXXXXX',
+  publishedAt: '2026-10-12',
+  isVisible: true,
+  order: 7,
+}
+Chạy npm test để kiểm tra URL. Sau đó commit và push lên GitHub. Website sẽ tự động cập nhật danh sách video.
